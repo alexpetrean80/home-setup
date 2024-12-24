@@ -16,7 +16,6 @@
 
   environment.systemPackages = with pkgs; [
     firefox
-    inputs.zen-browser.packages."${system}".specific
     obsidian
     telegram-desktop
     signal-desktop
@@ -24,10 +23,8 @@
     gimp
     krita
     darktable
-    nerdfonts
     synology-drive-client
     xwaylandvideobridge
-    netbird-ui
     stremio
   ];
 

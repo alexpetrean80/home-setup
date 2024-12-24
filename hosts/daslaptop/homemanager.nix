@@ -1,5 +1,5 @@
 { ... }: {
   imports = [
-    ../../../modules/homemanager/gui
+    ../../modules/homemanager/gui
   ];
 }

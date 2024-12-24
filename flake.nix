@@ -2,7 +2,6 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
-    zen-browser.url = "github:MarceColl/zen-browser-flake";
 
     nix-darwin = {
       url = "github:LnL7/nix-darwin/master";
@@ -15,6 +14,7 @@
     , nixpkgs
     , nix-darwin
     , nixos-wsl
+    , home-manager
     , ...
     } @ inputs:
     let
@@ -30,11 +30,6 @@
           specialArgs = { inherit inputs outputs; };
           modules = [ ./hosts/dascomp/nixos.nix ];
         };
-        daswsl = nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs outputs; };
-          modules = [ ./hosts/daswsl/nixos.nix ];
-        };
-
         daswsl = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [

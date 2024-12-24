@@ -1,4 +1,4 @@
-{ ... }: {
+{ pkgs, ... }: {
   imports = [
     ./locale.nix
     ./sound.nix
@@ -12,6 +12,7 @@
   };
 
   programs.nix-ld.enable = true;
+  programs.zsh.enable = true;
 
   networking.networkmanager.enable = true;
 

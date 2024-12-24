@@ -5,9 +5,12 @@
   };
 
   environment.systemPackages = with pkgs; [
-    gnome.gnome-settings-daemon
+    gnome-tweaks
+    gnome-settings-daemon
   ] ++ (with pkgs.gnomeExtensions;
     [
       appindicator
+      caffeine-ng
+      gsconnect
     ]);
 }

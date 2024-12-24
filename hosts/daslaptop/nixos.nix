@@ -1,8 +1,8 @@
-{ ... }: {
+{ pkgs, ... }: {
   imports = [
     /etc/nixos/hardware-configuration.nix
 
-    ../../../modules/nixos/workstation
+    ../../modules/nixos/workstation
   ];
 
   hardware.    graphics = {
