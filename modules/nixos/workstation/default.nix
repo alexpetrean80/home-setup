@@ -2,6 +2,7 @@
   imports = [
     ../common
     ../server
+    ./flatpak.nix
     ./gnome.nix
     ./steam.nix
   ];
