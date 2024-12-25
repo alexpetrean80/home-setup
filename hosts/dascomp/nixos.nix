@@ -2,7 +2,7 @@
   imports = [
     /etc/nixos/hardware-configuration.nix
 
-    ../../../modules/nixos/workstation
+    ../../modules/nixos/workstation
   ];
 
   networking.hostName = "dascomp";
