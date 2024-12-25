@@ -27,6 +27,8 @@
     synology-drive-client
     xwaylandvideobridge
     stremio
+    tidal-dl
+    tidal-hifi
   ];
 
   nixpkgs.config.permittedInsecurePackages = [
