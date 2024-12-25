@@ -10,7 +10,8 @@
   ] ++ (with pkgs.gnomeExtensions;
     [
       appindicator
-      caffeine-ng
+      blur-my-shell
+      caffeine
       gsconnect
     ]);
 }
