@@ -17,6 +17,8 @@
 
   services.xserver.videoDrivers = [ "modesetting" ];
 
+  environment.variables.GSK_RENDERER = "gl";
+
   hardware.graphics = {
     extraPackages = with pkgs; [
       rocmPackages.clr.icd
