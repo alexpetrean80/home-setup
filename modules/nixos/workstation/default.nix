@@ -17,7 +17,7 @@
 
   environment.systemPackages = with pkgs; [
     firefox
-    obsidian
+    anytype
     telegram-desktop
     signal-desktop
     discord
