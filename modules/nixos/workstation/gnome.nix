@@ -5,6 +5,7 @@
   };
 
   environment.systemPackages = with pkgs; [
+    gnome-boxes
     gnome-tweaks
     gnome-settings-daemon
   ] ++ (with pkgs.gnomeExtensions;
