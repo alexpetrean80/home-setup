@@ -29,6 +29,7 @@
     stremio
     tidal-dl
     tidal-hifi
+    nerd-fonts.jetbrains-mono
   ];
 
   nixpkgs.config.permittedInsecurePackages = [
