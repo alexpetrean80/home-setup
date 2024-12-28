@@ -34,6 +34,8 @@
     elixir
     htop
     fastfetch
+    charm-freeze
+    gum
   ];
 
   programs = {
