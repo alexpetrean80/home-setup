@@ -5,7 +5,7 @@
     ../../modules/nixos/workstation
   ];
 
-  hardware.    graphics = {
+  hardware.graphics = {
     extraPackages = with pkgs; [
       intel-media-sdk
       vpl-gpu-rt
