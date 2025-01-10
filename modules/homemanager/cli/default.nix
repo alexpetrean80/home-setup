@@ -10,6 +10,7 @@
 
   home.packages = with pkgs; [
     fzf
+    direnv
     gnupg
     ripgrep
     fd
