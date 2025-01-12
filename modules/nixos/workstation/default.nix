@@ -29,6 +29,7 @@
     stremio
     tidal-dl
     tidal-hifi
+    obsidian
     nerd-fonts.jetbrains-mono
   ];
 
