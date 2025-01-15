@@ -8,7 +8,6 @@
     plugins = with pkgs.tmuxPlugins; [
       sensible
       yank
-      vim-tmux-navigator
       {
         plugin = resurrect;
         extraConfig = "set -g @resurrect-strategy-nvim 'session'";
