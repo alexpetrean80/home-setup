@@ -1,4 +1,4 @@
-{pkgs, ... }: {
+{ pkgs, ... }: {
   imports = [
     ../cli
     # ./kitty.nix
@@ -15,7 +15,6 @@
     eza
     glow
     bat
-    neovim
     neofetch
     nixd
     httpie

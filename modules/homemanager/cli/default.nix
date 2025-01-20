@@ -17,7 +17,6 @@
     eza
     glow
     bat
-    neovim
     neofetch
     nixd
     httpie
