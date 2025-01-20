@@ -30,7 +30,7 @@ case "$(uname)" in
   fi
 
   #shellcheck disable=SC2043
-  for flatpak in "io.github.zen_browser.zen"; do
+  for flatpak in "app.zen_browser.zen"; do
     flatpak install flathub "$flatpak"
   done
   ;;
