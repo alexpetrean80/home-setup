@@ -14,13 +14,34 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+local function get_hostname()
+  local handle = io.popen("hostname")
+  if handle == nil then
+    return ""
+  end
+  local hostname = handle:read("*a") or ""
+  handle:close()
+  hostname = string.gsub(hostname, "\n$", "")
+  return hostname
+end
+
+local spec = {
+  { "LazyVim/LazyVim", import = "lazyvim.plugins" },
+  { import = "extras" },
+  { import = "plugins" },
+  { import = "extend" },
+}
+
+if get_hostname() ~= "F59V2P7FXY" then
+  -- plugins not allowed for work use, e.g. copilot
+  table.insert(spec, { import = "lazyvim.plugins.extras.ai.copilot" })
+else
+  -- work related config, e.g. snyk-ls
+  table.insert(spec, { import = "work" })
+end
+
 require("lazy").setup({
-  spec = {
-    { "LazyVim/LazyVim", import = "lazyvim.plugins" },
-    { import = "extras" },
-    { import = "plugins" },
-    { import = "extend" },
-  },
+  spec = spec,
   defaults = {
     lazy = false,
     -- It's recommended to leave version=false for now, since a lot the plugin that support versioning,
