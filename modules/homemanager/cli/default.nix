@@ -2,6 +2,7 @@
   imports = [
     ./git.nix
     ./neovim.nix
+    ./nushell.nix
     ./scripts.nix
     ./starship.nix
     ./tmux.nix
