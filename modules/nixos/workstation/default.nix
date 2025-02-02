@@ -31,6 +31,7 @@
     tidal-hifi
     obsidian
     nerd-fonts.jetbrains-mono
+    vivaldi
   ];
 
   nixpkgs.config.permittedInsecurePackages = [
