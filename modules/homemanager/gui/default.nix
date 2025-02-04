@@ -16,7 +16,6 @@
     glow
     bat
     neofetch
-    lunatask
     nixd
     httpie
     cmake
