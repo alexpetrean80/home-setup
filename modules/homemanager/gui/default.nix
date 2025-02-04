@@ -20,7 +20,6 @@
     httpie
     cmake
     gnumake
-    gcc
     rustup
     nodejs_20
     python3

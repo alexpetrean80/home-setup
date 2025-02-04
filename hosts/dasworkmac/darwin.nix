@@ -4,6 +4,7 @@
       slack
       pinentry_mac
       google-cloud-sdk
+      clang
       kubernetes-helm
       aws-vault
       snyk
