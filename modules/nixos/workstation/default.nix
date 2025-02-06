@@ -4,6 +4,7 @@
     ../server
     ./flatpak.nix
     ./gnome.nix
+    ./hypr.nix
     ./steam.nix
   ];
 

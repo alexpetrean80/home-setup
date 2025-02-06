@@ -3,6 +3,7 @@
     ../cli
     # ./kitty.nix
     # ./wezterm.nix
+    ./hypr.nix
     ./ghostty.nix
     ./zed.nix
   ];

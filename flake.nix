@@ -3,6 +3,7 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
     ghostty.url = "github:ghostty-org/ghostty";
+    hyprpanel.url = "github:Jas-SinghFSU/HyprPanel";
 
     nix-darwin = {
       url = "github:LnL7/nix-darwin/master";
@@ -17,6 +18,7 @@
     , nixos-wsl
     , home-manager
     , ghostty
+    , hyprpanel
     , ...
     } @ inputs:
     let
@@ -25,12 +27,15 @@
     {
       nixosConfigurations = {
         daslaptop = nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs outputs; };
+          specialArgs = {
+            inherit inputs outputs;
+          };
           modules = [
             ./hosts/daslaptop/nixos.nix
             {
               environment.systemPackages = [
                 ghostty.packages.x86_64-linux.default
+                hyprpanel.packages.x86_64-linux.default
               ];
             }
           ];
@@ -43,6 +48,7 @@
             {
               environment.systemPackages = [
                 ghostty.packages.x86_64-linux.default
+                hyprpanel.packages.x86_64-linux.default
               ];
             }
           ];

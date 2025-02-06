@@ -23,6 +23,9 @@
     zip
     unzip
     home-manager
+    dotnet-sdk_9
+    dotnet-runtime_9
+    dotnet-aspnetcore_9
     neovim
     git
   ];
