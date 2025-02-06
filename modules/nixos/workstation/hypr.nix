@@ -10,8 +10,13 @@
     hyprpaper
     hyprlock
     hyprpicker
+    catppuccin-sddm
+    dolphin
   ];
-  services.displayManager.sddm.enable = true;
+  services.displayManager.sddm = {
+    enable = true;
+    theme = "catppuccin-sddm";
+  };
 
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
 }

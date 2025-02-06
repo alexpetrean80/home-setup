@@ -3,7 +3,7 @@
     ../common
     ../server
     ./flatpak.nix
-    ./gnome.nix
+    # ./gnome.nix
     ./hypr.nix
     ./steam.nix
   ];
