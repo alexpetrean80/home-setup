@@ -7,4 +7,6 @@ use std "path add"
 fnm env --json | from json | load-env
 path add ($env.FNM_MULTISHELL_PATH + "/bin")
 
-open ~/.zprofile | lines | str replace "export " "" | str join "\n" | from toml | load-env
+if ('~/.zprofile' | path exists) {
+  open ~/.zprofile | lines | str replace "export " "" | str join "\n" | from toml | load-env
+}
