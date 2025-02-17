@@ -8,6 +8,6 @@ font-feature = "ss02"
 font-feature = "zero"
 
 font-size = 15
-theme = "catppuccin-mocha"
+theme = "adwaita-dark"
 shell-integration = zsh
 
