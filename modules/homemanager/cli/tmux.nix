@@ -20,4 +20,8 @@
 
     extraConfig = lib.readFile ../../../dotfiles/tmux/tmux.conf;
   };
+
+  home.packages = with pkgs; [
+    tmux-sessionizer
+  ];
 }

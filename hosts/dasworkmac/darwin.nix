@@ -7,7 +7,6 @@
       clang
       kubernetes-helm
       aws-vault
-      snyk
       teleport
       terraform
       tilt

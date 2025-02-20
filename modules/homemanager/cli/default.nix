@@ -18,8 +18,6 @@
     eza
     glow
     bat
-    neofetch
-    nixd
     httpie
     cmake
     gnumake
@@ -30,7 +28,6 @@
     go
     fnm
     postgresql
-    tmux-sessionizer
     elixir
     htop
     fastfetch
