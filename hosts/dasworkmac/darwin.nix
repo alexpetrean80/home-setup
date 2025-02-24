@@ -21,9 +21,9 @@
       Security
     ]);
 
-  services.nix-daemon.enable = true;
-
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
+  ids.gids.nixbld = 350;
 
   nixpkgs = {
     hostPlatform = "aarch64-darwin";
