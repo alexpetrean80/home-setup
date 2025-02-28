@@ -16,6 +16,7 @@
     ripgrep
     fd
     eza
+    clang
     glow
     bat
     httpie
