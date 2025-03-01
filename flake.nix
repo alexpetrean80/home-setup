@@ -4,7 +4,10 @@
     nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
     ghostty.url = "github:ghostty-org/ghostty";
     hyprpanel.url = "github:Jas-SinghFSU/HyprPanel";
-
+    minimal-tmux = {
+      url = "github:niksingh710/minimal-tmux-status";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nix-darwin = {
       url = "github:LnL7/nix-darwin/master";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -19,6 +22,7 @@
     , home-manager
     , ghostty
     , hyprpanel
+    , minimal-tmux
     , ...
     } @ inputs:
     let
@@ -72,17 +76,40 @@
         "alexp@dascomp" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages.x86_64-linux;
           extraSpecialArgs = { inherit inputs outputs; };
-          modules = [ ./hosts/dascomp/homemanager.nix ];
+          modules = [ ./hosts/dascomp/homemanager.nix 
+						{
+# tmux config
+programs.tmux.plugins = [
+  { plugin = inputs.minimal-tmux.packages.${nixpkgs.legacyPackages.x86_64-linux.system}.default; }
+];
+						}
+					];
         };
         "alexp@daslaptop" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages.x86_64-linux;
           extraSpecialArgs = { inherit inputs outputs; };
-          modules = [ ./hosts/daslaptop/homemanager.nix ];
+          modules = [ ./hosts/daslaptop/homemanager.nix
+
+						{
+# tmux config
+programs.tmux.plugins = [
+  { plugin = inputs.minimal-tmux.packages.${nixpkgs.legacyPackages.x86_64-linux.system}.default; }
+];
+						}
+					];
         };
         "alexp@F59V2P7FXY" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages.aarch64-darwin;
           extraSpecialArgs = { inherit inputs outputs; };
-          modules = [ ./hosts/dasworkmac/homemanager.nix ];
+          modules = [ ./hosts/dasworkmac/homemanager.nix
+
+						{
+# tmux config
+programs.tmux.plugins = [
+  { plugin = inputs.minimal-tmux.packages.${nixpkgs.legacyPackages.aarch64-darwin.system}.default; }
+];
+						}
+					];
         };
         "alex@daswsl" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages.x86_64-linux;
