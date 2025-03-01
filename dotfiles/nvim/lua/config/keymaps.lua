@@ -1,9 +1,18 @@
--- Keymaps are automatically loaded on the VeryLazy event
--- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
--- Add any additional keymaps here
+-- Clear highlights on search when pressing <Esc> in normal mode
+--  See `:help hlsearch`
+vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 
-vim.keymap.set("n", "<leader>\\", "<cmd>vsplit<CR>", { desc = "Split Window Right", remap = true })
+vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
 
-vim.keymap.del("n", "<leader>|")
+-- Splits
+vim.keymap.set("n", "<leader>\\", "<cmd>vsplit<CR>", { desc = "Vertical Split" })
+vim.keymap.set("n", "<leader>-", "<cmd>split<CR>", { desc = "Horizontal Split" })
+vim.keymap.set("n", "<C-h>", "<C-w><C-h>", { desc = "Move focus to the left window" })
+vim.keymap.set("n", "<C-l>", "<C-w><C-l>", { desc = "Move focus to the right window" })
+vim.keymap.set("n", "<C-j>", "<C-w><C-j>", { desc = "Move focus to the lower window" })
+vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper window" })
 
-vim.keymap.set("n", "<leader>bb", "<cmd>FzfLua buffers<CR>", { desc = "Buffer list" })
+-- Buffers
+vim.keymap.set("n", "<leader>bn", "<cmd>bnext<CR>", { desc = "Next" })
+vim.keymap.set("n", "<leader>bp", "<cmd>bprevious<CR>", { desc = "Previous" })
+vim.keymap.set("n", "<leader>bd", "<cmd>bdelete<CR>", { desc = "Delete" })
