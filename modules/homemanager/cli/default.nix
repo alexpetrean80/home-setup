@@ -19,6 +19,7 @@
     clang
     glow
     bat
+    delve
     httpie
     cmake
     gnumake
