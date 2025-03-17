@@ -106,6 +106,7 @@ return {
           },
         },
       },
+      gopls = {},
     }
 
     local ensure_installed = vim.tbl_keys(servers or {})
@@ -113,8 +114,8 @@ return {
       "stylua",
       "luacheck",
       "golangci-lint",
-			"gofumpt",
-			"goimports"
+      "gofumpt",
+      "goimports",
     })
     require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 
