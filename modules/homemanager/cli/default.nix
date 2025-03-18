@@ -16,7 +16,6 @@
     ripgrep
     fd
     eza
-    clang
     glow
     bat
     delve
