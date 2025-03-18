@@ -10,6 +10,7 @@ return {
     },
     spec = {
       { "<leader>b", group = "Buffers", mode = { "n" } },
+      { "<leader>d", group = "Debug", mode = { "n" } },
       { "<leader>g", group = "Git", mode = { "n" } },
       { "<leader>s", group = "Symbols", mode = { "n" } },
     },
