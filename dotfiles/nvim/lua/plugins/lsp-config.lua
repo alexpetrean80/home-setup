@@ -19,6 +19,8 @@ return {
         map("gd", require("telescope.builtin").lsp_definitions, "Go to Definition")
         map("gr", require("telescope.builtin").lsp_references, "Go to References")
         map("gI", require("telescope.builtin").lsp_implementations, "Go to Implementation")
+        map("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
+
         map("<leader>D", require("telescope.builtin").lsp_type_definitions, "Type Definition")
         map("<leader>sd", require("telescope.builtin").lsp_document_symbols, "Document Symbols")
         map("<leader>sw", require("telescope.builtin").lsp_workspace_symbols, "Workspace Symbols")
@@ -26,7 +28,6 @@ return {
         map("<leader>a", vim.lsp.buf.code_action, "Action", { "n", "x" })
         map("<leader>r", vim.lsp.buf.rename, "Rename")
 
-        map("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
         local function client_supports_method(client, method, bufnr)
           if vim.fn.has("nvim-0.11") == 1 then
             return client:supports_method(method, bufnr)
@@ -60,7 +61,7 @@ return {
           })
         end
         if client and client_supports_method(client, vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf) then
-          map("<leader>th", function()
+          map("<leader>h", function()
             vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = event.buf }))
           end, "[T]oggle Inlay [H]ints")
         end

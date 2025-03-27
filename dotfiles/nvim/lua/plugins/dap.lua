@@ -43,7 +43,7 @@ return {
       end
 
       map("<leader>de", dapui.eval, "Eval")
-      map("<leader>dt", dapui.toggle, "Eval")
+      map("<leader>dt", dapui.toggle, "Toggle UI")
     end,
   },
 }
