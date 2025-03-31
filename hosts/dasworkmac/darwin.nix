@@ -15,7 +15,7 @@
     ])
     ++ (with pkgs.darwin; [
       CF
-      cf-private
+      apple_sdk.frameworks.CoreFoundation
       Libc
       Security
     ]);
