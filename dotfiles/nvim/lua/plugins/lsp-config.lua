@@ -16,14 +16,7 @@ return {
           vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = desc })
         end
 
-        map("gd", require("telescope.builtin").lsp_definitions, "Go to Definition")
-        map("gr", require("telescope.builtin").lsp_references, "Go to References")
-        map("gI", require("telescope.builtin").lsp_implementations, "Go to Implementation")
         map("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
-
-        map("<leader>D", require("telescope.builtin").lsp_type_definitions, "Type Definition")
-        map("<leader>sd", require("telescope.builtin").lsp_document_symbols, "Document Symbols")
-        map("<leader>sw", require("telescope.builtin").lsp_workspace_symbols, "Workspace Symbols")
 
         map("<leader>a", vim.lsp.buf.code_action, "Action", { "n", "x" })
         map("<leader>r", vim.lsp.buf.rename, "Rename")
