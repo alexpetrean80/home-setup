@@ -9,12 +9,6 @@ return { -- Collection of various small independent plugins/modules
       end,
       desc = "Explorer",
     },
-    -- {
-    --   "<leader><leader>",
-    --   "<cmd>Pick files<CR>",
-    --   mode = "n",
-    --   desc = "Find files",
-    -- },
   },
   config = function()
     require("mini.ai").setup({ n_lines = 500 })
@@ -30,6 +24,13 @@ return { -- Collection of various small independent plugins/modules
 
     -- part of me wants to swap Telescope with this, but it's less polished/more minimal
     require("mini.pick").setup()
+
+    vim.api.nvim_create_autocmd("User", {
+      pattern = "MiniFilesActionRename",
+      callback = function(event)
+        Snacks.rename.on_rename_file(event.data.from, event.data.to)
+      end,
+    })
 
     local statusline = require("mini.statusline")
     statusline.setup({ use_icons = vim.g.have_nerd_font })
