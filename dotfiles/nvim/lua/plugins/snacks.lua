@@ -97,6 +97,17 @@ return {
       "<cmd>lua Snacks.terminal.open('gh pr create')<CR>",
       desc = "Open PR",
     },
+
+    {
+      "<leader>gw",
+      "<cmd>lua Snacks.terminal.open('gh pr view')<CR>",
+      desc = "View PR",
+    },
+    {
+      "<leader>gd",
+      "<cmd>lua Snacks.terminal.open('gh dash')<CR>",
+      desc = "GH Dash",
+    },
     {
       "<leader>gg",
       "<cmd>lua Snacks.lazygit()<CR>",
