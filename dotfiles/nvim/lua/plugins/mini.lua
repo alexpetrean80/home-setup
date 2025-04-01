@@ -21,6 +21,7 @@ return { -- Collection of various small independent plugins/modules
     require("mini.pairs").setup()
     require("mini.extra").setup()
     require("mini.surround").setup()
+		require('mini.icons').setup()
 
     -- part of me wants to swap Telescope with this, but it's less polished/more minimal
     require("mini.pick").setup()
