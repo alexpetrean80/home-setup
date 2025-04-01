@@ -12,6 +12,7 @@ return {
     git = {
       enabled = true,
     },
+    image = { enabled = true },
     indent = { enabled = true },
     input = { enabled = true },
     picker = { enabled = true },
@@ -90,6 +91,16 @@ return {
       "<leader>gB",
       "<cmd>lua Snacks.git.blame_line()<CR>",
       desc = "Blame line",
+    },
+    {
+      "<leader>gp",
+      "<cmd>lua Snacks.terminal.open('gh pr create')<CR>",
+      desc = "Open PR",
+    },
+    {
+      "<leader>gg",
+      "<cmd>lua Snacks.lazygit()<CR>",
+      desc = "Lazygit",
     },
   },
 }
