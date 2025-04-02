@@ -17,4 +17,4 @@ vim.keymap.set("n", "<leader>bn", "<cmd>bnext<CR>", { desc = "Next" })
 vim.keymap.set("n", "<leader>bp", "<cmd>bprevious<CR>", { desc = "Previous" })
 vim.keymap.set("n", "<leader>bd", "<cmd>bdelete<CR>", { desc = "Delete" })
 
-vim.keymap.set("n", "<leader>gW", "<cmd>gh pr view --web<CR>", { desc = "View PR(Browser)" })
+vim.keymap.set("n", "<leader>gW", "<cmd>!gh pr view --web<CR>", { desc = "View PR(Browser)" })
