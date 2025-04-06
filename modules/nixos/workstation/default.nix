@@ -26,7 +26,7 @@
     krita
     darktable
     synology-drive-client
-    xwaylandvideobridge
+    kdePackages.xwaylandvideobridge
     stremio
     tidal-dl
     tidal-hifi
