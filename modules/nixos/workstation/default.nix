@@ -28,9 +28,8 @@
     synology-drive-client
     kdePackages.xwaylandvideobridge
     stremio
-    tidal-dl
-    tidal-hifi
 		jetbrains-toolbox
+		spotify
     obsidian
     nerd-fonts.jetbrains-mono
     vivaldi

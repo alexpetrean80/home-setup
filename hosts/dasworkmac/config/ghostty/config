@@ -8,8 +8,6 @@ font-feature = "ss02"
 font-feature = "zero"
 
 font-size = 17
-theme = "Adwaita Dark"
+theme = "catppuccin-mocha"
 shell-integration = zsh
 
-# hack required as I cannot set nushell as a login shell on macos
-command = zsh -c nu --login --interactive

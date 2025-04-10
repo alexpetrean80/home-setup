@@ -4,7 +4,7 @@
       isNormalUser = true;
       description = "Alex Petrean";
       extraGroups = [ "networkmanager" "wheel" ];
-      shell = pkgs.nushell;
+      shell = pkgs.zsh;
     };
     iul = {
       isNormalUser = true;
