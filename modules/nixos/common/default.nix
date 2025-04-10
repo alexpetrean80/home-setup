@@ -28,6 +28,7 @@
     dotnet-aspnetcore_9
     neovim
     git
+		inotify-tools
   ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" "pipe-operators" ];
