@@ -30,6 +30,7 @@
     stremio
     tidal-dl
     tidal-hifi
+		jetbrains-toolbox
     obsidian
     nerd-fonts.jetbrains-mono
     vivaldi
