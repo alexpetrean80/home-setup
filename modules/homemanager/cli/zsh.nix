@@ -5,6 +5,7 @@
     autosuggestion.enable = true;
     enableCompletion = true;
     enableVteIntegration = true;
+		defaultKeymap = "viins";
 
     initExtra = ''
       export GOPATH="$HOME/go/"
