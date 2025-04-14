@@ -16,7 +16,8 @@ return {
           vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = desc })
         end
 
-        map("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
+        map("gD", vim.lsp.buf.declaration, "Goto Declaration")
+				map("gh", vim.lsp.buf.hover, "Hover")
 
         map("<leader>a", vim.lsp.buf.code_action, "Action", { "n", "x" })
         map("<leader>r", vim.lsp.buf.rename, "Rename")
