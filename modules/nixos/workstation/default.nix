@@ -33,6 +33,7 @@
     obsidian
     nerd-fonts.jetbrains-mono
     vivaldi
+		tuxguitar
   ];
 
   nixpkgs.config.permittedInsecurePackages = [
