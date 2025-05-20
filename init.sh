@@ -21,7 +21,7 @@ case "$(uname)" in
   # through the flake itself.
   sudo nixos-rebuild switch --flake ".#$host" --impure
 
-  for flatpak in "io.github.zen_browser.zen"; do
+  for flatpak in "app.zen_browser.zen"; do
     flatpak install flathub "$flatpak"
   done
   ;;
