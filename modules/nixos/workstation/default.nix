@@ -18,8 +18,7 @@
 
   environment.systemPackages = with pkgs; [
     firefox
-    anytype
-    telegram-desktop
+		bitwarden
     signal-desktop
     discord
     gimp
@@ -30,10 +29,10 @@
     stremio
 		jetbrains-toolbox
 		spotify
-    obsidian
     nerd-fonts.jetbrains-mono
     vivaldi
 		tuxguitar
+		calibre
   ];
 
   nixpkgs.config.permittedInsecurePackages = [
