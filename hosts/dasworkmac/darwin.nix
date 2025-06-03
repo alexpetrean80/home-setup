@@ -6,7 +6,7 @@
       google-cloud-sdk
       kubernetes-helm
       aws-vault
-      teleport
+      teleport_16
       terraform
       tilt
       confluent-cli

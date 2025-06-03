@@ -24,7 +24,6 @@
 
   home.packages = with pkgs; [
     aws-vault
-    teleport
     terraform
     tilt
     confluent-cli
