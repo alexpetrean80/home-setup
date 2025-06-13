@@ -5,7 +5,7 @@
     # ./wezterm.nix
     # ./hypr.nix
     ./ghostty.nix
-    # ./zed.nix
+    ./zed.nix
   ];
 
   home.packages = with pkgs; [

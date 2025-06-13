@@ -15,7 +15,7 @@
 
       "space d d": "diagnostics::Deploy",
       "space d n": "editor::GoToDiagnostic",
-      "space d p": "editor::GoToPreviousDiagnostic",
+      "space d p": "editor::GoToPrevDiagnostic",
 
       "g d": "editor::GoToDefinition",
       "g r": "editor::FindAllReferences",
@@ -27,10 +27,10 @@
       "space \\": "pane::SplitRight",
       "space -": "pane::SplitDown",
 
-      "ctrl-h": "workspace::ActivatePaneLeft",
-      "ctrl-l": "workspace::ActivatePaneRight",
-      "ctrl-k": "workspace::ActivatePaneUp",
-      "ctrl-j": "workspace::ActivatePaneDown"
+      "ctrl-h": ["workspace::ActivatePaneInDirection", "Left"],
+      "ctrl-l": ["workspace::ActivatePaneInDirection", "Right"],
+      "ctrl-k": ["workspace::ActivatePaneInDirection", "Up"],
+      "ctrl-j": ["workspace::ActivatePaneInDirection", "Down"]
     }
   },
   {
@@ -48,10 +48,10 @@
       "space b b": "tab_switcher::Toggle",
       "space /": "pane::DeploySearch",
       "space e": "workspace::ToggleLeftDock",
-      "ctrl-h": "workspace::ActivatePaneLeft",
-      "ctrl-l": "workspace::ActivatePaneRight",
-      "ctrl-k": "workspace::ActivatePaneUp",
-      "ctrl-j": "workspace::ActivatePaneDown"
+      "ctrl-h": ["workspace::ActivatePaneInDirection", "Left"],
+      "ctrl-l": ["workspace::ActivatePaneInDirection", "Right"],
+      "ctrl-k": ["workspace::ActivatePaneInDirection", "Up"],
+      "ctrl-j": ["workspace::ActivatePaneInDirection", "Down"]
     }
   }
 ]

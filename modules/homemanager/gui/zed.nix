@@ -1,8 +1,8 @@
-{ lib, ... }: {
-  programs.zed-editor = {
-    enable = true;
-    extensions = [ "nix" "go" ];
-    userKeymaps = lib.importJSON ../../../dotfiles/zed/keymap.json;
-    userSettings = lib.importJSON ../../../dotfiles/zed/settings.json;
-  };
+{ config, pkgs, lib, ... }: {
+	home = {
+	packages = with pkgs; [zed-editor];
+	file.".config/zed" = {
+	source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Repos/home-setup/dotfiles/zed";
+	};
+	};
 }

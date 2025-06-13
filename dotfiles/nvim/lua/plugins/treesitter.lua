@@ -29,7 +29,7 @@ return {
   main = "nvim-treesitter.configs",
 
   opts = {
-    ensure_installed = {},
+    ensure_installed = {"all"},
     auto_install = true,
     highlight = {
       enable = true,
