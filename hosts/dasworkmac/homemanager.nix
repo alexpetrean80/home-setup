@@ -1,6 +1,7 @@
-{ pkgs
-, lib
-, ...
+{
+  pkgs,
+  lib,
+  ...
 }: {
   imports = [
     ../../modules/homemanager/gui
@@ -34,15 +35,9 @@
     jira-cli-go
   ];
 
-
-  home.file.".config/ghostty" = {
-    source = lib.mkForce ./config/ghostty;
-  };
   home = {
     username = "alexp";
     homeDirectory = lib.mkForce "/Users/alexp";
     stateVersion = "24.05";
   };
-
 }
-

@@ -1,4 +1,4 @@
-{ ... }: {
+{...}: {
   virtualisation.docker = {
     enable = true;
     rootless = {
@@ -7,5 +7,5 @@
     };
   };
 
-  users.users.alexp.extraGroups = [ "docker" ];
+  users.users.alexp.extraGroups = ["docker"];
 }

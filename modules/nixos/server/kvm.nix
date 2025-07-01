@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{pkgs, ...}: {
   virtualisation = {
     libvirtd = {
       enable = true;
@@ -21,5 +21,5 @@
     spiceUSBRedirection.enable = true;
   };
 
-  users.users.alexp.extraGroups = [ "libvirtd" ];
+  users.users.alexp.extraGroups = ["libvirtd"];
 }

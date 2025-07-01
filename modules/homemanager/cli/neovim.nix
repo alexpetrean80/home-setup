@@ -1,11 +1,11 @@
-{ config
-, pkgs
-, ...
+{
+  config,
+  pkgs,
+  ...
 }: {
   programs.neovim = {
     enable = true;
   };
-
 
   home.file.".config/nvim" = {
     source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Repos/home-setup/dotfiles/nvim";

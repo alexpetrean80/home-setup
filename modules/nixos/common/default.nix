@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{pkgs, ...}: {
   imports = [
     ./locale.nix
     ./sound.nix
@@ -28,10 +28,10 @@
     dotnet-aspnetcore_9
     neovim
     git
-		inotify-tools
+    inotify-tools
   ];
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" "pipe-operators" ];
+  nix.settings.experimental-features = ["nix-command" "flakes" "pipe-operators"];
 
   nixpkgs.config.allowUnfree = true;
 }

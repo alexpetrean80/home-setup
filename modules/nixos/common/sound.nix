@@ -1,4 +1,4 @@
-{ ... }: {
+{...}: {
   services = {
     pulseaudio.enable = false;
     pipewire = {
@@ -7,7 +7,6 @@
       alsa.support32Bit = true;
       pulse.enable = true;
     };
-
   };
   security.rtkit.enable = false;
 }

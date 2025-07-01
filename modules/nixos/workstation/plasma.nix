@@ -6,5 +6,6 @@
 
   environment.systemPackages = with pkgs; [
     kdePackages.sddm-kcm
+    catppuccin-sddm
   ];
 }

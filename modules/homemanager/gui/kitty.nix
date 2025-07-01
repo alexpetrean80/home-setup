@@ -1,16 +1,7 @@
-{ lib, ... }: {
-
-
+{lib, ...}: {
   programs.kitty = {
-
-
-    enable = true;More actions
-
+    enable = true;
 
     extraConfig = lib.readFile ../../../dotfiles/kitty/kitty.conf;
-
-
   };
-
-
 }

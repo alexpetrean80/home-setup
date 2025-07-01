@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{pkgs, ...}: {
   imports = [
     ./git.nix
     ./neovim.nix
@@ -9,6 +9,7 @@
   ];
 
   home.packages = with pkgs; [
+    alejandra
     fzf
     direnv
     gnupg

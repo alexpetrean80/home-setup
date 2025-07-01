@@ -1,11 +1,11 @@
-{ ... }: {
+{...}: {
   programs.zsh = {
     enable = true;
 
     autosuggestion.enable = true;
     enableCompletion = true;
     enableVteIntegration = true;
-		defaultKeymap = "viins";
+    defaultKeymap = "viins";
 
     initContent = ''
       export GOPATH="$HOME/go/"

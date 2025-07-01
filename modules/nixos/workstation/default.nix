@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{pkgs, ...}: {
   imports = [
     ../common
     ../server
@@ -27,9 +27,9 @@
     synology-drive-client
     kdePackages.xwaylandvideobridge
     stremio
-    jetbrains-toolbox
     spotify
     nerd-fonts.jetbrains-mono
+		nerd-fonts.zed-mono
     vivaldi
     tuxguitar
     calibre

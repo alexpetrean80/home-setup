@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{pkgs, ...}: {
   imports = [
     /etc/nixos/hardware-configuration.nix
 
@@ -9,13 +9,13 @@
 
   boot = {
     kernelPackages = pkgs.linuxPackages_6_6;
-    initrd.kernelModules = [ "amdgpu" ];
+    initrd.kernelModules = ["amdgpu"];
     kernelParams = [
       "amdgpu.sg_display=0"
     ];
   };
 
-  services.xserver.videoDrivers = [ "modesetting" ];
+  services.xserver.videoDrivers = ["modesetting"];
 
   environment.variables.GSK_RENDERER = "gl";
 

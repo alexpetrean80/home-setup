@@ -29,8 +29,9 @@ return {
   main = "nvim-treesitter.configs",
 
   opts = {
-    ensure_installed = {"all"},
+    ensure_installed = { "all" },
     auto_install = true,
+    ignore_install = { "earthfile" },
     highlight = {
       enable = true,
       additional_vim_regex_highlighting = { "ruby" },
