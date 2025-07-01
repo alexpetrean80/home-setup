@@ -3,7 +3,7 @@
     ../common
     ../server
     ./flatpak.nix
-    ./gnome.nix
+    ./plasma.nix
     # ./hypr.nix
     ./steam.nix
   ];
@@ -18,7 +18,7 @@
 
   environment.systemPackages = with pkgs; [
     firefox
-		bitwarden
+    bitwarden
     signal-desktop
     discord
     gimp
@@ -27,12 +27,12 @@
     synology-drive-client
     kdePackages.xwaylandvideobridge
     stremio
-		jetbrains-toolbox
-		spotify
+    jetbrains-toolbox
+    spotify
     nerd-fonts.jetbrains-mono
     vivaldi
-		tuxguitar
-		calibre
+    tuxguitar
+    calibre
   ];
 
   nixpkgs.config.permittedInsecurePackages = [
