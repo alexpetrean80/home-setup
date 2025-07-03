@@ -12,12 +12,6 @@
       confluent-cli
       jdk17
       jira-cli-go
-    ])
-    ++ (with pkgs.darwin; [
-      CF
-      apple_sdk.frameworks.CoreFoundation
-      Libc
-      Security
     ]);
 
   nix.settings.experimental-features = ["nix-command" "flakes"];
