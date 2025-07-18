@@ -2,6 +2,7 @@
   environment.systemPackages =
     (with pkgs; [
       slack
+			bitwarden-desktop
       pinentry_mac
       google-cloud-sdk
       kubernetes-helm
