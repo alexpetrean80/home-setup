@@ -13,7 +13,12 @@
       confluent-cli
       jdk17
       jira-cli-go
+      nerd-fonts.jetbrains-mono
     ]);
+
+  fonts.packages = with pkgs; [
+    nerd-fonts.jetbrains-mono
+  ];
 
   nix.settings.experimental-features = ["nix-command" "flakes"];
 
