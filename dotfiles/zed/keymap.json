@@ -48,6 +48,7 @@
       "space b b": "tab_switcher::Toggle",
       "space /": "pane::DeploySearch",
       "space e": "workspace::ToggleLeftDock",
+      "space t": "workspace::NewTerminal",
       "ctrl-h": "workspace::ActivatePaneLeft",
       "ctrl-l": "workspace::ActivatePaneRight",
       "ctrl-k": "workspace::ActivatePaneUp",

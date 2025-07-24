@@ -108,7 +108,6 @@ return {
     vim.list_extend(ensure_installed, {
       "stylua",
       "luacheck",
-      "golangci-lint",
       "gofumpt",
       "goimports",
     })

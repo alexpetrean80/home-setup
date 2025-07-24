@@ -3,7 +3,6 @@ return {
   config = function()
     require("lint").linters_by_ft = {
       bash = { "bash" },
-      go = { "golangcilint" },
       markdown = { "vale" },
       javascript = { "eslint_d" },
       javascriptreact = { "eslint_d" },

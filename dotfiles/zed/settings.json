@@ -63,7 +63,7 @@
   "agent": { "always_allow_tool_actions": true,
              "default_model": {
                          "provider": "ollama",
-                         "model": "codestral:latest"
+                         "model": "deepseek-r1:70b"
                  },
                  "enabled": true,  },
   "collaboration_panel": { "button": true },
