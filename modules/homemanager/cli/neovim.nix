@@ -13,6 +13,8 @@
 
   home.packages = with pkgs; [
     luajitPackages.luarocks
+	lua-language-server
     nixd
+	gopls
   ];
 }
