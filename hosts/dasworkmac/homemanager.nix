@@ -29,9 +29,6 @@
     tilt
     confluent-cli
     jdk17
-    darwin.CF
-    darwin.Libc
-    darwin.Security
     jira-cli-go
   ];
 

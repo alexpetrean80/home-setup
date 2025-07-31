@@ -1,6 +1,7 @@
 {
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
     minimal-tmux = {
       url = "github:niksingh710/minimal-tmux-status";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -16,7 +17,6 @@
     nixpkgs,
     nix-darwin,
     home-manager,
-    minimal-tmux,
     ...
   } @ inputs: let
     inherit (self) outputs;
