@@ -82,18 +82,18 @@ vim.api.nvim_create_autocmd("LspAttach", {
 -- vim.cmd("set completeopt+=menuone,noselect,popup")
 vim.opt.completeopt = { "menu", "menuone", "noinsert", "noselect", "popup", "preview" }
 
-vim.api.nvim_set_keymap('i', '<C-space>', 'vim.lsp.completion.trigger()',
-	{ noremap = true, silent = true, expr = true, desc = 'Trigger LSP Completion' })
-vim.api.nvim_set_keymap('i', '<C-n>', 'pumvisible() ? "<C-n>" : "<C-n>"',
-	{ noremap = true, silent = true, expr = true, desc = 'Next completion item' })
-vim.api.nvim_set_keymap('i', '<C-p>', 'pumvisible() ? "<C-p>" : "<C-p>"',
-	{ noremap = true, silent = true, expr = true, desc = 'Previous completion item' })
-vim.api.nvim_set_keymap('i', '<CR>', 'pumvisible() ? "<C-y>" : "<CR>"',
-	{ noremap = true, silent = true, expr = true, desc = 'Accept completion or new line' })
-vim.api.nvim_set_keymap('i', '<Tab>', 'pumvisible() ? "<C-n>" : "<Tab>"',
-	{ noremap = true, silent = true, expr = true, desc = 'Next completion item or tab' })
-vim.api.nvim_set_keymap('i', '<S-Tab>', 'pumvisible() ? "<C-p>" : "<S-Tab>"',
-	{ noremap = true, silent = true, expr = true, desc = 'Previous completion item or shift-tab' })
+vim.api.nvim_set_keymap("i", "<C-space>", "vim.lsp.completion.trigger()",
+	{ noremap = true, silent = true, expr = true, desc = "Trigger LSP Completion" })
+vim.api.nvim_set_keymap("i", "<C-n>", "pumvisible() ? \"<C-n>\":\"<C-n>\"",
+	{ noremap = true, silent = true, expr = true, desc = "Next completion item" })
+vim.api.nvim_set_keymap("i", "<C-p>", "pumvisible() ? \"<C-p>\":\"<C-p>\"",
+	{ noremap = true, silent = true, expr = true, desc = "Previous completion item" })
+vim.api.nvim_set_keymap("i", "<CR>", "pumvisible() ? \"<C-y>\":\"<CR>\"",
+	{ noremap = true, silent = true, expr = true, desc = "Accept completion or new line" })
+vim.api.nvim_set_keymap("i", "<Tab>", "pumvisible() ?\"<C-n>\":\"<Tab>\"",
+	{ noremap = true, silent = true, expr = true, desc = "Next completion item or tab" })
+vim.api.nvim_set_keymap("i", "<S-Tab>", "pumvisible() ? \"<C-p>\":\"<S-Tab>\"",
+	{ noremap = true, silent = true, expr = true, desc = "Previous completion item or shift-tab" })
 
 vim.api.nvim_create_autocmd("LspAttach", {
 	group = vim.api.nvim_create_augroup("UserLspConfig", {}),
@@ -110,6 +110,15 @@ require("nvim-treesitter.configs").setup({
 	ensure_installed = { "*" },
 	highlight = { enable = true }
 })
+
+vim.api.nvim_create_autocmd('VimEnter', {
+	desc = 'Enable Treesitter highlight on startup',
+	group = vim.api.nvim_create_augroup('treesitter-highlight-on-startup', { clear = true }),
+	callback = function()
+		vim.cmd('TSEnable highlight')
+	end,
+})
+
 require("mini.comment").setup()
 require("mini.files").setup()
 require("mini.pick").setup()
@@ -155,12 +164,15 @@ vim.keymap.set("n", "<leader>bp", "<cmd>bprevious<CR>", { desc = "Previous" })
 vim.keymap.set("n", "<leader>bd", "<cmd>bdelete<CR>", { desc = "Delete" })
 
 -- Git stuff
-vim.keymap.set("n", "<leader>gW", "<cmd>!gh pr view --web<CR>", { desc = "View PR(Browser)" })
-vim.keymap.set('n', "<leader>gg", "<cmd>term lazygit<CR>i")
+vim.keymap.set("n", "<leader>gg", "<cmd>term lazygit<CR>i", { desc = "Lazygit" })
+vim.keymap.set("n", "<leader>gp", "<cmd>term gh pr create<CR>i", { desc = "Create PR" })
+vim.keymap.set("n", "<leader>gW", "<cmd>term gh pr view<CR>i", { desc = "View PR (Terminal)" })
+vim.keymap.set("n", "<leader>gw", "<cmd>!gh pr view --web<CR>", { desc = "View PR (Browser)" })
+vim.keymap.set("n", "<leader>gd", "<cmd>term gh dash<CR>i", { desc = "GH dash" })
 
 vim.lsp.enable({ "lua_ls", "nixd", "gopls", "tsserver" })
 
-vim.lsp.config('lua_ls', {
+vim.lsp.config("lua_ls", {
 	settings = {
 		Lua = {
 			hint = {
@@ -169,7 +181,7 @@ vim.lsp.config('lua_ls', {
 		}
 	}
 })
-vim.lsp.config('gopls', {
+vim.lsp.config("gopls", {
 	settings = {
 		gopls = {
 			hints = {
@@ -185,7 +197,7 @@ vim.lsp.config('gopls', {
 	},
 })
 
-vim.lsp.config('tsserver', {
+vim.lsp.config("tsserver", {
 	settings = {
 		typescript = {
 			inlayHints = {
@@ -218,10 +230,18 @@ vim.cmd.colorscheme("catppuccin")
 vim.diagnostic.config({
 	signs = {
 		text = {
-			[vim.diagnostic.severity.ERROR] = ' ',
-			[vim.diagnostic.severity.WARN] = ' ',
-			[vim.diagnostic.severity.HINT] = ' ',
-			[vim.diagnostic.severity.INFO] = ' '
+			[vim.diagnostic.severity.ERROR] = " ",
+			[vim.diagnostic.severity.WARN] = " ",
+			[vim.diagnostic.severity.HINT] = " ",
+			[vim.diagnostic.severity.INFO] = " "
 		},
 	}
+})
+
+vim.api.nvim_create_autocmd('TextYankPost', {
+	desc = 'Highlight when yanking (copying) text',
+	group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
+	callback = function()
+		vim.highlight.on_yank()
+	end,
 })
