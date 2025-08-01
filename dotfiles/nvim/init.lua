@@ -40,7 +40,9 @@ local function install_deps()
 		{
 			src = github_url .. "echasnovski/mini.nvim",
 			version = "main"
-		}
+		},
+		{ src = github_url .. "mfussenegger/nvim-dap" },
+		{ src = github_url .. "leoluz/nvim-dap-go" },
 	})
 end
 
@@ -57,7 +59,7 @@ vim.opt.signcolumn = "yes"
 vim.opt.wrap = true
 vim.opt.tabstop = 4
 vim.opt.swapfile = false
-vim.opt.winborder = "none"
+vim.opt.winborder = "solid"
 vim.opt.laststatus = 3
 vim.opt.statusline = status_line()
 
@@ -131,6 +133,8 @@ require("mini.notify").setup()
 require("which-key").setup({
 	preset = "helix",
 	delay = 0,
+	show_help = false,
+	show_keys = true,
 	icons = {
 		mappings = false
 	},
@@ -142,6 +146,8 @@ require("which-key").setup({
 		{ "<leader>g", group = "Git",     mode = "n" },
 	}
 })
+
+require("dap-go").setup()
 
 vim.keymap.set("n", "<leader>\\", "<cmd>vsplit<CR>", { desc = "Vertical split" })
 vim.keymap.set("n", "<leader><leader>", MiniPick.builtin.files, { desc = "Files" })
@@ -169,6 +175,9 @@ vim.keymap.set("n", "<leader>gp", "<cmd>term gh pr create<CR>i", { desc = "Creat
 vim.keymap.set("n", "<leader>gW", "<cmd>term gh pr view<CR>i", { desc = "View PR (Terminal)" })
 vim.keymap.set("n", "<leader>gw", "<cmd>!gh pr view --web<CR>", { desc = "View PR (Browser)" })
 vim.keymap.set("n", "<leader>gd", "<cmd>term gh dash<CR>i", { desc = "GH dash" })
+
+-- Debugger
+-- vim.keymap.set("n", "<leader>")
 
 vim.lsp.enable({ "lua_ls", "nixd", "gopls", "tsserver" })
 
