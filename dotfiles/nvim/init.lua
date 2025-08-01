@@ -88,7 +88,7 @@ vim.api.nvim_set_keymap('i', '<C-n>', 'pumvisible() ? "<C-n>" : "<C-n>"',
 	{ noremap = true, silent = true, expr = true, desc = 'Next completion item' })
 vim.api.nvim_set_keymap('i', '<C-p>', 'pumvisible() ? "<C-p>" : "<C-p>"',
 	{ noremap = true, silent = true, expr = true, desc = 'Previous completion item' })
-vim.api.nvim_set_keymap('i', '<CR>', 'pumvisible() ? "<C-y" : "<CR>"',
+vim.api.nvim_set_keymap('i', '<CR>', 'pumvisible() ? "<C-y>" : "<CR>"',
 	{ noremap = true, silent = true, expr = true, desc = 'Accept completion or new line' })
 vim.api.nvim_set_keymap('i', '<Tab>', 'pumvisible() ? "<C-n>" : "<Tab>"',
 	{ noremap = true, silent = true, expr = true, desc = 'Next completion item or tab' })
@@ -156,6 +156,7 @@ vim.keymap.set("n", "<leader>bd", "<cmd>bdelete<CR>", { desc = "Delete" })
 
 -- Git stuff
 vim.keymap.set("n", "<leader>gW", "<cmd>!gh pr view --web<CR>", { desc = "View PR(Browser)" })
+vim.keymap.set('n', "<leader>gg", "<cmd>term lazygit<CR>i")
 
 vim.lsp.enable({ "lua_ls", "nixd", "gopls", "tsserver" })
 
