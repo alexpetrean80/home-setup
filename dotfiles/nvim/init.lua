@@ -57,7 +57,7 @@ vim.opt.mouse = "a"
 vim.opt.termguicolors = true
 vim.opt.signcolumn = "yes"
 vim.opt.wrap = true
-vim.opt.tabstop = 4
+vim.opt.tabstop = 2
 vim.opt.swapfile = false
 vim.opt.winborder = "solid"
 vim.opt.laststatus = 3
@@ -184,12 +184,16 @@ vim.lsp.enable({ "lua_ls", "nixd", "gopls", "tsserver" })
 vim.lsp.config("lua_ls", {
 	settings = {
 		Lua = {
+			workspace = {
+				library = vim.api.nvim_get_runtime_file("", true), -- hack to remove vim.* warnings 
+			},
 			hint = {
 				enable = true, -- necessary
-			}
+			},
 		}
 	}
 })
+
 vim.lsp.config("gopls", {
 	settings = {
 		gopls = {
