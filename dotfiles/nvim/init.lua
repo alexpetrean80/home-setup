@@ -200,7 +200,7 @@ vim.keymap.set("n", "<leader>ts", "<cmd>TestSuite<CR>", { desc = "Suite", silent
 vim.keymap.set("n", "<leader>tl", "<cmd>TestLast<CR>", { desc = "Last", silent = true })
 vim.keymap.set("n", "<leader>tg", "<cmd>TestVisit<CR>", { desc = "Go To Last", silent = true })
 
-vim.lsp.enable({ "lua_ls", "nixd", "gopls", "tsserver" })
+vim.lsp.enable({ "lua_ls", "nixd", "gopls", "tsserver", "sqls" })
 
 vim.lsp.config("lua_ls", {
 	settings = {

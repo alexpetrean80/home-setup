@@ -18,5 +18,6 @@ package = inputs.neovim-nightly-overlay.packages.${pkgs.system}.default;
 	lua-language-server
     nixd
 	gopls
+	sqls
   ];
 }
