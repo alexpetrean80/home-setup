@@ -43,8 +43,12 @@ local function install_deps()
 		},
 		{ src = github_url .. "mfussenegger/nvim-dap" },
 		{ src = github_url .. "leoluz/nvim-dap-go" },
+		{ src = github_url .. "igorlfs/nvim-dap-view" },
+		{ src = github_url .. "theHamsta/nvim-dap-virtual-text" },
+		{ src = github_url .. "vim-test/vim-test" }
 	})
 end
+
 
 
 vim.g.mapleader = " "
@@ -109,15 +113,15 @@ vim.api.nvim_create_autocmd("LspAttach", {
 })
 
 require("nvim-treesitter.configs").setup({
-	ensure_installed = { "*" },
-	highlight = { enable = true }
+	ensure_installed = {},
+	highlight = { enabled = true }
 })
 
-vim.api.nvim_create_autocmd('VimEnter', {
-	desc = 'Enable Treesitter highlight on startup',
-	group = vim.api.nvim_create_augroup('treesitter-highlight-on-startup', { clear = true }),
+vim.api.nvim_create_autocmd("VimEnter", {
+	desc = "Enable Treesitter highlight on startup",
+	group = vim.api.nvim_create_augroup("treesitter-highlight-on-startup", { clear = true }),
 	callback = function()
-		vim.cmd('TSEnable highlight')
+		vim.cmd("TSEnable highlight")
 	end,
 })
 
@@ -144,17 +148,21 @@ require("which-key").setup({
 	spec = {
 		{ "<leader>b", group = "Buffers", mode = "n" },
 		{ "<leader>g", group = "Git",     mode = "n" },
+		{ "<leader>d", group = "Debug",   mode = "n" },
+		{ "<leader>t", group = "Testing", mode = "n" },
 	}
 })
 
 require("dap-go").setup()
+require("nvim-dap-virtual-text").setup()
+vim.cmd("let test#strategy = \"neovim_sticky\"")
 
-vim.keymap.set("n", "<leader>\\", "<cmd>vsplit<CR>", { desc = "Vertical split" })
-vim.keymap.set("n", "<leader><leader>", MiniPick.builtin.files, { desc = "Files" })
-vim.keymap.set("n", "<leader>e", MiniFiles.open, { desc = "Explorer" })
-vim.keymap.set("n", "<leader>/", MiniPick.builtin.grep_live, { desc = "Live grep" })
-vim.keymap.set("n", "<leader>f", vim.lsp.buf.format, { desc = "Format" })
-vim.keymap.set("n", "<leader>x", vim.diagnostic.setqflist, { desc = "Diagnostics" })
+vim.keymap.set("n", "<leader>\\", "<cmd>vsplit<CR>", { desc = "Vertical split", silent = true })
+vim.keymap.set("n", "<leader><leader>", MiniPick.builtin.files, { desc = "Files", silent = true })
+vim.keymap.set("n", "<leader>e", MiniFiles.open, { desc = "Explorer", silent = true })
+vim.keymap.set("n", "<leader>/", MiniPick.builtin.grep_live, { desc = "Live grep", silent = true })
+vim.keymap.set("n", "<leader>f", vim.lsp.buf.format, { desc = "Format", silent = true })
+vim.keymap.set("n", "<leader>x", vim.diagnostic.setqflist, { desc = "Diagnostics", silent = true })
 
 -- Navigation
 vim.keymap.set("n", "<c-h>", "<cmd>TmuxNavigateLeft<CR>")
@@ -164,20 +172,33 @@ vim.keymap.set("n", "<c-l>", "<cmd>TmuxNavigateRight<CR>")
 
 
 -- Buffers
-vim.keymap.set("n", "<leader>bb", MiniPick.builtin.buffers, { desc = "Buffers" })
-vim.keymap.set("n", "<leader>bn", "<cmd>bnext<CR>", { desc = "Next" })
-vim.keymap.set("n", "<leader>bp", "<cmd>bprevious<CR>", { desc = "Previous" })
-vim.keymap.set("n", "<leader>bd", "<cmd>bdelete<CR>", { desc = "Delete" })
+vim.keymap.set("n", "<leader>bb", MiniPick.builtin.buffers, { desc = "Buffers", silent = true })
+vim.keymap.set("n", "<leader>bn", "<cmd>bnext<CR>", { desc = "Next", silent = true })
+vim.keymap.set("n", "<leader>bp", "<cmd>bprevious<CR>", { desc = "Previous", silent = true })
+vim.keymap.set("n", "<leader>bd", "<cmd>bdelete<CR>", { desc = "Delete", silent = true })
 
 -- Git stuff
-vim.keymap.set("n", "<leader>gg", "<cmd>term lazygit<CR>i", { desc = "Lazygit" })
-vim.keymap.set("n", "<leader>gp", "<cmd>term gh pr create<CR>i", { desc = "Create PR" })
-vim.keymap.set("n", "<leader>gW", "<cmd>term gh pr view<CR>i", { desc = "View PR (Terminal)" })
-vim.keymap.set("n", "<leader>gw", "<cmd>!gh pr view --web<CR>", { desc = "View PR (Browser)" })
-vim.keymap.set("n", "<leader>gd", "<cmd>term gh dash<CR>i", { desc = "GH dash" })
+vim.keymap.set("n", "<leader>gg", "<cmd>term lazygit<CR>i", { desc = "Lazygit", silent = true })
+vim.keymap.set("n", "<leader>gp", "<cmd>term gh pr create<CR>i", { desc = "Create PR", silent = true })
+vim.keymap.set("n", "<leader>gW", "<cmd>term gh pr view<CR>i", { desc = "View PR (Terminal)", silent = true })
+vim.keymap.set("n", "<leader>gw", "<cmd>!gh pr view --web<CR>", { desc = "View PR (Browser)", silent = true })
+vim.keymap.set("n", "<leader>gd", "<cmd>term gh dash<CR>i", { desc = "GH dash", silent = true })
 
 -- Debugger
--- vim.keymap.set("n", "<leader>")
+local dap = require("dap")
+vim.keymap.set("n", "<leader>db", dap.toggle_breakpoint, { desc = "Toggle Breakpoint", silent = true })
+vim.keymap.set("n", "<leader>dc", dap.continue, { desc = "Continue", silent = true })
+vim.keymap.set("n", "<leader>di", dap.step_into, { desc = "Step Into", silent = true })
+vim.keymap.set("n", "<leader>do", dap.step_over, { desc = "Step Over", silent = true })
+vim.keymap.set("n", "<leader>dO", dap.step_out, { desc = "Step Out", silent = true })
+vim.keymap.set("n", "<leader>dt", "<cmd>DapViewToggle<CR>", { desc = "Toggle View", silent = true })
+
+-- Testing
+vim.keymap.set("n", "<leader>tn", "<cmd>TestNearest<CR>", { desc = "Nearest", silent = true })
+vim.keymap.set("n", "<leader>tf", "<cmd>TestFile<CR>", { desc = "File", silent = true })
+vim.keymap.set("n", "<leader>ts", "<cmd>TestSuite<CR>", { desc = "Suite", silent = true })
+vim.keymap.set("n", "<leader>tl", "<cmd>TestLast<CR>", { desc = "Last", silent = true })
+vim.keymap.set("n", "<leader>tg", "<cmd>TestVisit<CR>", { desc = "Go To Last", silent = true })
 
 vim.lsp.enable({ "lua_ls", "nixd", "gopls", "tsserver" })
 
@@ -185,7 +206,7 @@ vim.lsp.config("lua_ls", {
 	settings = {
 		Lua = {
 			workspace = {
-				library = vim.api.nvim_get_runtime_file("", true), -- hack to remove vim.* warnings 
+				library = vim.api.nvim_get_runtime_file("", true), -- hack to remove vim.* warnings
 			},
 			hint = {
 				enable = true, -- necessary
@@ -251,9 +272,9 @@ vim.diagnostic.config({
 	}
 })
 
-vim.api.nvim_create_autocmd('TextYankPost', {
-	desc = 'Highlight when yanking (copying) text',
-	group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
+vim.api.nvim_create_autocmd("TextYankPost", {
+	desc = "Highlight when yanking (copying) text",
+	group = vim.api.nvim_create_augroup("kickstart-highlight-yank", { clear = true }),
 	callback = function()
 		vim.highlight.on_yank()
 	end,
