@@ -60,12 +60,19 @@ vim.opt.relativenumber = true
 vim.opt.mouse = "a"
 vim.opt.termguicolors = true
 vim.opt.signcolumn = "yes"
-vim.opt.wrap = true
-vim.opt.tabstop = 2
+
+vim.opt.wrap = false
+vim.opt.tabstop = 8
 vim.opt.swapfile = false
 vim.opt.winborder = "solid"
 vim.opt.laststatus = 3
 vim.opt.statusline = status_line()
+vim.opt.scrolloff = 10
+vim.opt.sidescrolloff = 8
+vim.opt.smartcase = true
+vim.opt.ignorecase = true
+vim.opt.backup = false
+vim.opt.autoread = true
 
 vim.o.clipboard = "unnamedplus"
 
@@ -277,5 +284,33 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	group = vim.api.nvim_create_augroup("kickstart-highlight-yank", { clear = true }),
 	callback = function()
 		vim.highlight.on_yank()
+	end,
+})
+
+-- Auto-close terminal when process exits
+vim.api.nvim_create_autocmd("TermClose", {
+	group = augroup,
+	callback = function()
+		if vim.v.event.status == 0 then
+			vim.api.nvim_buf_delete(0, {})
+		end
+	end,
+})
+
+-- Disable line numbers in terminal
+vim.api.nvim_create_autocmd("TermOpen", {
+	group = augroup,
+	callback = function()
+		vim.opt_local.number = false
+		vim.opt_local.relativenumber = false
+		vim.opt_local.signcolumn = "no"
+	end,
+})
+
+-- Auto-resize splits when window is resized
+vim.api.nvim_create_autocmd("VimResized", {
+	group = augroup,
+	callback = function()
+		vim.cmd("tabdo wincmd =")
 	end,
 })
