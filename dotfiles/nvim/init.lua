@@ -212,9 +212,6 @@ vim.lsp.enable({ "lua_ls", "nixd", "gopls", "tsserver", "sqls" })
 vim.lsp.config("lua_ls", {
 	settings = {
 		Lua = {
-			workspace = {
-				library = vim.api.nvim_get_runtime_file("", true), -- hack to remove vim.* warnings
-			},
 			hint = {
 				enable = true, -- necessary
 			},
