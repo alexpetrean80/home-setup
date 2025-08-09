@@ -207,7 +207,14 @@ vim.keymap.set("n", "<leader>ts", "<cmd>TestSuite<CR>", { desc = "Suite", silent
 vim.keymap.set("n", "<leader>tl", "<cmd>TestLast<CR>", { desc = "Last", silent = true })
 vim.keymap.set("n", "<leader>tg", "<cmd>TestVisit<CR>", { desc = "Go To Last", silent = true })
 
-vim.lsp.enable({ "lua_ls", "nixd", "gopls", "tsserver", "sqls" })
+-- LSP
+vim.keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "Go To Definition", silent = true })
+vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { desc = "Go To Declaration", silent = true })
+vim.keymap.set("n", "gI", vim.lsp.buf.implementation, { desc = "Go To Implementation", silent = true })
+
+
+
+vim.lsp.enable({ "lua_ls", "nixd", "gopls", "tsserver", "sqls", "rust-analyzer" })
 
 vim.lsp.config("lua_ls", {
 	settings = {
@@ -263,6 +270,45 @@ vim.lsp.config("tsserver", {
 		},
 	}
 })
+vim.lsp.config("rust-analyzer", {
+	settings = {
+		["rust-analyzer"] = {
+			inlayHints = {
+				bindingModeHints = {
+					enable = false,
+				},
+				chainingHints = {
+					enable = true,
+				},
+				closingBraceHints = {
+					enable = true,
+					minLines = 25,
+				},
+				closureReturnTypeHints = {
+					enable = "never",
+				},
+				lifetimeElisionHints = {
+					enable = "never",
+					useParameterNames = false,
+				},
+				maxLength = 25,
+				parameterHints = {
+					enable = true,
+				},
+				reborrowHints = {
+					enable = "never",
+				},
+				renderColons = true,
+				typeHints = {
+					enable = true,
+					hideClosureInitialization = false,
+					hideNamedConstructor = false,
+				},
+			},
+		}
+	}
+})
+
 vim.cmd.colorscheme("catppuccin")
 
 vim.diagnostic.config({
