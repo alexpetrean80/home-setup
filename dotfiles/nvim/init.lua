@@ -1,25 +1,4 @@
-local function status_line()
-	local mode = "%-5{%v:lua.string.upper(v:lua.vim.fn.mode())%}"
-	local file_name = "%-.16t"
-	local buf_nr = "[%n]"
-	local modified = " %-m"
-	local file_type = " %y"
-	local right_align = "%="
-	local line_no = "%10([%l/%L%)]"
-	local pct_thru_file = "%5p%%"
-
-	return string.format(
-		"%s%s%s%s%s%s%s%s",
-		mode,
-		file_name,
-		buf_nr,
-		modified,
-		file_type,
-		right_align,
-		line_no,
-		pct_thru_file
-	)
-end
+vim.cmd([[set mouse=]])
 
 local function install_deps()
 	local github_url = "https://github.com/"
@@ -49,8 +28,6 @@ local function install_deps()
 	})
 end
 
-
-
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 vim.g.have_nerd_font = true
@@ -66,7 +43,6 @@ vim.opt.tabstop = 8
 vim.opt.swapfile = false
 vim.opt.winborder = "solid"
 vim.opt.laststatus = 3
-vim.opt.statusline = status_line()
 vim.opt.scrolloff = 10
 vim.opt.sidescrolloff = 8
 vim.opt.smartcase = true
@@ -119,20 +95,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
 	end
 })
 
-require("nvim-treesitter.configs").setup({
-	ensure_installed = {},
-	highlight = { enabled = true }
-})
-
-vim.api.nvim_create_autocmd("VimEnter", {
-	desc = "Enable Treesitter highlight on startup",
-	group = vim.api.nvim_create_augroup("treesitter-highlight-on-startup", { clear = true }),
-	callback = function()
-		vim.cmd("TSEnable highlight")
-	end,
-})
-
 require("mini.comment").setup()
+require("mini.statusline").setup()
 require("mini.files").setup()
 require("mini.pick").setup()
 require("mini.pairs").setup()
@@ -141,6 +105,7 @@ require("mini.icons").setup()
 require("mini.indentscope").setup()
 require("mini.move").setup()
 require("mini.notify").setup()
+require('mini.extra').setup()
 require("which-key").setup({
 	preset = "helix",
 	delay = 0,
@@ -156,6 +121,7 @@ require("which-key").setup({
 		{ "<leader>b", group = "Buffers", mode = "n" },
 		{ "<leader>g", group = "Git",     mode = "n" },
 		{ "<leader>d", group = "Debug",   mode = "n" },
+		{ "<leader>l", group = "LSP",     mode = "n" },
 		{ "<leader>t", group = "Testing", mode = "n" },
 	}
 })
@@ -164,12 +130,23 @@ require("dap-go").setup()
 require("nvim-dap-virtual-text").setup()
 vim.cmd("let test#strategy = \"neovim_sticky\"")
 
-vim.keymap.set("n", "<leader>\\", "<cmd>vsplit<CR>", { desc = "Vertical split", silent = true })
-vim.keymap.set("n", "<leader><leader>", MiniPick.builtin.files, { desc = "Files", silent = true })
-vim.keymap.set("n", "<leader>e", MiniFiles.open, { desc = "Explorer", silent = true })
-vim.keymap.set("n", "<leader>/", MiniPick.builtin.grep_live, { desc = "Live grep", silent = true })
-vim.keymap.set("n", "<leader>f", vim.lsp.buf.format, { desc = "Format", silent = true })
-vim.keymap.set("n", "<leader>x", vim.diagnostic.setqflist, { desc = "Diagnostics", silent = true })
+local keymap = function(mode, lhs, rhs, desc)
+	vim.keymap.set(mode, lhs, rhs, { desc = desc, silent = true })
+end
+
+keymap("n", "<leader>\\", "<cmd>vsplit<CR>", "Vertical split")
+keymap("n", "<leader><leader>", MiniPick.builtin.files, "Files")
+keymap("n", "<leader>e", MiniFiles.open, "Explorer")
+keymap("n", "<leader>/", MiniPick.builtin.grep_live, "Live grep")
+keymap("n", "<leader>x", vim.diagnostic.setqflist, "Diagnostics")
+
+-- LSP
+keymap("n", "<leader>la", vim.lsp.buf.code_action, "Code Actions")
+keymap("n", "<leader>lf", vim.lsp.buf.format, "Format")
+keymap("n", "<leader>ld", vim.lsp.buf.definition, "Go to definition")
+keymap("n", "<leader>lD", vim.lsp.buf.declaration, "Go to declaration")
+keymap("n", "<leader>lr", function() MiniExtra.pickers.lsp({ scope = "references" }) end,
+	"LSP References")
 
 -- Navigation
 vim.keymap.set("n", "<c-h>", "<cmd>TmuxNavigateLeft<CR>")
@@ -179,35 +156,35 @@ vim.keymap.set("n", "<c-l>", "<cmd>TmuxNavigateRight<CR>")
 
 
 -- Buffers
-vim.keymap.set("n", "<leader>bb", MiniPick.builtin.buffers, { desc = "Buffers", silent = true })
-vim.keymap.set("n", "<leader>bn", "<cmd>bnext<CR>", { desc = "Next", silent = true })
-vim.keymap.set("n", "<leader>bp", "<cmd>bprevious<CR>", { desc = "Previous", silent = true })
-vim.keymap.set("n", "<leader>bd", "<cmd>bdelete<CR>", { desc = "Delete", silent = true })
+keymap("n", "<leader>bb", MiniPick.builtin.buffers, "Buffers")
+keymap("n", "<leader>bn", "<cmd>bnext<CR>", "Next")
+keymap("n", "<leader>bp", "<cmd>bprevious<CR>", "Previous")
+keymap("n", "<leader>bd", "<cmd>bdelete<CR>", "Delete")
 
 -- Git stuff
-vim.keymap.set("n", "<leader>gg", "<cmd>term lazygit<CR>i", { desc = "Lazygit", silent = true })
-vim.keymap.set("n", "<leader>gp", "<cmd>term gh pr create<CR>i", { desc = "Create PR", silent = true })
-vim.keymap.set("n", "<leader>gW", "<cmd>term gh pr view<CR>i", { desc = "View PR (Terminal)", silent = true })
-vim.keymap.set("n", "<leader>gw", "<cmd>!gh pr view --web<CR>", { desc = "View PR (Browser)", silent = true })
-vim.keymap.set("n", "<leader>gd", "<cmd>term gh dash<CR>i", { desc = "GH dash", silent = true })
+keymap("n", "<leader>gg", "<cmd>term lazygit<CR>i", "Lazygit")
+keymap("n", "<leader>gp", "<cmd>term gh pr create<CR>i", "Create PR")
+keymap("n", "<leader>gW", "<cmd>term gh pr view<CR>i", "View PR (Terminal)")
+keymap("n", "<leader>gw", "<cmd>!gh pr view --web<CR>", "View PR (Browser)")
+keymap("n", "<leader>gd", "<cmd>term gh dash<CR>i", "GH dash")
 
 -- Debugger
 local dap = require("dap")
-vim.keymap.set("n", "<leader>db", dap.toggle_breakpoint, { desc = "Toggle Breakpoint", silent = true })
-vim.keymap.set("n", "<leader>dc", dap.continue, { desc = "Continue", silent = true })
-vim.keymap.set("n", "<leader>di", dap.step_into, { desc = "Step Into", silent = true })
-vim.keymap.set("n", "<leader>do", dap.step_over, { desc = "Step Over", silent = true })
-vim.keymap.set("n", "<leader>dO", dap.step_out, { desc = "Step Out", silent = true })
-vim.keymap.set("n", "<leader>dt", "<cmd>DapViewToggle<CR>", { desc = "Toggle View", silent = true })
+keymap("n", "<leader>db", dap.toggle_breakpoint, "Toggle Breakpoint")
+keymap("n", "<leader>dc", dap.continue, "Continue")
+keymap("n", "<leader>di", dap.step_into, "Step Into")
+keymap("n", "<leader>do", dap.step_over, "Step Over")
+keymap("n", "<leader>dO", dap.step_out, "Step Out")
+keymap("n", "<leader>dt", "<cmd>DapViewToggle<CR>", "Toggle View")
 
 -- Testing
-vim.keymap.set("n", "<leader>tn", "<cmd>TestNearest<CR>", { desc = "Nearest", silent = true })
-vim.keymap.set("n", "<leader>tf", "<cmd>TestFile<CR>", { desc = "File", silent = true })
-vim.keymap.set("n", "<leader>ts", "<cmd>TestSuite<CR>", { desc = "Suite", silent = true })
-vim.keymap.set("n", "<leader>tl", "<cmd>TestLast<CR>", { desc = "Last", silent = true })
-vim.keymap.set("n", "<leader>tg", "<cmd>TestVisit<CR>", { desc = "Go To Last", silent = true })
+keymap("n", "<leader>tn", "<cmd>TestNearest<CR>", "Nearest")
+keymap("n", "<leader>tf", "<cmd>TestFile<CR>", "File")
+keymap("n", "<leader>ts", "<cmd>TestSuite<CR>", "Suite")
+keymap("n", "<leader>tl", "<cmd>TestLast<CR>", "Last")
+keymap("n", "<leader>tg", "<cmd>TestVisit<CR>", "Go To Last")
 
-vim.lsp.enable({ "lua_ls", "nixd", "gopls", "tsserver", "sqls" })
+vim.lsp.enable({ "lua_ls", "nixd", "gopls", "tsserver", "sqls" ,"terraformls"})
 
 vim.lsp.config("lua_ls", {
 	settings = {
