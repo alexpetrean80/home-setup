@@ -19,5 +19,6 @@ package = inputs.neovim-nightly-overlay.packages.${pkgs.system}.default;
     nixd
 	gopls
 	sqls
+	terraform-ls
   ];
 }
