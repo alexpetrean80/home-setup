@@ -38,7 +38,7 @@ vim.opt.mouse = "a"
 vim.opt.termguicolors = true
 vim.opt.signcolumn = "yes"
 
-vim.opt.wrap = false
+vim.opt.wrap = true
 vim.opt.tabstop = 8
 vim.opt.swapfile = false
 vim.opt.winborder = "solid"
@@ -54,21 +54,6 @@ vim.o.clipboard = "unnamedplus"
 
 install_deps()
 
-vim.api.nvim_create_autocmd("LspAttach", {
-	callback = function(ev)
-		local client = vim.lsp.get_client_by_id(ev.data.client_id)
-		if client:supports_method("textDocument/completion") then
-			local chars = {}
-			for i = 48, 122 do
-				table.insert(chars, string.char(i))
-			end
-			client.server_capabilities.completionProvider.triggerCharacters = chars
-
-			vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = true })
-		end
-	end,
-})
--- vim.cmd("set completeopt+=menuone,noselect,popup")
 vim.opt.completeopt = { "menu", "menuone", "noinsert", "noselect", "popup", "preview" }
 
 vim.api.nvim_set_keymap("i", "<C-space>", "vim.lsp.completion.trigger()",
@@ -95,6 +80,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 	end
 })
 
+require("mini.completion").setup()
 require("mini.comment").setup()
 require("mini.statusline").setup()
 require("mini.files").setup()
@@ -288,3 +274,4 @@ vim.api.nvim_create_autocmd("VimResized", {
 		vim.cmd("tabdo wincmd =")
 	end,
 })
+
