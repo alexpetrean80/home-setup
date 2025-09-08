@@ -29,7 +29,8 @@
     stremio
     spotify
     nerd-fonts.jetbrains-mono
-		nerd-fonts.zed-mono
+    nerd-fonts.fira-code
+    nerd-fonts.zed-mono
     vivaldi
     tuxguitar
     calibre
