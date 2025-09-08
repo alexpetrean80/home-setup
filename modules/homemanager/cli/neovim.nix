@@ -1,12 +1,12 @@
 {
-inputs,
+  inputs,
   config,
   pkgs,
   ...
 }: {
   programs.neovim = {
     enable = true;
-package = inputs.neovim-nightly-overlay.packages.${pkgs.system}.default;
+    package = inputs.neovim-nightly-overlay.packages.${pkgs.system}.default;
   };
 
   home.file.".config/nvim" = {
@@ -15,10 +15,13 @@ package = inputs.neovim-nightly-overlay.packages.${pkgs.system}.default;
 
   home.packages = with pkgs; [
     luajitPackages.luarocks
-	lua-language-server
+    lua-language-server
     nixd
-	gopls
-	sqls
-	terraform-ls
+    gopls
+    sqls
+    terraform-ls
+    stylua
+    goimports-reviser
+    golines
   ];
 }

@@ -6,25 +6,27 @@ local function install_deps()
 	vim.pack.add({
 		{
 			src = github_url .. "nvim-treesitter/nvim-treesitter",
-			version = "master"
+			version = "master",
 		},
 		{ src = github_url .. "neovim/nvim-lspconfig" },
 		{
 			src = github_url .. "catppuccin/nvim",
-			name = "catppuccin"
+			name = "catppuccin",
 		},
 		{ src = github_url .. "christoomey/vim-tmux-navigator" },
 		{ src = github_url .. "folke/which-key.nvim" },
 		{ src = github_url .. "HiPhish/rainbow-delimiters.nvim" },
 		{
 			src = github_url .. "echasnovski/mini.nvim",
-			version = "main"
+			version = "main",
 		},
 		{ src = github_url .. "mfussenegger/nvim-dap" },
 		{ src = github_url .. "leoluz/nvim-dap-go" },
 		{ src = github_url .. "igorlfs/nvim-dap-view" },
 		{ src = github_url .. "theHamsta/nvim-dap-virtual-text" },
-		{ src = github_url .. "vim-test/vim-test" }
+		{ src = github_url .. "vim-test/vim-test" },
+		{ src = github_url .. "stevearc/conform.nvim" },
+		{ src = github_url .. "f-person/git-blame.nvim" },
 	})
 end
 
@@ -38,10 +40,10 @@ vim.opt.mouse = "a"
 vim.opt.termguicolors = true
 vim.opt.signcolumn = "yes"
 
+vim.opt.winborder = "rounded"
 vim.opt.wrap = true
 vim.opt.tabstop = 8
 vim.opt.swapfile = false
-vim.opt.winborder = "solid"
 vim.opt.laststatus = 3
 vim.opt.scrolloff = 10
 vim.opt.sidescrolloff = 8
@@ -56,18 +58,42 @@ install_deps()
 
 vim.opt.completeopt = { "menu", "menuone", "noinsert", "noselect", "popup", "preview" }
 
-vim.api.nvim_set_keymap("i", "<C-space>", "vim.lsp.completion.trigger()",
-	{ noremap = true, silent = true, expr = true, desc = "Trigger LSP Completion" })
-vim.api.nvim_set_keymap("i", "<C-n>", "pumvisible() ? \"<C-n>\":\"<C-n>\"",
-	{ noremap = true, silent = true, expr = true, desc = "Next completion item" })
-vim.api.nvim_set_keymap("i", "<C-p>", "pumvisible() ? \"<C-p>\":\"<C-p>\"",
-	{ noremap = true, silent = true, expr = true, desc = "Previous completion item" })
-vim.api.nvim_set_keymap("i", "<CR>", "pumvisible() ? \"<C-y>\":\"<CR>\"",
-	{ noremap = true, silent = true, expr = true, desc = "Accept completion or new line" })
-vim.api.nvim_set_keymap("i", "<Tab>", "pumvisible() ?\"<C-n>\":\"<Tab>\"",
-	{ noremap = true, silent = true, expr = true, desc = "Next completion item or tab" })
-vim.api.nvim_set_keymap("i", "<S-Tab>", "pumvisible() ? \"<C-p>\":\"<S-Tab>\"",
-	{ noremap = true, silent = true, expr = true, desc = "Previous completion item or shift-tab" })
+vim.api.nvim_set_keymap(
+	"i",
+	"<C-space>",
+	"vim.lsp.completion.trigger()",
+	{ noremap = true, silent = true, expr = true, desc = "Trigger LSP Completion" }
+)
+vim.api.nvim_set_keymap(
+	"i",
+	"<C-n>",
+	'pumvisible() ? "<C-n>":"<C-n>"',
+	{ noremap = true, silent = true, expr = true, desc = "Next completion item" }
+)
+vim.api.nvim_set_keymap(
+	"i",
+	"<C-p>",
+	'pumvisible() ? "<C-p>":"<C-p>"',
+	{ noremap = true, silent = true, expr = true, desc = "Previous completion item" }
+)
+vim.api.nvim_set_keymap(
+	"i",
+	"<CR>",
+	'pumvisible() ? "<C-y>":"<CR>"',
+	{ noremap = true, silent = true, expr = true, desc = "Accept completion or new line" }
+)
+vim.api.nvim_set_keymap(
+	"i",
+	"<Tab>",
+	'pumvisible() ?"<C-n>":"<Tab>"',
+	{ noremap = true, silent = true, expr = true, desc = "Next completion item or tab" }
+)
+vim.api.nvim_set_keymap(
+	"i",
+	"<S-Tab>",
+	'pumvisible() ? "<C-p>":"<S-Tab>"',
+	{ noremap = true, silent = true, expr = true, desc = "Previous completion item or shift-tab" }
+)
 
 vim.api.nvim_create_autocmd("LspAttach", {
 	group = vim.api.nvim_create_augroup("UserLspConfig", {}),
@@ -77,7 +103,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			vim.lsp.inlay_hint.enable(true)
 		end
 		-- whatever other lsp config you want
-	end
+	end,
 })
 
 require("mini.completion").setup()
@@ -91,30 +117,39 @@ require("mini.icons").setup()
 require("mini.indentscope").setup()
 require("mini.move").setup()
 require("mini.notify").setup()
-require('mini.extra').setup()
+require("mini.extra").setup()
 require("which-key").setup({
 	preset = "helix",
 	delay = 0,
 	show_help = false,
 	show_keys = true,
 	icons = {
-		mappings = false
+		mappings = false,
 	},
 	win = {
 		border = "none",
 	},
 	spec = {
 		{ "<leader>b", group = "Buffers", mode = "n" },
-		{ "<leader>g", group = "Git",     mode = "n" },
-		{ "<leader>d", group = "Debug",   mode = "n" },
-		{ "<leader>l", group = "LSP",     mode = "n" },
+		{ "<leader>g", group = "Git", mode = "n" },
+		{ "<leader>d", group = "Debug", mode = "n" },
+		{ "<leader>l", group = "LSP", mode = "n" },
 		{ "<leader>t", group = "Testing", mode = "n" },
-	}
+	},
 })
 
 require("dap-go").setup()
 require("nvim-dap-virtual-text").setup()
-vim.cmd("let test#strategy = \"neovim_sticky\"")
+vim.cmd('let test#strategy = "neovim_sticky"')
+
+local conform = require("conform")
+require("conform").setup({
+	formatters_by_ft = {
+		lua = { "stylua" },
+		go = { "gofmt", "golines", "goimport" },
+		nix = { "alejandra" },
+	},
+})
 
 local keymap = function(mode, lhs, rhs, desc)
 	vim.keymap.set(mode, lhs, rhs, { desc = desc, silent = true })
@@ -128,18 +163,18 @@ keymap("n", "<leader>x", vim.diagnostic.setqflist, "Diagnostics")
 
 -- LSP
 keymap("n", "<leader>la", vim.lsp.buf.code_action, "Code Actions")
-keymap("n", "<leader>lf", vim.lsp.buf.format, "Format")
+keymap("n", "<leader>lf", conform.format, "Format")
 keymap("n", "<leader>ld", vim.lsp.buf.definition, "Go to definition")
 keymap("n", "<leader>lD", vim.lsp.buf.declaration, "Go to declaration")
-keymap("n", "<leader>lr", function() MiniExtra.pickers.lsp({ scope = "references" }) end,
-	"LSP References")
+keymap("n", "<leader>lr", function()
+	MiniExtra.pickers.lsp({ scope = "references" })
+end, "LSP References")
 
 -- Navigation
 vim.keymap.set("n", "<c-h>", "<cmd>TmuxNavigateLeft<CR>")
 vim.keymap.set("n", "<c-j>", "<cmd>TmuxNavigateDown<CR>")
 vim.keymap.set("n", "<c-k>", "<cmd>TmuxNavigateUp<CR>")
 vim.keymap.set("n", "<c-l>", "<cmd>TmuxNavigateRight<CR>")
-
 
 -- Buffers
 keymap("n", "<leader>bb", MiniPick.builtin.buffers, "Buffers")
@@ -170,7 +205,7 @@ keymap("n", "<leader>ts", "<cmd>TestSuite<CR>", "Suite")
 keymap("n", "<leader>tl", "<cmd>TestLast<CR>", "Last")
 keymap("n", "<leader>tg", "<cmd>TestVisit<CR>", "Go To Last")
 
-vim.lsp.enable({ "lua_ls", "nixd", "gopls", "tsserver", "sqls" ,"terraformls"})
+vim.lsp.enable({ "lua_ls", "nixd", "gopls", "tsserver", "sqls", "terraformls" })
 
 vim.lsp.config("lua_ls", {
 	settings = {
@@ -178,8 +213,8 @@ vim.lsp.config("lua_ls", {
 			hint = {
 				enable = true, -- necessary
 			},
-		}
-	}
+		},
+	},
 })
 
 vim.lsp.config("gopls", {
@@ -224,7 +259,7 @@ vim.lsp.config("tsserver", {
 				includeInlayEnumMemberValueHints = true,
 			},
 		},
-	}
+	},
 })
 vim.cmd.colorscheme("catppuccin")
 
@@ -234,9 +269,9 @@ vim.diagnostic.config({
 			[vim.diagnostic.severity.ERROR] = " ",
 			[vim.diagnostic.severity.WARN] = " ",
 			[vim.diagnostic.severity.HINT] = " ",
-			[vim.diagnostic.severity.INFO] = " "
+			[vim.diagnostic.severity.INFO] = " ",
 		},
-	}
+	},
 })
 
 vim.api.nvim_create_autocmd("TextYankPost", {
@@ -275,3 +310,9 @@ vim.api.nvim_create_autocmd("VimResized", {
 	end,
 })
 
+vim.api.nvim_create_autocmd("VimEnter", {
+	group = augroup,
+	callback = function()
+		vim.cmd("TSEnable highlight")
+	end,
+})
