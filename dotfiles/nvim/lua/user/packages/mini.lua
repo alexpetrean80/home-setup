@@ -3,7 +3,6 @@ local M = {}
 M.utils = require("user.utils")
 
 function M.setup()
-	require("mini.completion").setup()
 	require("mini.comment").setup()
 	require("mini.statusline").setup()
 	require("mini.files").setup()

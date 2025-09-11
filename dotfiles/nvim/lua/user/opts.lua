@@ -12,7 +12,7 @@ function M.setup()
 	vim.opt.termguicolors = true
 	vim.opt.signcolumn = "yes"
 
-	vim.opt.winborder = "rounded"
+	vim.opt.winborder = "none"
 	vim.opt.wrap = true
 	vim.opt.tabstop = 8
 	vim.opt.swapfile = false

@@ -15,7 +15,7 @@ function M.setup()
 	M.buffers()
 	M.debugger()
 	M.testing()
-	M.completion()
+	-- M.completion()
 end
 
 function M.lsp_maps()
