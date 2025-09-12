@@ -3,6 +3,13 @@ local M = {}
 M.utils = require("user.utils")
 
 function M.setup()
+	vim.pack.add({
+		{
+			src = "https://github.com/echasnovski/mini.nvim",
+			version = "main",
+		},
+	})
+
 	require("mini.statusline").setup()
 	require("mini.files").setup()
 	require("mini.pick").setup()
