@@ -7,8 +7,6 @@ function M.setup()
 	M.keymap("n", "<leader><leader>", MiniPick.builtin.files, "Files")
 	M.keymap("n", "<leader>e", MiniFiles.open, "Explorer")
 	M.keymap("n", "<leader>/", MiniPick.builtin.grep_live, "Live grep")
-	M.keymap("n", "<leader>x", vim.diagnostic.setqflist, "Diagnostics")
-
 	M.lsp_maps()
 	M.nav()
 	M.git()
@@ -20,13 +18,25 @@ end
 
 function M.lsp_maps()
 	local conform = require("conform")
-	M.keymap("n", "<leader>la", vim.lsp.buf.code_action, "Code Actions")
+
+	M.keymap("n", "<leader>r", "<cmd>Lspsaga lsp_rename ++project", "Rename")
+	M.keymap("n", "<leader>la", "<cmd>Lspsaga code_action<CR>", "Code Actions")
 	M.keymap("n", "<leader>lf", conform.format, "Format")
-	M.keymap("n", "<leader>ld", vim.lsp.buf.definition, "Go to definition")
+	M.keymap("n", "<leader>lF", "<cmd>Lspsaga finder", "Finder")
+	M.keymap("n", "<leader>ld", "<cmd>Lspsaga peek_definition<CR>", "Peek definition")
+	M.keymap("n", "<leader>li", "<cmd>Lspsaga finder imp<CR>", "Find implementations")
 	M.keymap("n", "<leader>lD", vim.lsp.buf.declaration, "Go to declaration")
 	M.keymap("n", "<leader>lr", function()
 		MiniExtra.pickers.lsp({ scope = "references" })
 	end, "LSP References")
+	M.keymap("n", "<leader>lt", "<cmd>Lspsaga peek_type_definition<CR>", "Peek type definition")
+	M.keymap("n", "K", "<cmd>Lspsaga hover_doc<CR>", "Hover")
+	M.keymap("n", "<leader>xn", "<cmd>Lspsaga diagnostic_jump_next", "Next diagnostic")
+	M.keymap("n", "<leader>xp", "<cmd>Lspsaga diagnostic_jump_prev", "Previous diagnostic")
+	M.keymap("n", "<leader>xb", "<cmd>Lspsaga show_buf_diagnostics ++normal<CR>", "Buffer diagnostics")
+	M.keymap("n", "<leader>xx", "<cmd>Lspsaga show_workspace_diagnostics ++normal<CR>", "Workspace Diagnostics")
+	M.keymap("n", "<leader>T", "Lspsaga term_toggle<CR>", "Terminal")
+
 end
 
 function M.nav()
@@ -37,11 +47,11 @@ function M.nav()
 end
 
 function M.git()
-	M.keymap("n", "<leader>gg", "<cmd>term lazygit<CR>i", "Lazygit")
+	M.keymap("n", "<leader>gg", "<cmd>Lspsaga term_toggle lazygit<CR>i", "Lazygit")
 	M.keymap("n", "<leader>gp", "<cmd>term gh pr create<CR>i", "Create PR")
-	M.keymap("n", "<leader>gW", "<cmd>term gh pr view<CR>i", "View PR (Terminal)")
+	M.keymap("n", "<leader>gW", "<cmd>Lspsaga term_toggle gh pr view<CR>i", "View PR (Terminal)")
 	M.keymap("n", "<leader>gw", "<cmd>!gh pr view --web<CR>", "View PR (Browser)")
-	M.keymap("n", "<leader>gd", "<cmd>term gh dash<CR>i", "GH dash")
+	M.keymap("n", "<leader>gd", "<cmd>Lspsaga term_toggle gh dash<CR>i", "GH dash")
 end
 
 function M.buffers()
@@ -113,6 +123,5 @@ function M.completion()
 		{ noremap = true, silent = true, expr = true, desc = "Previous completion item or shift-tab" }
 	)
 end
-
 
 return M
