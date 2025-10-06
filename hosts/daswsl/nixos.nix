@@ -2,7 +2,7 @@
   imports = [
     <nixos-wsl/modules>
 
-    ../../../modules/nixos/server
+    ../../modules/nixos/server
   ];
 
   wsl = {

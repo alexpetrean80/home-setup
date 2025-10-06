@@ -6,10 +6,10 @@
     ./xserver.nix
   ];
 
-  boot.loader = {
-    systemd-boot.enable = true;
-    efi.canTouchEfiVariables = true;
-  };
+  # boot.loader = {
+  #   systemd-boot.enable = true;
+  #   efi.canTouchEfiVariables = true;
+  # };
 
   programs.nix-ld.enable = true;
   programs.zsh.enable = true;
