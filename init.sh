@@ -21,11 +21,11 @@ case "$(uname)" in
 	# through the flake itself.
 	sudo nixos-rebuild switch --flake ".#$h" --impure
 
-	fp=("app.zen_browser.zen")
-	for flatpak in "${fp[@]}"; do
-		flatpak install flathub "$flatpak"
-	done
-	;;
+	# fp=("app.zen_browser.zen")
+	# for flatpak in "${fp[@]}"; do
+	# 	flatpak install flathub "$flatpak"
+	# done
+	# ;;
 "Darwin")
 
 	# run the multi-user nix installation
@@ -46,7 +46,8 @@ esac
 # by home-manager
 rm -rf "$HOME/.config/gh"
 
-nix run home-manager switch --flake ".#$(whoami)@$h"
+# Home Manager is now integrated into NixOS and nix-darwin rebuilds
+# nix run home-manager switch --flake ".#$(whoami)@$h"
 
 if [[ $(uname) == "Linux" ]]; then
 	# NOTE: Only NixOS hosts require a reboot after rebuilding

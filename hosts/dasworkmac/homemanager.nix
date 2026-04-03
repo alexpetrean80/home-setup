@@ -4,7 +4,7 @@
   ...
 }: {
   imports = [
-    ../../modules/homemanager/gui
+    ../../modules/homemanager/desktop.nix
   ];
 
   programs = {

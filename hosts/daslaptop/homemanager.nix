@@ -1,5 +1,6 @@
-{...}: {
+{inputs, ...}: {
   imports = [
-    ../../modules/homemanager/gui
+    inputs.catppuccin.homeModules.catppuccin
+    ../../modules/homemanager/desktop.nix
   ];
 }
