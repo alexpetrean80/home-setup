@@ -77,7 +77,7 @@
     };
 
     darwinConfigurations = {
-      F59V2P7FXY = mkDarwinHost "dasworkmac" "aarch64-darwin";
+      Alexs-MacBook-Pro = mkDarwinHost "dasworkmac" "aarch64-darwin";
     };
   };
 }

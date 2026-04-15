@@ -3,15 +3,6 @@
     slack
     bitwarden-desktop
     pinentry_mac
-    google-cloud-sdk
-    kubernetes-helm
-    aws-vault
-    teleport_17
-    terraform
-    tilt
-    confluent-cli
-    jdk17
-    jira-cli-go
     nerd-fonts.jetbrains-mono
   ];
 

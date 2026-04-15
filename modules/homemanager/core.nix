@@ -145,7 +145,6 @@
       fnm
       postgresql
       gemini-cli
-      ollama-vulkan
       elixir
       htop
       fastfetch

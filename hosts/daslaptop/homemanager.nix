@@ -3,4 +3,6 @@
     inputs.catppuccin.homeModules.catppuccin
     ../../modules/homemanager/desktop.nix
   ];
+  
+      # ollama-vulkan
 }
