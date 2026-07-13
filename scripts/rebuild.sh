@@ -8,23 +8,19 @@ cd "$HOME/Repos/home-setup" || exit 1
 while getopts 'n' opt; do
 	case "$opt" in
 	n)
-		# flag to always uppdate. useful when the config changes on another machine and another must be brought up to date
-		nixos_changed=1
-		nix_darwin_changed=1
-		hm_changed=1
+		# flag to always update. useful when the config changes
+		# on another machine and this one must be brought up to date.
+		changed=1
 		;;
 	?)
 		# NOTE: Naive way of making the script only do the bare minimum.
-		# By convention the files are named in such a way such that
-		# I can see if a part of the flake has changed and
-		# only rebuild the required parts.
+		# home-manager is integrated into nix-darwin, so any darwin,
+		# homemanager or scripts change is applied by a single rebuild.
 		# This method rebuilds for refactors/reformats, but it's
 		# better than nothing.
-		nixos_changed=$(git status | rg "nixos" | wc -l)
-		nix_darwin_changed=$(git status | rg "darwin" | wc -l)
-		hm_changed=$(git status | rg "homemanager|scripts" | wc -l) # also check if scripts changed as they are installed via home-manager
+		changed=$(git status | rg "darwin|homemanager|scripts" | wc -l)
 
-		if [[ $nixos_changed -eq 0 && $hm_changed -eq 0 && $nix_darwin_changed -eq 0 ]]; then
+		if [[ $changed -eq 0 ]]; then
 			gum log --level='info' 'no op. exiting...'
 			exit 0
 		fi
@@ -32,46 +28,9 @@ while getopts 'n' opt; do
 	esac
 done
 
-case "$(uname)" in
-
-"Linux")
-	if [[ $nixos_changed -ne 0 ]]; then
-		echo "rebuilding $(gum style --italic --foreground 99 'Linux') machine..."
-		sudo nixos-rebuild switch --flake . --impure
-		echo "$(gum style --italic --foreground 99 'NixOS') rebuilt successfully."
-	fi
-
-	#shellcheck disable=SC2043
-	for flatpak in "app.zen_browser.zen"; do
-		flatpak update "$flatpak"
-	done
-	;;
-"Darwin")
-	if [[ $nix_darwin_changed -ne 0 ]]; then
-		echo "rebuilding $(gum style --italic --foreground 99 'MacOS') machine..."
-		darwin-rebuild switch --flake .
-		echo "$(gum style --italic --foreground 99 'nix-darwin') rebuilt successfully."
-	fi
-	;;
-*)
-	gum log --level='error' "Unsupported system."
-	;;
-esac
-
-if [[ $hm_changed -ne 0 ]]; then
-	echo "rebuilding $(gum style --italic --foreground 99 'home-manager')..."
-	home-manager switch --flake . --impure
-	echo "$(gum style --italic --foreground 99 'home-manager') rebuilt successfully."
-fi
+echo "rebuilding $(gum style --italic --foreground 99 'macOS') machine..."
+darwin-rebuild switch --flake .
+echo "$(gum style --italic --foreground 99 'nix-darwin') rebuilt successfully."
 
 # commit changes such that subsequent rebuilds are no-ops.
 gum confirm "Wanna commit changes?" && lazygit
-
-if [[ $nixos_changed -ne 0 ]]; then
-	# NOTE: Only NixOS hosts can require a reboot after rebuilding
-	gum spin \
-		--spinner dot \
-		--title "Rebooting now..." \
-		-- sleep 5
-	sudo reboot now
-fi
