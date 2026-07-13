@@ -8,10 +8,6 @@
       "rev": "dae4f5aaa3574bd0c2b9dd20fb9542a02c10471c",
       "src": "https://github.com/L3MON4D3/LuaSnip"
     },
-    "Navigator.nvim": {
-      "rev": "91d86506ac2a039504d5205d32a1d4bc7aa57072",
-      "src": "ssh://git@github.com/numToStr/Navigator.nvim"
-    },
     "blink.cmp": {
       "rev": "451168851e8e2466bc97ee3e026c3dcb9141ce07",
       "src": "https://github.com/Saghen/blink.cmp",
@@ -21,12 +17,8 @@
       "rev": "384f304c8b04664c9e0091fbfb3923c5f97c1bcf",
       "src": "https://github.com/catppuccin/nvim"
     },
-    "codecompanion.nvim": {
-      "rev": "57d3f1bd08d1f37bf483daf3a6ff72e76280553a",
-      "src": "https://github.com/olimorris/codecompanion.nvim"
-    },
     "conform.nvim": {
-      "rev": "086a40dc7ed8242c03be9f47fbcee68699cc2395",
+      "rev": "18aeab3d63d350dcf44d64c462cc489a3412af40",
       "src": "https://github.com/stevearc/conform.nvim"
     },
     "friendly-snippets": {
@@ -38,11 +30,11 @@
       "src": "https://github.com/f-person/git-blame.nvim"
     },
     "go.nvim": {
-      "rev": "01a6de99120a3b4abaf589d803631d02c44b4d25",
+      "rev": "5c741a26f5df77c95d42d8f48e7008aea10e5f4f",
       "src": "https://github.com/ray-x/go.nvim"
     },
     "guihua.lua": {
-      "rev": "fdca486468a5d94676477917872767b5e67a2b4c",
+      "rev": "26e2e557f5b1a0c5cb25cab41d71ddba61523cba",
       "src": "https://github.com/ray-x/guihua.lua"
     },
     "helm-ls.nvim": {
@@ -53,12 +45,8 @@
       "rev": "0074b551a17338ccdcd299bd86687cc651bcb33d",
       "src": "https://github.com/smjonas/inc-rename.nvim"
     },
-    "lspsaga.nvim": {
-      "rev": "562d9724e3869ffd1801c572dd149cc9f8d0cc36",
-      "src": "ssh://git@github.com/nvimdev/lspsaga.nvim"
-    },
     "mason-lspconfig.nvim": {
-      "rev": "a676ab7282da8d651e175118bcf54483ca11e46d",
+      "rev": "7b01e2974a47d489bb92f47a41e4c0088ea8f86e",
       "src": "https://github.com/mason-org/mason-lspconfig.nvim"
     },
     "mason-tool-installer.nvim": {
@@ -66,24 +54,20 @@
       "src": "https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim"
     },
     "mason.nvim": {
-      "rev": "44d1e90e1f66e077268191e3ee9d2ac97cc18e65",
+      "rev": "cbf8d285e1462dd24acf3507817be2bbcb035919",
       "src": "https://github.com/mason-org/mason.nvim"
     },
     "mini.nvim": {
-      "rev": "28d993854bdcde7d06f0990cfe6a2c6577f3f8ab",
+      "rev": "95fdea57f1ec4ead21fa582f9df56c2f93b8649f",
       "src": "https://github.com/echasnovski/mini.nvim",
       "version": "'main'"
     },
-    "minuet-ai.nvim": {
-      "rev": "75e84161c8297e2c4ca649060c0b2c709041fb57",
-      "src": "https://github.com/milanglacier/minuet-ai.nvim"
-    },
     "neotest": {
-      "rev": "deadfb1af5ce458742671ad3a013acb9a6b41178",
+      "rev": "ad991822b7076b1d940b33a9d6d0d30416d5df81",
       "src": "https://github.com/nvim-neotest/neotest"
     },
     "neotest-golang": {
-      "rev": "58d07a76d714f8f768bbe27711b06d41ca237728",
+      "rev": "5b15cab0e2475b036c2e2067b2a973b9e4ea3180",
       "src": "https://github.com/fredrikaverpil/neotest-golang"
     },
     "neotest-jest": {
@@ -91,7 +75,7 @@
       "src": "https://github.com/nvim-neotest/neotest-jest"
     },
     "neotest-python": {
-      "rev": "06d71bea813e8edb1bbe5da2687146c7a536885e",
+      "rev": "e6df4f1892f6137f58135917db24d1655937d831",
       "src": "https://github.com/nvim-neotest/neotest-python"
     },
     "noice.nvim": {
@@ -118,20 +102,16 @@
       "rev": "cf91d5e2d07c72903d052f5207511bf7ecdb7122",
       "src": "https://github.com/rcarriga/nvim-dap-ui"
     },
-    "nvim-dap-view": {
-      "rev": "af144cfbdeafd90dfdaa3d406e3f8e06ddc4f0e3",
-      "src": "https://github.com/igorlfs/nvim-dap-view"
-    },
     "nvim-dap-virtual-text": {
       "rev": "fbdb48c2ed45f4a8293d0d483f7730d24467ccb6",
       "src": "https://github.com/theHamsta/nvim-dap-virtual-text"
     },
     "nvim-lint": {
-      "rev": "4b03656c09c1561f89b6aa0665c15d292ba9499d",
+      "rev": "8b06eeec3c674744b993caecd73343df108c052d",
       "src": "https://github.com/mfussenegger/nvim-lint"
     },
     "nvim-lspconfig": {
-      "rev": "702f69fb167e9119f14adc4dfd4fcadf4d1b07a0",
+      "rev": "246572944c2a1e2a646c2e7609ff619b0fe74c18",
       "src": "https://github.com/neovim/nvim-lspconfig"
     },
     "nvim-nio": {
@@ -147,25 +127,13 @@
       "rev": "b9fd5226c2f76c951fc8ed5923d85e4de065e509",
       "src": "https://github.com/nvim-lua/plenary.nvim"
     },
-    "project.nvim": {
-      "rev": "8c6bad7",
-      "src": "https://github.com/ahmedkhalf/project.nvim"
-    },
     "rainbow-delimiters.nvim": {
-      "rev": "607a438d8c647a355749973fd295e33505afafde",
+      "rev": "a798325b7f36acc62741d1029930a7b96d4dd4bf",
       "src": "https://github.com/HiPhish/rainbow-delimiters.nvim"
     },
     "snacks.nvim": {
       "rev": "a049339328e2599ad6e85a69fa034ac501e921b2",
       "src": "https://github.com/folke/snacks.nvim"
-    },
-    "vim-test": {
-      "rev": "e4d4fa7f5ce354e7df473550080d9e78207ef4a0",
-      "src": "https://github.com/vim-test/vim-test"
-    },
-    "vim-tmux-navigator": {
-      "rev": "e41c431a0c7b7388ae7ba341f01a0d217eb3a432",
-      "src": "ssh://git@github.com/christoomey/vim-tmux-navigator"
     },
     "which-key.nvim": {
       "rev": "3aab2147e74890957785941f0c1ad87d0a44c15a",
