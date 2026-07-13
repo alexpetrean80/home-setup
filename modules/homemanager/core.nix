@@ -54,6 +54,11 @@
         "url \"ssh://git@github.com/\"" = {
           insteadOf = "https://github.com/";
         };
+        # per-directory work identity: commits under ~/Repos/optura/
+        # use alex.petrean@optura.ai from ~/.gitconfig.optura
+        "includeIf \"gitdir:~/Repos/optura/\"" = {
+          path = "~/.gitconfig.optura";
+        };
       };
       ignores = [
         "node_modules"
@@ -95,10 +100,14 @@
         export PATH="$GOPATH:$HOME/.local/share/npm/bin:$HOME/.local/share/fnm:$HOME/.cargo/bin:$GOPATH/bin:$HOME/.local/bin:$PATH"
         export EDITOR="nvim"
         export VISUAL="nvim"
+
+        # auto-switch node version on cd
+        eval "$(fnm env --use-on-cd)"
       '';
       shellAliases = {
         lzg = "lazygit";
-        ls = "eza -lgh";
+        ls = "eza -lgh --icons";
+        lt = "eza --tree --level=2 --long --icons --git";
         dc = "docker compose";
         dcu = "docker compose up";
         dce = "docker compose exec";
@@ -150,6 +159,14 @@
       fastfetch
       charm-freeze
       gum
+      # migrated off homebrew
+      chezmoi
+      stylua
+      terraform
+      kubernetes-helm
+      tilt
+      teleport
+      stow
     ]
     ++ [
       (pkgs.writeShellScriptBin "fzb" (lib.readFile ../../scripts/fzb.sh))
