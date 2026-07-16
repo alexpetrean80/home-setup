@@ -34,6 +34,9 @@
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
+          # back up pre-existing (chezmoi-written) files instead of
+          # aborting when home-manager takes over a path
+          home-manager.backupFileExtension = "bak";
           home-manager.extraSpecialArgs = { inherit inputs outputs; };
           home-manager.users.alexp = import ./hosts/${hostname}/homemanager.nix;
         }
