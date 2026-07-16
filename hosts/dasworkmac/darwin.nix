@@ -10,9 +10,10 @@
     nerd-fonts.jetbrains-mono
   ];
 
-  nix.settings.experimental-features = ["nix-command" "flakes"];
-
-  ids.gids.nixbld = 350;
+  # Nix is installed and managed by Determinate Nix, which owns
+  # /etc/nix/nix.conf and the daemon. nix-darwin must not manage them.
+  # Put nix.conf tweaks in /etc/nix/nix.custom.conf instead.
+  nix.enable = false;
 
   nixpkgs = {
     hostPlatform = "aarch64-darwin";

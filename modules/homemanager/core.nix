@@ -6,11 +6,6 @@
   ...
 }: {
   programs = {
-    neovim = {
-      enable = true;
-      package = inputs.neovim-nightly-overlay.packages.${pkgs.stdenv.hostPlatform.system}.default;
-    };
-
     starship = {
       enable = true;
       enableZshIntegration = true;
@@ -167,6 +162,8 @@
       tilt
       teleport
       stow
+      # nvim binary only; chezmoi owns ~/.config/nvim
+      inputs.neovim-nightly-overlay.packages.${pkgs.stdenv.hostPlatform.system}.default
     ]
     ++ [
       (pkgs.writeShellScriptBin "fzb" (lib.readFile ../../scripts/fzb.sh))
@@ -176,10 +173,6 @@
 
   programs = {
     home-manager.enable = true;
-  };
-
-  home.file.".config/nvim" = {
-    source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Repos/home-setup/dotfiles/nvim";
   };
 
   home = {
