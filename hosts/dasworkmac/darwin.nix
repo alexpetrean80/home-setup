@@ -2,6 +2,9 @@
   environment.systemPackages = with pkgs; [
     slack
     bitwarden-desktop
+    ghostty-bin
+    meetingbar
+    notion-app
     pinentry_mac
     nerd-fonts.jetbrains-mono
   ];

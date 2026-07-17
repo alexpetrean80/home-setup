@@ -153,6 +153,19 @@
       fastfetch
       charm-freeze
       gum
+      # optura repo tooling
+      kubectl
+      trivy
+      uv
+      argocd
+      kubeseal
+      yq-go
+      k3d
+      kind
+      kustomize
+      awscli2
+      azure-cli
+      regclient # regctl, regsync, regbot
       # migrated off homebrew
       chezmoi
       stylua
