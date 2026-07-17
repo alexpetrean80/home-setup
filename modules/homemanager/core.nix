@@ -163,7 +163,7 @@
       teleport
       stow
       # nvim binary only; chezmoi owns ~/.config/nvim
-      inputs.neovim-nightly-overlay.packages.${pkgs.stdenv.hostPlatform.system}.default
+      neovim
     ]
     ++ [
       (pkgs.writeShellScriptBin "fzb" (lib.readFile ../../scripts/fzb.sh))
