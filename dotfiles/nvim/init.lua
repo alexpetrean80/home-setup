@@ -67,9 +67,6 @@ vim.pack.add({
     { src = "https://github.com/theHamsta/nvim-dap-virtual-text" },
     { src = "https://github.com/ray-x/go.nvim" },
     { src = "https://github.com/ray-x/guihua.lua" },
-    { src = "https://github.com/mason-org/mason.nvim" },
-    { src = "https://github.com/mason-org/mason-lspconfig.nvim" },
-    { src = "https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim" },
     { src = "https://github.com/qvalentin/helm-ls.nvim" },
 })
 
@@ -205,42 +202,6 @@ require("blink.cmp").setup({
 })
 
 require("go").setup()
-
-require("mason").setup()
-require("mason-lspconfig").setup({
-    automatic_enable = true,
-    ensure_installed = {
-        "clangd",
-        "eslint",
-        "gopls",
-        "helm_ls",
-        "jsonls",
-        "lua_ls",
-        "marksman",
-        "pyright",
-        "ruff",
-        "ruby_lsp",
-        "terraformls",
-        "tflint",
-        "vtsls",
-        "yamlls",
-    },
-})
-require("mason-tool-installer").setup({
-    ensure_installed = {
-        "black",
-        "debugpy",
-        "eslint_d",
-        "goimports",
-        "golangci-lint",
-        "golines",
-        "isort",
-        "prettier",
-        "prettierd",
-        "rubocop",
-        "stylua",
-    },
-})
 
 require("which-key").setup({
     preset = "helix",
@@ -401,7 +362,8 @@ vim.api.nvim_create_autocmd({ "BufWritePost", "BufReadPost", "InsertLeave" }, {
 vim.lsp.config("*", {
     capabilities = require("blink.cmp").get_lsp_capabilities(),
 })
-vim.lsp.enable({ "lua_ls", "gopls", "ts_ls", "sqls", "terraformls", "pyright", "eslint", "helm_ls", "yamlls", "tflint", "ruff", "jsonls", "ruby_lsp" })
+-- all server binaries come from nix (home.packages in home-setup)
+vim.lsp.enable({ "lua_ls", "gopls", "ts_ls", "sqls", "terraformls", "pyright", "eslint", "helm_ls", "yamlls", "tflint", "ruff", "jsonls", "ruby_lsp", "clangd", "marksman", "vtsls" })
 
 vim.lsp.config("lua_ls", {
     settings = {

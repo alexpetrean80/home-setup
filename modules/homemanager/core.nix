@@ -143,8 +143,7 @@
       gnumake
       rustup
       nodejs_20
-      python3
-      python312Packages.pip
+      (python3.withPackages (ps: with ps; [pip debugpy]))
       go
       fnm
       postgresql
@@ -162,8 +161,34 @@
       tilt
       teleport
       stow
-      # nvim binary only; chezmoi owns ~/.config/nvim
+      # nvim binary; config lives in dotfiles/nvim
       neovim
+      # nvim LSP servers (replaces mason)
+      clang-tools # clangd
+      gopls
+      helm-ls
+      lua-language-server
+      marksman
+      pyright
+      ruby-lsp
+      ruff
+      sqls
+      terraform-ls
+      tflint
+      typescript-language-server
+      vscode-langservers-extracted # jsonls, eslint
+      vtsls
+      yaml-language-server
+      # nvim formatters/linters (replaces mason-tool-installer)
+      black
+      eslint_d
+      golangci-lint
+      golines
+      gotools # goimports
+      isort
+      prettier
+      prettierd
+      rubocop
     ]
     ++ [
       (pkgs.writeShellScriptBin "fzb" (lib.readFile ../../scripts/fzb.sh))

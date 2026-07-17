@@ -45,18 +45,6 @@
       "rev": "0074b551a17338ccdcd299bd86687cc651bcb33d",
       "src": "https://github.com/smjonas/inc-rename.nvim"
     },
-    "mason-lspconfig.nvim": {
-      "rev": "7b01e2974a47d489bb92f47a41e4c0088ea8f86e",
-      "src": "https://github.com/mason-org/mason-lspconfig.nvim"
-    },
-    "mason-tool-installer.nvim": {
-      "rev": "443f1ef8b5e6bf47045cb2217b6f748a223cf7dc",
-      "src": "https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim"
-    },
-    "mason.nvim": {
-      "rev": "cbf8d285e1462dd24acf3507817be2bbcb035919",
-      "src": "https://github.com/mason-org/mason.nvim"
-    },
     "mini.nvim": {
       "rev": "95fdea57f1ec4ead21fa582f9df56c2f93b8649f",
       "src": "https://github.com/echasnovski/mini.nvim",
