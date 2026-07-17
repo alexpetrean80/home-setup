@@ -167,6 +167,11 @@
       azure-cli
       regclient # regctl, regsync, regbot
       # migrated off homebrew
+      just
+      k9s
+      lazydocker
+      cloc
+      pgcli
       chezmoi
       stylua
       terraform
