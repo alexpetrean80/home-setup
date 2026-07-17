@@ -29,7 +29,7 @@ while getopts 'n' opt; do
 done
 
 echo "rebuilding $(gum style --italic --foreground 99 'macOS') machine..."
-darwin-rebuild switch --flake .
+sudo darwin-rebuild switch --flake .
 echo "$(gum style --italic --foreground 99 'nix-darwin') rebuilt successfully."
 
 # commit changes such that subsequent rebuilds are no-ops.
