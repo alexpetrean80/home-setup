@@ -1,2 +1,4 @@
 dotfiles/zed/prompts/prompts-library-db.0.mdb/lock.mdb
 .claude/
+# nix build symlink
+result
