@@ -1,0 +1,173 @@
+# shellcheck shell=bash disable=SC2154
+# PLUGIN_DIR is exported by the nix module before this file is sourced.
+source "$PLUGIN_DIR/colors.sh"
+
+FONT="JetBrainsMono Nerd Font"
+
+# Corner radius of the islands, meant to match the macOS window radius.
+# Bump/drop this if it doesn't line up with your windows.
+ISLAND_RADIUS=12
+
+# ---- bar: transparent carrier for two polybar-style islands ----
+# notch_width reserves the centre on the notched (built-in) display so items
+# sit either side of the notch. The bar itself is transparent — the visible
+# rounded surfaces are the island brackets added at the end.
+sketchybar --bar \
+  height=32 \
+  position=top \
+  margin=8 \
+  y_offset=8 \
+  corner_radius=0 \
+  blur_radius=0 \
+  notch_width=200 \
+  padding_left=2 \
+  padding_right=2 \
+  color=0x00000000
+
+# ---- shared item defaults ----
+# background.drawing=off by default -> items sit flat on their island; only the
+# workspace pills turn their background back on (for the focus highlight).
+sketchybar --default \
+  updates=when_shown \
+  icon.font="$FONT:Bold:15.0" \
+  icon.color="$TEXT" \
+  icon.padding_left=8 \
+  icon.padding_right=4 \
+  label.font="$FONT:Bold:13.0" \
+  label.color="$TEXT" \
+  label.padding_left=4 \
+  label.padding_right=8 \
+  background.drawing=off \
+  background.color="$SURFACE0" \
+  background.corner_radius="$ISLAND_RADIUS" \
+  background.height=22 \
+  padding_left=4 \
+  padding_right=4
+
+# ---- left: apple / macOS logo ----
+sketchybar --add item apple left \
+  --set apple \
+  icon="$ICON_APPLE" \
+  icon.font="$FONT:Bold:16.0" \
+  icon.color="$TEXT" \
+  label.drawing=off \
+  background.drawing=off \
+  click_script="open -a 'System Settings'"
+
+# ---- left: aerospace workspace indicators (per-monitor) ----
+# Custom event MUST be registered or --trigger/--subscribe are no-ops.
+# The items carry no script; a single hidden controller (spaces_ctrl) queries
+# aerospace once per update and styles all of them — pinning each to its
+# monitor via display=<id> so each monitor's bar shows only its workspaces.
+sketchybar --add event aerospace_workspace_change
+for sid in 1 2 3 4 5 6 7 8 9; do
+  sketchybar --add item space."$sid" left \
+    --set space."$sid" \
+    label="$sid" \
+    icon.drawing=off \
+    icon.padding_left=0 \
+    icon.padding_right=0 \
+    label.padding_left=9 \
+    label.padding_right=9 \
+    background.drawing=on \
+    drawing=off \
+    click_script="aerospace workspace $sid"
+done
+# controller: styles every space.* item; update_freq catches occupancy changes
+# (windows moved between workspaces) that don't fire a switch event.
+sketchybar --add item spaces_ctrl left \
+  --subscribe spaces_ctrl aerospace_workspace_change \
+  --set spaces_ctrl \
+  updates=on \
+  drawing=off \
+  width=0 \
+  update_freq=2 \
+  script="$PLUGIN_DIR/spaces.sh"
+
+# ---- left: focused app name ----
+sketchybar --add item front_app left \
+  --subscribe front_app front_app_switched aerospace_workspace_change \
+  --set front_app \
+  icon.drawing=off \
+  background.drawing=off \
+  label.color="$MAUVE" \
+  script="$PLUGIN_DIR/front_app.sh"
+
+# ---- right: clock ----
+sketchybar --add item clock right \
+  --set clock \
+  update_freq=10 \
+  icon="$ICON_CLOCK" \
+  icon.color="$BLUE" \
+  label.color="$BLUE" \
+  script="$PLUGIN_DIR/clock.sh"
+
+# ---- right: battery (icon + colors set dynamically) ----
+sketchybar --add item battery right \
+  --subscribe battery power_source_change system_woke \
+  --set battery \
+  update_freq=120 \
+  icon.color="$GREEN" \
+  script="$PLUGIN_DIR/battery.sh"
+
+# ---- right: cpu ----
+sketchybar --add item cpu right \
+  --set cpu \
+  update_freq=5 \
+  icon="$ICON_CPU" \
+  icon.color="$PEACH" \
+  script="$PLUGIN_DIR/cpu.sh"
+
+# ---- right: memory ----
+sketchybar --add item memory right \
+  --set memory \
+  update_freq=15 \
+  icon="$ICON_MEM" \
+  icon.color="$LAVENDER" \
+  script="$PLUGIN_DIR/memory.sh"
+
+# ---- right: network throughput ----
+sketchybar --add item network right \
+  --set network \
+  update_freq=2 \
+  icon="$ICON_WIFI" \
+  icon.color="$SAPPHIRE" \
+  label.color="$SAPPHIRE" \
+  script="$PLUGIN_DIR/network.sh"
+
+# ---- right: focus / do-not-disturb ----
+# Click runs a user Shortcut named "Toggle Focus" (create it: Shortcuts.app →
+# new shortcut → "Set Focus" toggle → name it exactly "Toggle Focus"), then
+# flips our locally-tracked state. See plugins/dnd.sh for the FDA caveat.
+sketchybar --add event focus_toggle
+sketchybar --add item dnd right \
+  --subscribe dnd focus_toggle system_woke \
+  --set dnd \
+  icon="$ICON_BELL" \
+  icon.color="$SUBTEXT0" \
+  click_script="shortcuts run 'Toggle Focus' >/dev/null 2>&1; sketchybar --trigger focus_toggle" \
+  script="$PLUGIN_DIR/dnd.sh"
+
+# ---- islands: group left + right items into two rounded brackets ----
+sketchybar --add bracket left_island apple space.1 space.2 space.3 space.4 space.5 space.6 space.7 space.8 space.9 front_app \
+  --set left_island \
+  background.drawing=on \
+  background.color="$BAR" \
+  background.corner_radius="$ISLAND_RADIUS" \
+  background.height=28 \
+  background.border_width=1 \
+  background.border_color="$SURFACE1"
+
+sketchybar --add bracket right_island clock battery cpu memory network dnd \
+  --set right_island \
+  background.drawing=on \
+  background.color="$BAR" \
+  background.corner_radius="$ISLAND_RADIUS" \
+  background.height=28 \
+  background.border_width=1 \
+  background.border_color="$SURFACE1"
+
+sketchybar --update
+# Seed the workspace highlight in case aerospace came up after this ran.
+FOCUSED_WS="$(aerospace list-workspaces --focused 2>/dev/null)"
+[ -n "$FOCUSED_WS" ] && sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE="$FOCUSED_WS"
