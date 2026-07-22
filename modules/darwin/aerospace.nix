@@ -75,12 +75,13 @@
         outer.right = 8;
         outer.bottom = 8;
         # Per-monitor top gap to clear the floating sketchybar (bottom edge
-        # ~40px from screen top: y_offset 8 + height 32). outer.top is measured
-        # from below the menu bar, so the built-in (taller notched menu bar)
-        # needs a smaller number than externals for the same visual gap.
+        # ~40px from screen top: y_offset 8 + height 32) PLUS ~8-12px breathing
+        # room so windows don't glue to the bar. outer.top is measured from
+        # below the menu bar, so the built-in (taller notched menu bar) needs a
+        # smaller number than externals for the same visual gap.
         # List = first matching monitor pattern wins; trailing int = default.
         # Tune these if the bar↔window gap looks off.
-        outer.top = [{monitor.built-in = 24;} 36];
+        outer.top = [{monitor.built-in = 22;} 48];
       };
 
       # Pin workspaces to monitors (externals-heavy). Patterns are
