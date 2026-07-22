@@ -5,6 +5,7 @@
 }: {
   imports = [
     ../../modules/homemanager/core.nix
+    ../../modules/homemanager/wox.nix
   ];
 
 
