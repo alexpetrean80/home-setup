@@ -121,15 +121,18 @@
         alt-shift-k = "move up";
         alt-shift-l = "move right";
 
-        # resize
+        # resize: quick nudges, or `alt-r` for a sticky resize mode (hjkl).
         alt-minus = "resize smart -50";
         alt-equal = "resize smart +50";
+        alt-r = "mode resize";
 
         # layouts
         alt-slash = "layout tiles horizontal vertical";
         alt-comma = "layout accordion horizontal vertical";
         alt-f = "fullscreen";
         alt-shift-space = "layout floating tiling";
+        # equalize every split in the workspace back to even sizes
+        alt-b = "balance-sizes";
 
         # close focused window; quit the app when it's the last window
         alt-q = "close --quit-if-last-window";
@@ -167,6 +170,12 @@
 
         alt-shift-c = "reload-config";
 
+        # toggle the sketchybar keymap cheatsheet (⌥⇧/ = "?"). Sets the popup
+        # directly — same one-liner as the icon's click_script. Absolute path:
+        # aerospace's launchd PATH lacks the nix profile bin (same reason as
+        # exec-on-workspace-change above).
+        alt-shift-slash = "exec-and-forget ${pkgs.sketchybar}/bin/sketchybar --set cheatsheet popup.drawing=toggle";
+
         # enter a one-shot service mode for less-common ops
         alt-shift-semicolon = "mode service";
       };
@@ -176,6 +185,20 @@
         r = ["flatten-workspace-tree" "mode main"];
         f = ["layout floating tiling" "mode main"];
         backspace = ["close-all-windows-but-current" "mode main"];
+      };
+
+      # Sticky resize mode: `alt-r` enters, then hjkl resize without holding
+      # any modifier; enter/esc return to main. Direction mirrors i3 — h/l on
+      # width, j/k on height; -/= keep the smart nudge along parent axis.
+      mode.resize.binding = {
+        h = "resize width -50";
+        l = "resize width +50";
+        j = "resize height +50";
+        k = "resize height -50";
+        minus = "resize smart -50";
+        equal = "resize smart +50";
+        enter = "mode main";
+        esc = "mode main";
       };
     };
   };

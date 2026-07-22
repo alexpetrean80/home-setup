@@ -103,6 +103,67 @@ sketchybar --add item spaces_ctrl left \
   update_freq=2 \
   script="$PLUGIN_DIR/spaces.sh"
 
+# ---- right: keymap cheatsheet ----
+# A keyboard glyph whose popup is a which-key-style list of every AeroSpace
+# binding. Toggled two ways: click the icon, or press alt-shift-slash — the
+# aerospace binding runs the same `popup.drawing=toggle` set directly, so no
+# custom event/plugin is needed. Popup is bar-anchored (drops from the top) —
+# sketchybar can't float it centre-screen.
+sketchybar --add item cheatsheet right \
+  --set cheatsheet \
+  icon="$ICON_KEYS" \
+  icon.color="$SUBTEXT0" \
+  icon.padding_left=6 \
+  icon.padding_right=6 \
+  label.drawing=off \
+  popup.horizontal=off \
+  popup.align=right \
+  popup.y_offset=6 \
+  popup.background.color="$BASE" \
+  popup.background.corner_radius="$ISLAND_RADIUS" \
+  popup.background.border_width=1 \
+  popup.background.border_color="$SURFACE1" \
+  click_script="sketchybar --set cheatsheet popup.drawing=toggle"
+
+# Rows: "COLOR|text". One label per line, coloured by function group; keys and
+# description share a line (single label = no column-alignment fights).
+CS_ROWS=(
+  "$MAUVE|AEROSPACE — KEYMAP"
+  "$GREEN|⌥ enter     new terminal"
+  "$GREEN|⌥⇧ enter    new browser window"
+  "$BLUE|⌥ hjkl      focus  ← ↓ ↑ →"
+  "$MAUVE|⌥⇧ hjkl     move window"
+  "$SAPPHIRE|⌥ 1-9       go to workspace"
+  "$MAUVE|⌥⇧ 1-9      move window → workspace"
+  "$SAPPHIRE|⌥ tab       last workspace"
+  "$PEACH|⌥ [ ]       focus monitor"
+  "$PEACH|⌥⇧ [ ]      move window → monitor"
+  "$YELLOW|⌥ / , f     tiles · accordion · fullscreen"
+  "$YELLOW|⌥ - =       resize  shrink / grow"
+  "$YELLOW|⌥ b         balance sizes"
+  "$YELLOW|⌥ r         resize mode — hjkl, esc to exit"
+  "$YELLOW|⌥⇧ space    toggle float / tile"
+  "$RED|⌥ q         close window"
+  "$RED|⌥⇧ c        reload config"
+  "$TEAL|⌥⇧ ;        service — r flatten · f float · ⌫ kill · esc"
+  "$SUBTEXT0|⌥⇧ / or click the icon to close"
+)
+cs_i=0
+for cs_row in "${CS_ROWS[@]}"; do
+  sketchybar --add item cheatsheet.item."$cs_i" popup.cheatsheet \
+    --set cheatsheet.item."$cs_i" \
+    icon.drawing=off \
+    background.drawing=off \
+    label="${cs_row#*|}" \
+    label.font="$FONT:Medium:13.0" \
+    label.color="${cs_row%%|*}" \
+    label.padding_left=12 \
+    label.padding_right=12
+  cs_i=$((cs_i + 1))
+done
+# title row a touch heavier
+sketchybar --set cheatsheet.item.0 label.font="$FONT:Bold:13.0"
+
 # ---- right: clock ----
 sketchybar --add item clock right \
   --set clock \
@@ -189,7 +250,7 @@ for sb in $(seq 1 "$MAX_DISPLAYS"); do
     background.border_color="$SURFACE1"
 done
 
-sketchybar --add bracket right_island clock weather battery cpu memory network dnd \
+sketchybar --add bracket right_island cheatsheet clock weather battery cpu memory network dnd \
   --set right_island \
   background.drawing=on \
   background.color="$BAR" \
