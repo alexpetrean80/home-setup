@@ -45,6 +45,7 @@ export ICON_BAT_HALF=$(printf '\xef\x89\x82')   # nf-fa-battery_2  U+F242
 export ICON_BAT_1=$(printf '\xef\x89\x83')      # nf-fa-battery_1  U+F243
 export ICON_BAT_EMPTY=$(printf '\xef\x89\x84')  # nf-fa-battery_0  U+F244
 export ICON_CHARGE=$(printf '\xef\x83\xa7')     # nf-fa-bolt       U+F0E7
+export ICON_KEYS=$(printf '\xef\x84\x9c')       # nf-fa-keyboard_o U+F11C
 
 # Weather glyphs (nf-md-weather_*). Condition text from wttr.in is mapped to
 # one of these in weather.sh; sunny has a night variant for after-dark hours.
