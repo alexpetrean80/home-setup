@@ -2,7 +2,3 @@ dotfiles/zed/prompts/prompts-library-db.0.mdb/lock.mdb
 .claude/
 # nix build symlink
 result
-
-# wox script plugin runtime artifacts
-dotfiles/wox/plugins/scripts/__pycache__/
-*.pyc
