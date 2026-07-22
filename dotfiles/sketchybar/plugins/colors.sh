@@ -21,6 +21,14 @@ export RED=0xfff38ba8
 export MAUVE=0xffcba6f7
 export TRANSPARENT=0x00000000
 
+# Number of left islands to create — one per sketchybar display index. A bracket
+# cannot span items pinned to different displays, so each display owns a separate
+# item set (apple + workspace pills + app label) pinned via display=<sb>. Sourced
+# by both sketchybarrc (item/bracket creation) and spaces.sh (the controller).
+# Set to the most monitors you'll ever attach; items pinned to an absent display
+# just don't draw, so over-provisioning is free.
+export MAX_DISPLAYS=3
+
 # Nerd Font glyphs (JetBrainsMono Nerd Font). Emitted as raw UTF-8 bytes via
 # printf so they survive editing — literal PUA chars get stripped in transit.
 # bash 3.2's printf supports \xHH (not \u), so use byte sequences.
@@ -37,6 +45,18 @@ export ICON_BAT_HALF=$(printf '\xef\x89\x82')   # nf-fa-battery_2  U+F242
 export ICON_BAT_1=$(printf '\xef\x89\x83')      # nf-fa-battery_1  U+F243
 export ICON_BAT_EMPTY=$(printf '\xef\x89\x84')  # nf-fa-battery_0  U+F244
 export ICON_CHARGE=$(printf '\xef\x83\xa7')     # nf-fa-bolt       U+F0E7
+
+# Weather glyphs (nf-md-weather_*). Condition text from wttr.in is mapped to
+# one of these in weather.sh; sunny has a night variant for after-dark hours.
+export ICON_WEATHER_SUNNY=$(printf '\xf3\xb0\x96\x99')   # nf-md-weather_sunny         U+F0599
+export ICON_WEATHER_NIGHT=$(printf '\xf3\xb0\x96\x94')   # nf-md-weather_night         U+F0594
+export ICON_WEATHER_PARTLY=$(printf '\xf3\xb0\x96\x95')  # nf-md-weather_partly_cloudy U+F0595
+export ICON_WEATHER_CLOUDY=$(printf '\xf3\xb0\x96\x90')  # nf-md-weather_cloudy        U+F0590
+export ICON_WEATHER_RAIN=$(printf '\xf3\xb0\x96\x97')    # nf-md-weather_rainy         U+F0597
+export ICON_WEATHER_POUR=$(printf '\xf3\xb0\x96\x96')    # nf-md-weather_pouring       U+F0596
+export ICON_WEATHER_SNOW=$(printf '\xf3\xb0\x96\x98')    # nf-md-weather_snowy         U+F0598
+export ICON_WEATHER_FOG=$(printf '\xf3\xb0\x96\x91')     # nf-md-weather_fog           U+F0591
+export ICON_WEATHER_STORM=$(printf '\xf3\xb0\x96\x93')   # nf-md-weather_lightning     U+F0593
 
 # Per-workspace app glyphs (assigned workspaces show these instead of a number;
 # other occupied workspaces show a dot).
