@@ -44,54 +44,64 @@ sketchybar --default \
   padding_left=4 \
   padding_right=4
 
-# ---- left: apple / macOS logo ----
-sketchybar --add item apple left \
-  --set apple \
-  icon="$ICON_APPLE" \
-  icon.font="$FONT:Bold:16.0" \
-  icon.color="$TEXT" \
-  label.drawing=off \
-  background.drawing=off \
-  click_script="open -a 'System Settings'"
-
-# ---- left: aerospace workspace indicators (per-monitor) ----
+# ---- left islands: one full island per sketchybar display ----
+# A bracket whose members are pinned to different displays renders a broken
+# background, so each display gets its OWN item set — apple + workspace pills +
+# focused-app label — pinned via display=<sb> and wrapped in a per-display
+# bracket (added at the end). The loop index is the SKETCHYBAR display index
+# (NSScreen order, main first) — NOT aerospace's monitor-id, which orders by
+# arrangement. spaces.sh bridges the two at runtime. MAX_DISPLAYS (colors.sh)
+# caps how many are created; an item pinned to an absent display just won't draw.
 # Custom event MUST be registered or --trigger/--subscribe are no-ops.
-# The items carry no script; a single hidden controller (spaces_ctrl) queries
-# aerospace once per update and styles all of them — pinning each to its
-# monitor via display=<id> so each monitor's bar shows only its workspaces.
 sketchybar --add event aerospace_workspace_change
-for sid in 1 2 3 4 5 6 7 8 9; do
-  sketchybar --add item space."$sid" left \
-    --set space."$sid" \
-    label="$sid" \
+
+for sb in $(seq 1 "$MAX_DISPLAYS"); do
+  sketchybar --add item apple."$sb" left \
+    --set apple."$sb" \
+    display="$sb" \
+    icon="$ICON_APPLE" \
+    icon.font="$FONT:Bold:16.0" \
+    icon.color="$TEXT" \
+    icon.padding_left=6 \
+    icon.padding_right=6 \
+    label.drawing=off \
+    background.drawing=off \
+    click_script="open -a 'System Settings'"
+
+  for sid in 1 2 3 4 5 6 7 8 9; do
+    sketchybar --add item space."$sb"."$sid" left \
+      --set space."$sb"."$sid" \
+      display="$sb" \
+      label="$sid" \
+      icon.drawing=off \
+      icon.padding_left=0 \
+      icon.padding_right=0 \
+      label.padding_left=9 \
+      label.padding_right=9 \
+      background.drawing=on \
+      drawing=off \
+      click_script="aerospace workspace $sid"
+  done
+
+  sketchybar --add item front_app."$sb" left \
+    --set front_app."$sb" \
+    display="$sb" \
     icon.drawing=off \
-    icon.padding_left=0 \
-    icon.padding_right=0 \
-    label.padding_left=9 \
-    label.padding_right=9 \
-    background.drawing=on \
-    drawing=off \
-    click_script="aerospace workspace $sid"
+    background.drawing=off \
+    label.color="$MAUVE"
 done
-# controller: styles every space.* item; update_freq catches occupancy changes
-# (windows moved between workspaces) that don't fire a switch event.
+
+# controller: one aerospace pass styles every display's pills + app labels.
+# update_freq catches occupancy changes (windows moved between workspaces) that
+# don't fire a switch event; front_app_switched refreshes the app labels.
 sketchybar --add item spaces_ctrl left \
-  --subscribe spaces_ctrl aerospace_workspace_change \
+  --subscribe spaces_ctrl aerospace_workspace_change front_app_switched \
   --set spaces_ctrl \
   updates=on \
   drawing=off \
   width=0 \
   update_freq=2 \
   script="$PLUGIN_DIR/spaces.sh"
-
-# ---- left: focused app name ----
-sketchybar --add item front_app left \
-  --subscribe front_app front_app_switched aerospace_workspace_change \
-  --set front_app \
-  icon.drawing=off \
-  background.drawing=off \
-  label.color="$MAUVE" \
-  script="$PLUGIN_DIR/front_app.sh"
 
 # ---- right: clock ----
 sketchybar --add item clock right \
@@ -101,6 +111,14 @@ sketchybar --add item clock right \
   icon.color="$BLUE" \
   label.color="$BLUE" \
   script="$PLUGIN_DIR/clock.sh"
+
+# ---- right: weather (icon + colors set dynamically from wttr.in) ----
+sketchybar --add item weather right \
+  --set weather \
+  update_freq=1800 \
+  icon="$ICON_WEATHER_CLOUDY" \
+  icon.color="$SUBTEXT0" \
+  script="$PLUGIN_DIR/weather.sh"
 
 # ---- right: battery (icon + colors set dynamically) ----
 sketchybar --add item battery right \
@@ -145,20 +163,33 @@ sketchybar --add item dnd right \
   --set dnd \
   icon="$ICON_BELL" \
   icon.color="$SUBTEXT0" \
+  icon.padding_left=6 \
+  icon.padding_right=6 \
+  label.drawing=off \
   click_script="shortcuts run 'Toggle Focus' >/dev/null 2>&1; sketchybar --trigger focus_toggle" \
   script="$PLUGIN_DIR/dnd.sh"
 
-# ---- islands: group left + right items into two rounded brackets ----
-sketchybar --add bracket left_island apple space.1 space.2 space.3 space.4 space.5 space.6 space.7 space.8 space.9 front_app \
-  --set left_island \
-  background.drawing=on \
-  background.color="$BAR" \
-  background.corner_radius="$ISLAND_RADIUS" \
-  background.height=28 \
-  background.border_width=1 \
-  background.border_color="$SURFACE1"
+# ---- islands: group left + right items into rounded brackets ----
+# One left bracket per monitor over that monitor's own (display-pinned) items;
+# a single right bracket over the shared, unpinned status items (which draw on
+# every display already).
+for sb in $(seq 1 "$MAX_DISPLAYS"); do
+  members="apple.$sb"
+  for sid in 1 2 3 4 5 6 7 8 9; do members="$members space.$sb.$sid"; done
+  members="$members front_app.$sb"
+  # shellcheck disable=SC2086
+  sketchybar --add bracket left_island."$sb" $members \
+    --set left_island."$sb" \
+    display="$sb" \
+    background.drawing=on \
+    background.color="$BAR" \
+    background.corner_radius="$ISLAND_RADIUS" \
+    background.height=28 \
+    background.border_width=1 \
+    background.border_color="$SURFACE1"
+done
 
-sketchybar --add bracket right_island clock battery cpu memory network dnd \
+sketchybar --add bracket right_island clock weather battery cpu memory network dnd \
   --set right_island \
   background.drawing=on \
   background.color="$BAR" \
