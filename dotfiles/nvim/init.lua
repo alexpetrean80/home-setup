@@ -68,6 +68,7 @@ vim.pack.add({
     { src = "https://github.com/ray-x/go.nvim" },
     { src = "https://github.com/ray-x/guihua.lua" },
     { src = "https://github.com/qvalentin/helm-ls.nvim" },
+    { src = "https://github.com/coder/claudecode.nvim" },
 })
 
 -- [[ SECTION: Plugin setup ]]
@@ -216,12 +217,27 @@ require("which-key").setup({
         { "<leader>d", group = "Debug", mode = "n" },
         { "<leader>l", group = "LSP", mode = "n" },
         { "<leader>t", group = "Testing", mode = "n" },
-        { "<leader>a", group = "AI", mode = "n" },
+        { "<leader>a", group = "AI", mode = { "n", "v" } },
         { "<leader>z", group = "Zen", mode = "n" },
     },
 })
 
 require("helm-ls").setup()
+
+-- Claude Code over the IDE websocket protocol: the CLI sees the buffer,
+-- the cursor selection and proposes edits back as native nvim diffs.
+require("claudecode").setup({
+    terminal = {
+        provider = "snacks",
+        split_side = "right",
+        split_width_percentage = 0.35,
+        auto_close = true,
+    },
+    diff_opts = {
+        layout = "vertical",
+        auto_resize_terminal = true,
+    },
+})
 
 local dap = require("dap")
 local dapui = require("dapui")
@@ -347,6 +363,20 @@ vim.api.nvim_create_autocmd("FileType", {
         vim.keymap.set("n", "<leader>lR", "<cmd>GoRmTag<cr>", { desc = "Remove Tags", buffer = buf, silent = true })
         vim.keymap.set("n", "<leader>ls", "<cmd>GoFillStruct<cr>", { desc = "Fill Struct", buffer = buf, silent = true })
         vim.keymap.set("n", "<leader>le", "<cmd>GoIfErr<cr>", { desc = "If Err", buffer = buf, silent = true })
+    end,
+})
+
+-- @-mention files into Claude straight from mini.files or any snacks picker
+-- (respects multi-selection).
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = { "minifiles", "snacks_picker_list" },
+    group = augroup,
+    callback = function(args)
+        vim.keymap.set("n", "<leader>as", "<cmd>ClaudeCodeTreeAdd<cr>", {
+            desc = "Add file to Claude",
+            buffer = args.buf,
+            silent = true,
+        })
     end,
 })
 
@@ -572,9 +602,17 @@ keymap("n", "<leader>tS", function()
     neotest.summary.toggle()
 end, "Summary")
 
-keymap("n", "<leader>aa", "<cmd>CodeCompanionActions<cr>", "Action Palette")
-keymap("n", "<leader>ac", "<cmd>CodeCompanionChat Toggle<cr>", "Chat Toggle")
-keymap("v", "<leader>ac", "<cmd>CodeCompanionChat Add<cr>", "Chat Add (selection)")
+keymap("n", "<leader>ac", "<cmd>ClaudeCode<cr>", "Toggle Claude")
+keymap("n", "<leader>af", "<cmd>ClaudeCodeFocus<cr>", "Focus Claude")
+keymap("n", "<leader>ar", "<cmd>ClaudeCode --resume<cr>", "Resume session (pick)")
+keymap("n", "<leader>aC", "<cmd>ClaudeCode --continue<cr>", "Continue last session")
+keymap("n", "<leader>am", "<cmd>ClaudeCodeSelectModel<cr>", "Select model")
+keymap("n", "<leader>ab", "<cmd>ClaudeCodeAdd %<cr>", "Add buffer to context")
+keymap("v", "<leader>as", "<cmd>ClaudeCodeSend<cr>", "Send selection")
+keymap("n", "<leader>aa", "<cmd>ClaudeCodeDiffAccept<cr>", "Accept diff")
+keymap("n", "<leader>ad", "<cmd>ClaudeCodeDiffDeny<cr>", "Deny diff")
+keymap("n", "<leader>aq", "<cmd>ClaudeCodeCloseAllDiffs<cr>", "Close all diffs")
+keymap("n", "<leader>aS", "<cmd>ClaudeCodeStatus<cr>", "Status")
 
 -- [[ SECTION: Finish ]]
 vim.cmd.colorscheme("catppuccin")
