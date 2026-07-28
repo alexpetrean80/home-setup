@@ -213,7 +213,7 @@ require("which-key").setup({
     win = { border = "none" },
     spec = {
         { "<leader>b", group = "Buffers", mode = "n" },
-        { "<leader>g", group = "Git", mode = "n" },
+        { "<leader>g", group = "Git", mode = { "n", "v" } },
         { "<leader>d", group = "Debug", mode = "n" },
         { "<leader>l", group = "LSP", mode = "n" },
         { "<leader>t", group = "Testing", mode = "n" },
@@ -541,6 +541,104 @@ end, { desc = "Open in browser" })
 Snacks.keymap.set("n", "<leader>gd", function()
     Snacks.picker.git_diff()
 end, { desc = "Git diff (hunks)" })
+
+-- Fire-and-forget `gh`; surfaces stderr instead of swallowing a failure.
+local function gh(args)
+    vim.system(vim.list_extend({ "gh" }, args), { text = true }, function(res)
+        if res.code ~= 0 then
+            vim.schedule(function()
+                Snacks.notify.error(("gh %s\n%s"):format(table.concat(args, " "), vim.trim(res.stderr or "")))
+            end)
+        end
+    end)
+end
+
+-- `git worktree list` as a picker; confirming cds into the chosen tree.
+local function pick_worktrees()
+    local res = vim.system({ "git", "worktree", "list", "--porcelain" }, { text = true }):wait()
+    if res.code ~= 0 then
+        Snacks.notify.error("not a git repository")
+        return
+    end
+
+    local items, cur = {}, nil
+    for _, line in ipairs(vim.split(res.stdout or "", "\n", { trimempty = true })) do
+        local path = line:match("^worktree (.+)$")
+        local branch = line:match("^branch refs/heads/(.+)$")
+        if path then
+            cur = { path = path, branch = "(detached)", text = path }
+            table.insert(items, cur)
+        elseif branch and cur then
+            cur.branch = branch
+            cur.text = branch .. " " .. cur.path
+        end
+    end
+
+    Snacks.picker.pick({
+        title = "Worktrees",
+        items = items,
+        layout = { preset = "select" },
+        format = function(item)
+            return {
+                { item.branch, "SnacksPickerGitBranch" },
+                { "  " },
+                { vim.fn.fnamemodify(item.path, ":~"), "SnacksPickerDirectory" },
+            }
+        end,
+        confirm = function(picker, item)
+            picker:close()
+            if item then
+                vim.cmd.cd(item.path)
+                Snacks.notify(("cwd → %s"):format(vim.fn.fnamemodify(item.path, ":~")))
+            end
+        end,
+    })
+end
+
+keymap("n", "<leader>gc", function()
+    gh({ "pr", "create", "--web" })
+end, "Create PR (browser)")
+keymap("n", "<leader>gv", function()
+    gh({ "pr", "view", "--web" })
+end, "View PR (browser)")
+Snacks.keymap.set("n", "<leader>gi", function()
+    Snacks.picker.gh_issue()
+end, { desc = "Issues" })
+
+Snacks.keymap.set("n", "<leader>gb", function()
+    Snacks.picker.git_branches()
+end, { desc = "Branches (switch)" })
+Snacks.keymap.set("n", "<leader>gB", function()
+    Snacks.picker.git_branches({ all = true })
+end, { desc = "Branches (incl. remote)" })
+keymap("n", "<leader>gt", pick_worktrees, "Worktrees (switch)")
+
+Snacks.keymap.set("n", "<leader>gs", function()
+    Snacks.picker.git_status()
+end, { desc = "Status" })
+Snacks.keymap.set("n", "<leader>gS", function()
+    Snacks.picker.git_stash()
+end, { desc = "Stash" })
+Snacks.keymap.set("n", "<leader>gl", function()
+    Snacks.picker.git_log()
+end, { desc = "Log (repo)" })
+Snacks.keymap.set("n", "<leader>gL", function()
+    Snacks.picker.git_log_file()
+end, { desc = "Log (file)" })
+Snacks.keymap.set({ "n", "v" }, "<leader>gh", function()
+    Snacks.picker.git_log_line()
+end, { desc = "Log (line)" })
+Snacks.keymap.set({ "n", "v" }, "<leader>gy", function()
+    Snacks.gitbrowse({
+        open = function(url)
+            vim.fn.setreg("+", url)
+            Snacks.notify(url, { title = "Permalink yanked" })
+        end,
+    })
+end, { desc = "Yank permalink" })
+
+keymap("n", "<leader>gm", "<cmd>GitBlameToggle<cr>", "Blame (inline toggle)")
+keymap("n", "<leader>gM", "<cmd>GitBlameOpenCommitURL<cr>", "Blame commit (browser)")
 
 Snacks.keymap.set("n", "<leader>bb", function()
     Snacks.picker.buffers()
