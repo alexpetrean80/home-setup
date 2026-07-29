@@ -21,10 +21,10 @@
       # focuses an already-running app, so config reloads won't duplicate them.
       after-startup-command = [
         "exec-and-forget open -a 'Zen Browser'"
-        "exec-and-forget open -a Mail"
-        "exec-and-forget open -a Calendar"
+        "exec-and-forget open -a Deezer"
         "exec-and-forget open -a Linear"
         "exec-and-forget open -a Slack"
+        "exec-and-forget open -a Claude"
       ];
 
       # Route each app to its home workspace whenever its window appears.
@@ -35,11 +35,7 @@
           run = ["move-node-to-workspace 1"];
         }
         {
-          "if".app-id = "com.apple.mail";
-          run = ["move-node-to-workspace 2"];
-        }
-        {
-          "if".app-id = "com.apple.iCal";
+          "if".app-id = "com.deezer.deezer-desktop";
           run = ["move-node-to-workspace 2"];
         }
         {
@@ -49,6 +45,10 @@
         {
           "if".app-id = "com.tinyspeck.slackmacgap";
           run = ["move-node-to-workspace 7"];
+        }
+        {
+          "if".app-id = "com.anthropic.claudefordesktop";
+          run = ["move-node-to-workspace 8"];
         }
         {
           "if" = {

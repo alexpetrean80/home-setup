@@ -41,6 +41,7 @@ ws_label() {
     3) printf '%s' "$WS_ICON_3" ;;
     4) printf '%s' "$WS_ICON_4" ;;
     7) printf '%s' "$WS_ICON_7" ;;
+    8) printf '%s' "$WS_ICON_8" ;;
     *) printf '%s' "$WS_DOT" ;;
   esac
 }
