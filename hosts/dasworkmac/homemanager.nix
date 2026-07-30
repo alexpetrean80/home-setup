@@ -8,7 +8,6 @@
     ../../modules/homemanager/wox.nix
   ];
 
-
   home.packages = with pkgs; [
   ];
 

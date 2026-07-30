@@ -1,0 +1,184 @@
+/* Catppuccin Mocha, styled to match the macOS sketchybar:
+ * transparent bar + two rounded islands. GTK exposes the module boxes as
+ * .modules-left / .modules-right, which is what gives us the islands without
+ * needing sketchybar's bracket trick.
+ *
+ * Palette (same values as dotfiles/sketchybar/plugins/colors.sh):
+ *   base #1e1e2e  surface0 #313244  surface1 #45475a  text #cdd6f4
+ *   subtext0 #a6adc8  blue #89b4fa  lavender #b4befe  sapphire #74c7ec
+ *   teal #94e2d5  green #a6e3a1  yellow #f9e2af  peach #fab387
+ *   red #f38ba8  mauve #cba6f7
+ */
+
+* {
+  font-family: "JetBrainsMono Nerd Font";
+  font-size: 13px;
+  font-weight: bold;
+  /* kill GTK's default padding/borders so only our island styling shows */
+  border: none;
+  border-radius: 0;
+  min-height: 0;
+}
+
+window#waybar {
+  background: transparent;
+  color: #cdd6f4;
+}
+
+/* ---- the two islands ---- */
+.modules-left,
+.modules-right {
+  background-color: rgba(30, 30, 46, 0.94); /* base @ 94%, like $BAR */
+  border: 1px solid #45475a;
+  border-radius: 12px;
+  padding: 0 4px;
+}
+
+/* ---- workspace pills ---- */
+#workspaces {
+  padding: 0;
+}
+
+#workspaces button {
+  padding: 0 9px;
+  margin: 3px 2px;
+  border-radius: 8px;
+  color: #a6adc8;
+  background-color: transparent;
+  transition: background-color 150ms ease, color 150ms ease;
+}
+
+#workspaces button.visible {
+  color: #cdd6f4;
+}
+
+/* focused pill: the sketchybar highlight */
+#workspaces button.focused {
+  color: #1e1e2e;
+  background-color: #89b4fa;
+}
+
+#workspaces button.urgent {
+  color: #1e1e2e;
+  background-color: #f38ba8;
+}
+
+#workspaces button:hover {
+  background-color: #313244;
+  color: #cdd6f4;
+}
+
+/* ---- mode indicator (resize / service) ---- */
+#mode {
+  margin: 3px 2px;
+  padding: 0 8px;
+  border-radius: 8px;
+  color: #1e1e2e;
+  background-color: #f9e2af;
+}
+
+/* ---- focused window title (sketchybar's front_app, in mauve) ---- */
+#window {
+  padding: 0 10px;
+  color: #cba6f7;
+}
+
+/* ---- right-hand status stack ---- */
+#idle_inhibitor,
+#network,
+#memory,
+#cpu,
+#battery,
+#custom-weather,
+#clock,
+#custom-cheatsheet,
+#tray {
+  padding: 0 8px;
+  margin: 3px 0;
+}
+
+#idle_inhibitor {
+  color: #a6adc8;
+}
+
+#idle_inhibitor.activated {
+  color: #f9e2af;
+}
+
+#network {
+  color: #74c7ec;
+}
+
+#network.disconnected {
+  color: #f38ba8;
+}
+
+#memory {
+  color: #b4befe;
+}
+
+#memory.critical {
+  color: #f38ba8;
+}
+
+#cpu {
+  color: #fab387;
+}
+
+#cpu.critical {
+  color: #f38ba8;
+}
+
+#battery {
+  color: #a6e3a1;
+}
+
+#battery.warning {
+  color: #f9e2af;
+}
+
+#battery.critical {
+  color: #f38ba8;
+}
+
+#battery.charging,
+#battery.plugged {
+  color: #94e2d5;
+}
+
+#custom-weather {
+  color: #a6adc8;
+}
+
+#clock {
+  color: #89b4fa;
+}
+
+#custom-cheatsheet {
+  color: #a6adc8;
+  padding: 0 10px;
+}
+
+#custom-cheatsheet:hover {
+  color: #cba6f7;
+}
+
+#tray {
+  padding: 0 6px;
+}
+
+#tray > .needs-attention {
+  background-color: #f38ba8;
+  border-radius: 8px;
+}
+
+tooltip {
+  background-color: #1e1e2e;
+  border: 1px solid #45475a;
+  border-radius: 12px;
+}
+
+tooltip label {
+  color: #cdd6f4;
+  padding: 4px;
+}

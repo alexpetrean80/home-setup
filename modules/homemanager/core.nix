@@ -90,7 +90,8 @@
       enableVteIntegration = true;
       defaultKeymap = "viins";
       initContent = ''
-        source $HOME/.zprofile
+        # NixOS has no chezmoi-written .zprofile, so don't fail the shell there.
+        [ -f "$HOME/.zprofile" ] && source "$HOME/.zprofile"
         export GOPATH="$HOME/go/"
         export PATH="$GOPATH:$HOME/.local/share/npm/bin:$HOME/.local/share/fnm:$HOME/.cargo/bin:$GOPATH/bin:$HOME/.local/bin:$PATH"
         export EDITOR="nvim"
@@ -164,7 +165,7 @@
       kind
       kustomize
       awscli2
-      azure-cli
+      (azure-cli.withExtensions [azure-cli-extensions.resource-graph])
       regclient # regctl, regsync, regbot
       # migrated off homebrew
       just
