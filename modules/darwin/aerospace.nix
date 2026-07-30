@@ -21,6 +21,7 @@
       # focuses an already-running app, so config reloads won't duplicate them.
       after-startup-command = [
         "exec-and-forget open -a 'Zen Browser'"
+        "exec-and-forget open -a Ghostty"
         "exec-and-forget open -a Deezer"
         "exec-and-forget open -a Linear"
         "exec-and-forget open -a Slack"
