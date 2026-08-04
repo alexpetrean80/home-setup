@@ -20,10 +20,25 @@
         yank
         {
           plugin = resurrect;
-          extraConfig = "set -g @resurrect-strategy-nvim 'session'";
+          extraConfig = ''
+            set -g @resurrect-strategy-nvim 'session'
+            # save/restore the visible scrollback of every pane, not just layout
+            set -g @resurrect-capture-pane-contents 'on'
+          '';
         }
         {
           plugin = inputs.minimal-tmux.packages.${pkgs.stdenv.hostPlatform.system}.default;
+        }
+        # continuum has to load *after* minimal-tmux-status: it appends its
+        # periodic-save hook to status-right, and minimal-tmux-status
+        # overwrites status-right wholesale when it loads. Reverse the order
+        # and auto-save silently stops happening.
+        {
+          plugin = continuum;
+          extraConfig = ''
+            set -g @continuum-restore 'on'
+            set -g @continuum-save-interval '5'
+          '';
         }
       ];
       extraConfig = lib.readFile ../../dotfiles/dot_tmux.conf;
@@ -126,6 +141,47 @@
 
     diff-so-fancy.enable = true;
   };
+
+  # Bring the tmux server up at login so sessions survive a reboot: starting
+  # the server sources tmux.conf, continuum sees a fresh server and replays the
+  # newest resurrect save. The throwaway session "0" created here is killed by
+  # resurrect once it has restored the real ones (handle_session_0).
+  launchd.agents = lib.optionalAttrs pkgs.stdenv.isDarwin {
+    tmux = {
+      enable = true;
+      config = {
+        ProgramArguments = ["${pkgs.tmux}/bin/tmux" "new-session" "-d"];
+        RunAtLoad = true;
+        # tmux daemonises, so the job's main process exits immediately; without
+        # this launchd reaps the server along with it.
+        AbandonProcessGroup = true;
+        EnvironmentVariables = {
+          # launchd hands out a bare PATH. Restored panes re-exec their program
+          # (nvim, ...) with the server's environment, so it needs the profiles.
+          PATH = "/etc/profiles/per-user/${config.home.username}/bin:/run/current-system/sw/bin:/nix/var/nix/profiles/default/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin";
+        };
+      };
+    };
+  };
+
+  systemd.user.services = lib.optionalAttrs pkgs.stdenv.isLinux {
+    tmux = {
+      Unit.Description = "tmux server, restored from the last continuum save";
+      Service = {
+        Type = "forking";
+        ExecStart = "${pkgs.tmux}/bin/tmux new-session -d";
+        # take a final save on logout/shutdown instead of losing up to
+        # @continuum-save-interval minutes of layout changes.
+        ExecStop = [
+          "-${pkgs.tmuxPlugins.resurrect}/share/tmux-plugins/resurrect/scripts/save.sh"
+          "${pkgs.tmux}/bin/tmux kill-server"
+        ];
+        Environment = ["PATH=/etc/profiles/per-user/${config.home.username}/bin:/run/current-system/sw/bin"];
+      };
+      Install.WantedBy = ["default.target"];
+    };
+  };
+
   home.packages = with pkgs;
     [
       tmux-sessionizer
