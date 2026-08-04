@@ -6,6 +6,7 @@
   imports = [
     ../../modules/homemanager/core.nix
     ../../modules/homemanager/wox.nix
+    ../../modules/homemanager/zed.nix
   ];
 
   home.packages = with pkgs; [
