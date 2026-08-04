@@ -74,9 +74,15 @@ in {
         light = "Catppuccin Latte";
         dark = "Catppuccin Mocha";
       };
+      # JetBrainsMono Nerd Font at 16 everywhere, terminal included, so Zed and
+      # ghostty render at the same size.
       buffer_font_family = "JetBrainsMono Nerd Font";
-      buffer_font_size = 15;
-      ui_font_size = 14;
+      ui_font_family = "JetBrainsMono Nerd Font";
+      buffer_font_size = 16;
+      ui_font_size = 16;
+      agent_ui_font_size = 16;
+      agent_buffer_font_size = 15;
+      terminal.font_family = "JetBrainsMono Nerd Font";
 
       # nvim: number + relativenumber, scrolloff 10, sidescrolloff 8, wrap.
       relative_line_numbers = "enabled";
@@ -99,6 +105,15 @@ in {
 
       # git-blame.nvim was opt-in per buffer (<leader>gm), not always drawn.
       git.inline_blame.enabled = false;
+
+      # Claude Code over ACP — the same protocol claudecode.nvim spoke. Declared
+      # as a "custom" agent pinned to the nixpkgs adapter rather than Zed's
+      # built-in "registry" claude-acp, so the version comes from the flake lock
+      # instead of a download on first use. Auth still comes from ~/.claude.
+      agent_servers."Claude Code" = {
+        type = "custom";
+        command = "${pkgs.claude-code-acp}/bin/claude-agent-acp";
+      };
 
       # conform.nvim's formatters_by_ft, translated. Go/Ruby/Terraform are
       # left on "auto": their language server already runs gofmt+goimports /
