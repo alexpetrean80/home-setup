@@ -2,7 +2,38 @@
 # its own workspaces instead of touching native macOS Spaces.
 # Needs Accessibility permission (TCC prompt on first launch) — not a
 # security bypass, just a per-app grant you approve in System Settings.
-{pkgs, ...}: {
+{
+  pkgs,
+  config,
+  ...
+}: let
+  aerospace = "${config.services.aerospace.package}/bin/aerospace";
+
+  # Ghostty has to land on workspace 3 at login, but ad-hoc `alt-enter`
+  # terminals must stay where they are — so a plain `on-window-detected` rule
+  # is too broad, and `if.during-aerospace-startup` never matches here:
+  # `exec-and-forget` returns immediately, so Ghostty's window is detected long
+  # after the startup refresh session ended and the window just inherits
+  # whatever workspace had focus. Poll for the window and move it by id.
+  # Absolute paths: aerospace's launchd PATH is the bare default (same reason
+  # as exec-on-workspace-change below).
+  startGhostty = pkgs.writeShellScript "aerospace-start-ghostty" ''
+    /usr/bin/open -a Ghostty
+    i=0
+    while [ "$i" -lt 40 ]; do
+      # First id only: on an AeroSpace restart with terminals already spread
+      # around, don't yank all of them onto 3.
+      id=$(${aerospace} list-windows --monitor all \
+        --app-bundle-id com.mitchellh.ghostty \
+        --format '%{window-id}' 2>/dev/null | /usr/bin/head -n1)
+      if [ -n "$id" ]; then
+        exec ${aerospace} move-node-to-workspace 3 --window-id "$id"
+      fi
+      /bin/sleep 0.25
+      i=$((i + 1))
+    done
+  '';
+in {
   services.aerospace = {
     enable = true;
     settings = {
@@ -21,15 +52,17 @@
       # focuses an already-running app, so config reloads won't duplicate them.
       after-startup-command = [
         "exec-and-forget open -a 'Zen Browser'"
-        "exec-and-forget open -a Ghostty"
+        "exec-and-forget ${startGhostty}"
         "exec-and-forget open -a Deezer"
         "exec-and-forget open -a Linear"
+        "exec-and-forget open -a 'Teleport Connect'"
         "exec-and-forget open -a Slack"
         "exec-and-forget open -a Claude"
       ];
 
       # Route each app to its home workspace whenever its window appears.
-      # Ghostty is startup-only so later `alt-enter` terminals stay put.
+      # Ghostty is absent on purpose — startGhostty above places the startup
+      # window so later `alt-enter` terminals stay put.
       on-window-detected = [
         {
           "if".app-id = "app.zen-browser.zen";
@@ -44,19 +77,16 @@
           run = ["move-node-to-workspace 4"];
         }
         {
+          "if".app-id = "gravitational.teleport.connect";
+          run = ["move-node-to-workspace 6"];
+        }
+        {
           "if".app-id = "com.tinyspeck.slackmacgap";
           run = ["move-node-to-workspace 7"];
         }
         {
           "if".app-id = "com.anthropic.claudefordesktop";
           run = ["move-node-to-workspace 8"];
-        }
-        {
-          "if" = {
-            app-id = "com.mitchellh.ghostty";
-            during-aerospace-startup = true;
-          };
-          run = ["move-node-to-workspace 3"];
         }
       ];
 
