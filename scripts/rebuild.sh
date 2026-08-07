@@ -28,6 +28,20 @@ while getopts 'n' opt; do
 	esac
 done
 
+# nix-darwin activation touches /Applications/Nix Apps/*.app, which macOS gates
+# behind the App Management TCC grant. TCC can only prompt a caller that lives in
+# the Aqua (GUI) session, and a tmux server daemonises itself out of Aqua — every
+# shell under it reports `launchctl managername` = Background — so activation
+# aborts with the misleading "permission denied ... over SSH" error. Bounce into a
+# Ghostty window instead: Launch Services starts it in Aqua, so the one-time
+# permission prompt has somewhere to land. Grant it to Ghostty when it appears.
+if [[ "$(uname)" == "Darwin" && "$(launchctl managername)" != "Aqua" ]]; then
+	self="$(cd "$(dirname "$0")" && pwd)/$(basename "$0")"
+	gum log --level='info' 'not a GUI session (tmux); reopening the rebuild in Ghostty...'
+	exec open -na Ghostty --args -e /bin/bash -c \
+		"'$self' $*; printf '\npress enter to close '; read -r _"
+fi
+
 # One repo, two kinds of host: nix-darwin on the mac, NixOS on theseus.
 # nixos-rebuild picks the flake output matching the hostname on its own.
 if [[ "$(uname)" == "Darwin" ]]; then
