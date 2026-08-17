@@ -5,6 +5,15 @@
   lib,
   ...
 }: {
+  # nvim's config is edited far too often to go through a rebuild each time,
+  # and vim.pack writes nvim-pack-lock.json back into the config directory —
+  # a store copy would be read-only and the lockfile would drift. Link the
+  # whole directory out of the store instead: edits are live, and the lockfile
+  # lands straight in the repo ready to commit. Path is the same $HOME/Repos
+  # checkout scripts/rebuild.sh already assumes.
+  xdg.configFile."nvim".source =
+    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Repos/home-setup/dotfiles/nvim";
+
   programs = {
     starship = {
       enable = true;
