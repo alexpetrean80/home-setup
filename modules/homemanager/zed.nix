@@ -112,7 +112,7 @@ in {
       # instead of a download on first use. Auth still comes from ~/.claude.
       agent_servers."Claude Code" = {
         type = "custom";
-        command = "${pkgs.claude-code-acp}/bin/claude-agent-acp";
+        command = "${pkgs.claude-agent-acp}/bin/claude-agent-acp";
       };
 
       # conform.nvim's formatters_by_ft, translated. Go/Ruby/Terraform are

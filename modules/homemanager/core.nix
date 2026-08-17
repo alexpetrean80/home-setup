@@ -247,6 +247,9 @@
       stow
       # nvim binary; config lives in dotfiles/nvim
       neovim
+      # codecompanion.nvim's claude_code ACP adapter spawns `claude-agent-acp`
+      # off PATH; zed.nix pins the same package by store path.
+      claude-agent-acp
       # nvim LSP servers (replaces mason)
       clang-tools # clangd
       gopls
