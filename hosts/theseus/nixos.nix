@@ -5,9 +5,16 @@
 }: let
   # Use the machine's own generated hardware config when it exists, so disks,
   # microcode and detected modules always match reality. Reading an absolute
-  # path makes evaluation impure — rebnix passes `--impure` for exactly this.
-  # The checked-in copy is the fallback: it keeps `nix eval` working from the
-  # mac and during `nixos-install`, where the file still lives under /mnt.
+  # path makes evaluation impure — rebnix and init.sh pass `--impure` for
+  # exactly this. The checked-in copy is the fallback: it keeps `nix eval`
+  # working from the mac and during `nixos-install`, where the file still
+  # lives under /mnt.
+  #
+  # CAUTION: in pure eval, pathExists on an absolute path returns false
+  # SILENTLY even when the file exists — no error. Any rebuild on theseus
+  # that forgets `--impure` therefore builds against the fallback's
+  # label-based filesystems and won't boot unless the partitions are
+  # actually labelled BOOT/nixos.
   machineHardware = /etc/nixos/hardware-configuration.nix;
   hardware =
     if builtins.pathExists machineHardware
