@@ -292,5 +292,9 @@
     username = "alexp";
     homeDirectory = "/home/alexp";
     stateVersion = "24.05";
+    # Exported from .zshenv via hm-session-vars so every shell (and anything
+    # it spawns, notably the tmux server) runs UTF-8. Without it the tmux
+    # server starts with LC_CTYPE=C and mangles non-ASCII in copy-mode.
+    language.base = "en_US.UTF-8";
   };
 }
