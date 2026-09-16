@@ -1,4 +1,4 @@
-# Waybar, laid out like the macOS sketchybar (modules/darwin/sketchybar.nix):
+# Waybar, laid out like the former macOS sketchybar (dropped, see git history):
 # two polybar-style rounded "islands" on a transparent bar — workspaces + mode
 # + focused window on the left, status stack on the right.
 #
@@ -10,8 +10,8 @@
   ...
 }: let
   # Nerd Font glyphs by codepoint. Literal private-use characters do not
-  # survive copy/paste reliably (see dotfiles/sketchybar/plugins/colors.sh,
-  # which builds them with printf for the same reason), so build them from JSON
+  # survive copy/paste reliably (the old sketchybar colors.sh built them with
+  # printf for the same reason), so build them from JSON
   # \u escapes. All of these are BMP, i.e. Font Awesome range.
   glyph = cp: builtins.fromJSON ''"\u${cp}"'';
 

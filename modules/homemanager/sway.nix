@@ -1,5 +1,5 @@
-# Sway, configured to match the macOS AeroSpace setup (modules/darwin/
-# aerospace.nix) key-for-key: Alt is the modifier, i3-style hjkl, 9 workspaces,
+# Sway, configured to match the former macOS AeroSpace setup (dropped from
+# hosts/dasworkmac, see git history) key-for-key: Alt is the modifier, i3-style hjkl, 9 workspaces,
 # sticky resize mode, one-shot service mode.
 #
 # Where sway and AeroSpace genuinely differ, the comment says so instead of

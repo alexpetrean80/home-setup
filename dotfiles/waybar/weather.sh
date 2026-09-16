@@ -1,5 +1,5 @@
 # Current conditions from wttr.in (IP-geolocated, no API key), emitted as
-# waybar JSON. Port of dotfiles/sketchybar/plugins/weather.sh.
+# waybar JSON. Port of the old mac sketchybar weather plugin.
 #
 # Glyphs are written as printf byte sequences rather than literal characters —
 # private-use codepoints get mangled in transit (same reason as colors.sh).
