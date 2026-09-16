@@ -22,7 +22,9 @@
   ghostty = lib.getExe pkgs.ghostty;
   # Zen beta from the community flake; binary and app_id are both `zen-beta`.
   browser = lib.getExe inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default;
-  deezer = lib.getExe pkgs.deezer-enhanced;
+  # Music lives in a terminal too: a dedicated ghostty window running
+  # yewtube. Same --class trick as nchat below.
+  music = "${ghostty} --class=org.yewtube.yewtube --title=yewtube -e ${lib.getExe pkgs.yewtube}";
   # WhatsApp lives in a terminal: a dedicated ghostty window running nchat.
   # `--class` sets the wayland app_id (GTK wants a dotted id), which is what
   # the workspace assignment below matches on.
@@ -186,7 +188,7 @@ in {
       # the electron apps it is not worth guessing which, so match both.
       assigns = {
         "1" = [{app_id = "^zen-beta$";}];
-        "2" = [{app_id = "(?i)deezer";} {class = "(?i)deezer";}];
+        "2" = [{app_id = "^org\\.yewtube\\.yewtube$";}];
         "5" = [{class = "^[Ss]team$";}];
         "7" = [{app_id = "discord";} {class = "discord";}];
         "8" = [{app_id = "^org\\.nchat\\.nchat$";}];
@@ -197,7 +199,7 @@ in {
         # (alt+shift+c) does not re-run startup commands.
         {command = browser;}
         {command = ghostty;}
-        {command = deezer;}
+        {command = music;}
         {command = lib.getExe pkgs.discord;}
         {command = whatsapp;}
         # Steam is not autostarted — it is slow and grabs focus. alt+5 then

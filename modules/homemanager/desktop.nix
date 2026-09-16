@@ -11,7 +11,6 @@
     discord
     # Zen (beta channel) from the community flake — same browser as the mac.
     inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
-    deezer-enhanced # electron wrapper; the mac runs the official Deezer app
     # Terminal WhatsApp (also does Telegram). First run pairs by QR:
     # `nchat` → scan from the phone. Config lives in ~/.config/nchat.
     nchat
@@ -27,9 +26,9 @@
     wdisplays # GUI output arrangement, service mode `d`
     pavucontrol
     libnotify # notify-send, for testing mako
-    # media/viewers so xdg-open has something to hand off to
+    # media/viewers so xdg-open has something to hand off to (mpv comes from
+    # core.nix — yewtube needs it on both platforms)
     imv
-    mpv
     xdg-utils
   ];
 

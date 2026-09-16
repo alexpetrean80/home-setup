@@ -220,6 +220,13 @@
       fastfetch
       charm-freeze
       gum
+      # Terminal YouTube (Music) player, mps-youtube fork; plays through
+      # mpv/yt-dlp so it survives YouTube churn. Replaced Deezer on both
+      # platforms (and ytermusic, whose bundled downloader 403s since 2025).
+      # yt-dlp comes wrapped in, mpv does not, so it lives here for both hosts
+      # (theseus also uses it as the xdg video handler, see desktop.nix).
+      yewtube
+      mpv
       # optura repo tooling
       kubectl
       trivy

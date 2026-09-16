@@ -5,6 +5,7 @@
 {
   pkgs,
   config,
+  lib,
   ...
 }: let
   aerospace = "${config.services.aerospace.package}/bin/aerospace";
@@ -23,9 +24,11 @@
     while [ "$i" -lt 40 ]; do
       # First id only: on an AeroSpace restart with terminals already spread
       # around, don't yank all of them onto 3.
+      # Skip the yewtube window (title-matched to workspace 2 below).
       id=$(${aerospace} list-windows --monitor all \
         --app-bundle-id com.mitchellh.ghostty \
-        --format '%{window-id}' 2>/dev/null | /usr/bin/head -n1)
+        --format '%{window-id}|%{window-title}' 2>/dev/null \
+        | /usr/bin/grep -v yewtube | /usr/bin/head -n1 | /usr/bin/cut -d'|' -f1)
       if [ -n "$id" ]; then
         exec ${aerospace} move-node-to-workspace 3 --window-id "$id"
       fi
@@ -53,7 +56,10 @@ in {
       after-startup-command = [
         "exec-and-forget open -a 'Zen Browser'"
         "exec-and-forget ${startGhostty}"
-        "exec-and-forget open -a Deezer"
+        # Music is a dedicated Ghostty window running yewtube (terminal
+        # YouTube player). --title pins the window title so the workspace
+        # rule below can tell it apart from ordinary terminals.
+        "exec-and-forget open -na Ghostty --args --title=yewtube -e ${lib.getExe pkgs.yewtube}"
         "exec-and-forget open -a Linear"
         "exec-and-forget open -a 'Teleport Connect'"
         "exec-and-forget open -a Slack"
@@ -61,15 +67,19 @@ in {
       ];
 
       # Route each app to its home workspace whenever its window appears.
-      # Ghostty is absent on purpose — startGhostty above places the startup
-      # window so later `alt-enter` terminals stay put.
+      # No blanket Ghostty rule on purpose — startGhostty above places the
+      # startup window so later `alt-enter` terminals stay put; only the
+      # title-pinned yewtube window is matched.
       on-window-detected = [
         {
           "if".app-id = "app.zen-browser.zen";
           run = ["move-node-to-workspace 1"];
         }
         {
-          "if".app-id = "com.deezer.deezer-desktop";
+          "if" = {
+            app-id = "com.mitchellh.ghostty";
+            window-title-regex-substring = "yewtube";
+          };
           run = ["move-node-to-workspace 2"];
         }
         {

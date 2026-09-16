@@ -62,7 +62,7 @@ export ICON_WEATHER_STORM=$(printf '\xf3\xb0\x96\x93')   # nf-md-weather_lightni
 # Per-workspace app glyphs (assigned workspaces show these instead of a number;
 # other occupied workspaces show a dot).
 export WS_ICON_1=$(printf '\xef\x89\xa9')          # firefox   (browser / Zen)
-export WS_ICON_2=$(printf '\xef\x80\x81')          # music     (Deezer)
+export WS_ICON_2=$(printf '\xef\x80\x81')          # music     (yewtube)
 export WS_ICON_3=$(printf '\xef\x84\xa0')          # terminal
 export WS_ICON_4=$(printf '\xf3\xb0\xbb\xbf')      # kanban    (Linear)
 export WS_ICON_7=$(printf '\xef\x86\x98')          # slack
