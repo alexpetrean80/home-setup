@@ -17,7 +17,6 @@
 
   icon = {
     firefox = glyph "f269"; # Zen is firefox-based; same glyph the mac uses
-    music = glyph "f001"; # yewtube, same as sketchybar's WS_ICON_2
     gamepad = glyph "f11b";
     terminal = glyph "f120";
     discord = glyph "f392";
@@ -86,7 +85,7 @@ in {
         # same idea as spaces.sh. Slots match sway.nix's `assigns`.
         format-icons = {
           "1" = icon.firefox; # zen
-          "2" = icon.music; # yewtube
+          "2" = "2";
           "3" = icon.terminal;
           "4" = "4";
           "5" = icon.gamepad; # steam

@@ -13,7 +13,7 @@ rows=(
   "Alt Shift w        whatsapp (nchat in a terminal) → ws8"
   "Alt hjkl           focus  ← ↓ ↑ →"
   "Alt Shift hjkl     move window"
-  "Alt 1-9            go to workspace  (1 zen · 2 yewtube · 3 term"
+  "Alt 1-9            go to workspace  (1 zen · 3 term"
   "                    5 steam · 7 discord · 8 whatsapp)"
   "Alt Shift 1-9      move window → workspace"
   "Alt Tab            last workspace"

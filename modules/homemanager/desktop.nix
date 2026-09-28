@@ -26,9 +26,9 @@
     wdisplays # GUI output arrangement, service mode `d`
     pavucontrol
     libnotify # notify-send, for testing mako
-    # media/viewers so xdg-open has something to hand off to (mpv comes from
-    # core.nix — yewtube needs it on both platforms)
+    # media/viewers so xdg-open has something to hand off to
     imv
+    mpv
     xdg-utils
   ];
 

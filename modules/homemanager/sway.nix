@@ -22,9 +22,6 @@
   ghostty = lib.getExe pkgs.ghostty;
   # Zen beta from the community flake; binary and app_id are both `zen-beta`.
   browser = lib.getExe inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default;
-  # Music lives in a terminal too: a dedicated ghostty window running
-  # yewtube. Same --class trick as nchat below.
-  music = "${ghostty} --class=org.yewtube.yewtube --title=yewtube -e ${lib.getExe pkgs.yewtube}";
   # WhatsApp lives in a terminal: a dedicated ghostty window running nchat.
   # `--class` sets the wayland app_id (GTK wants a dotted id), which is what
   # the workspace assignment below matches on.
@@ -180,15 +177,14 @@ in {
       };
 
       # Route each app to its home workspace, mirroring AeroSpace's
-      # on-window-detected — same slots as the mac: 1 browser, 2 music,
-      # 3 terminal, 7 chat. Steam takes 5 (no mac counterpart) and the nchat
+      # on-window-detected — same slots as the mac: 1 browser, 3 terminal,
+      # 7 chat. Steam takes 5 (no mac counterpart) and the nchat
       # terminal takes 8. Plain ghostty is deliberately absent: `assign` would
       # yank every new terminal to 3, whereas AeroSpace only routes the startup
       # one. app_id matches wayland clients, class matches xwayland ones — for
       # the electron apps it is not worth guessing which, so match both.
       assigns = {
         "1" = [{app_id = "^zen-beta$";}];
-        "2" = [{app_id = "^org\\.yewtube\\.yewtube$";}];
         "5" = [{class = "^[Ss]team$";}];
         "7" = [{app_id = "discord";} {class = "discord";}];
         "8" = [{app_id = "^org\\.nchat\\.nchat$";}];
@@ -199,7 +195,6 @@ in {
         # (alt+shift+c) does not re-run startup commands.
         {command = browser;}
         {command = ghostty;}
-        {command = music;}
         {command = lib.getExe pkgs.discord;}
         {command = whatsapp;}
         # Steam is not autostarted — it is slow and grabs focus. alt+5 then
