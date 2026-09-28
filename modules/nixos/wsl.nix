@@ -32,8 +32,18 @@
   # NixOS-WSL's own docs recommend.
   programs.nix-ld.enable = true;
 
-  # `wslview` hands URLs/files to the Windows default app. Pointing BROWSER at
-  # it is what makes `gh auth login` and friends open the Windows browser.
-  environment.systemPackages = [pkgs.wslu];
+  # Links open in the Windows browser, two routes:
+  # - xdg-open (nvim gx, lazygit, gh-dash, node's `open`): xdg-utils >= 1.2
+  #   detects WSL on its own (microsoft in /proc/version + explorer.exe on
+  #   PATH, i.e. Windows PATH interop left on) and hands the URL to
+  #   rundll32.exe. Explicit here — it must not ride on docker-desktop's
+  #   incidental xdg-utils.
+  # - BROWSER (gh, python's webbrowser: gcloud/az/aws sso): wslview from wslu
+  #   does the same via cmd.exe. Also the xdg-open fallback if WSL detection
+  #   ever fails, and the mimeapps handler on the home-manager side.
+  environment.systemPackages = with pkgs; [
+    wslu
+    xdg-utils
+  ];
   environment.variables.BROWSER = "wslview";
 }
