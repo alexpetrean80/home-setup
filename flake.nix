@@ -1,6 +1,11 @@
 {
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    # Same branch, locked separately: lets a single package run ahead of the
+    # main pin without rebuilding the world. Only antigravity-cli comes from
+    # here (see modules/homemanager/core.nix); drop this input once the main
+    # nixpkgs lock is bumped past its arrival.
+    nixpkgs-latest.url = "github:nixos/nixpkgs/nixos-unstable";
     minimal-tmux = {
       url = "github:niksingh710/minimal-tmux-status";
       inputs.nixpkgs.follows = "nixpkgs";

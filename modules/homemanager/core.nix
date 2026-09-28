@@ -4,7 +4,15 @@
   pkgs,
   lib,
   ...
-}: {
+}: let
+  # Newer nixpkgs than the main pin, for packages that landed after it.
+  # legacyPackages will not do: antigravity-cli is an unfree binary and needs
+  # allowUnfree on this instance too.
+  latest = import inputs.nixpkgs-latest {
+    inherit (pkgs.stdenv.hostPlatform) system;
+    config.allowUnfree = true;
+  };
+in {
   # nvim's config is edited far too often to go through a rebuild each time,
   # and vim.pack writes nvim-pack-lock.json back into the config directory —
   # a store copy would be read-only and the lockfile would drift. Link the
@@ -214,12 +222,14 @@
       go
       fnm
       postgresql
-      gemini-cli
       elixir
       htop
       fastfetch
       charm-freeze
       gum
+      # Google's terminal agent (`agy`), replaces gemini-cli. From the newer
+      # nixpkgs pin — not in the main one yet.
+      latest.antigravity-cli
       # optura repo tooling
       kubectl
       trivy
