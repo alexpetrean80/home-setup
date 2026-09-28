@@ -30,6 +30,7 @@ in {
     inputs.nixos-hardware.nixosModules.common-pc-laptop
     inputs.nixos-hardware.nixosModules.common-pc-laptop-ssd
     ../../modules/nixos/core.nix
+    ../../modules/nixos/physical.nix
     ../../modules/nixos/sway.nix
     ../../modules/nixos/steam.nix
   ];

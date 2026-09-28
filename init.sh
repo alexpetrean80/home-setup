@@ -14,6 +14,31 @@ Linux)
 		exit 1
 	fi
 
+	if grep -qi microsoft /proc/version; then
+		# NixOS-WSL. The stock tarball logs in as `nixos`; this config renames
+		# the default user to alexp and the distro to THESEUS. NixOS-WSL is
+		# explicit that a defaultUser change has to go through `boot`, not
+		# `switch`, or the new account comes up half-configured — the new
+		# generation takes over when WSL next starts the distro.
+		sudo nixos-rebuild boot \
+			--option extra-experimental-features 'nix-command flakes' \
+			--flake .#THESEUS
+
+		distro="${WSL_DISTRO_NAME:-NixOS}"
+		cat <<-EOF
+
+		built. finish from PowerShell so WSL picks up the new user and hostname:
+		  wsl -t $distro
+		  wsl -d $distro --user root exit
+		  wsl -t $distro
+		  wsl -d $distro
+		then, as alexp, move this checkout to ~/Repos/home-setup (home-manager
+		links ~/.config/nvim into it) and run rebnix.
+		EOF
+		exit 0
+	fi
+
+	# Bare-metal theseus.
 	# nix ships with NixOS, so no installer here. Flakes may not be
 	# enabled yet on a fresh install, and the hostname is still the
 	# installer default (nixos) rather than theseus, so pass both the

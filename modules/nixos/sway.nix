@@ -1,5 +1,5 @@
 # System half of the sway desktop: compositor, session (greetd), portals,
-# polkit. The actual window-manager config is home-manager's
+# polkit, fonts, keyring. The actual window-manager config is home-manager's
 # (modules/homemanager/sway.nix) — this only makes a sway session possible.
 {pkgs, ...}: {
   programs.sway = {
@@ -37,6 +37,21 @@
 
   # GTK app settings (theme, cursor) are read over dconf.
   programs.dconf.enable = true;
+
+  # Secret storage for discord/browser logins (libsecret backend).
+  services.gnome.gnome-keyring.enable = true;
+
+  fonts = {
+    packages = with pkgs; [
+      nerd-fonts.jetbrains-mono # waybar/wofi/ghostty all assume this
+      noto-fonts
+      noto-fonts-color-emoji
+    ];
+    fontconfig.defaultFonts = {
+      monospace = ["JetBrainsMono Nerd Font Mono"];
+      emoji = ["Noto Color Emoji"];
+    };
+  };
 
   # brightnessctl's udev rules let a `video` group member write
   # /sys/class/backlight without setuid.

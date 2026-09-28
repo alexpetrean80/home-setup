@@ -11,6 +11,11 @@
     };
     # Intel CPU/GPU + laptop defaults for theseus (Dell Latitude 5401).
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    # NixOS as a WSL2 distro, for THESEUS.
+    nixos-wsl = {
+      url = "github:nix-community/NixOS-WSL/main";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     # Zen is not in nixpkgs; upstream community flake tracks the beta channel.
     zen-browser = {
       url = "github:0xc000022070/zen-browser-flake";
@@ -75,6 +80,9 @@
 
     nixosConfigurations = {
       theseus = mkNixosHost "theseus" "x86_64-linux";
+      # WSL2 distro on a Windows host named THESEUS. The attr is the WSL
+      # hostname, so `nixos-rebuild switch --flake .` resolves it unaided.
+      THESEUS = mkNixosHost "theseus-wsl" "x86_64-linux";
     };
   };
 }

@@ -42,8 +42,9 @@ if [[ "$(uname)" == "Darwin" && "$(launchctl managername)" != "Aqua" ]]; then
 		"'$self' $*; printf '\npress enter to close '; read -r _"
 fi
 
-# One repo, two kinds of host: nix-darwin on the mac, NixOS on theseus.
-# nixos-rebuild picks the flake output matching the hostname on its own.
+# One repo, three kinds of host: nix-darwin on the mac, NixOS on theseus,
+# NixOS-WSL on THESEUS. nixos-rebuild picks the flake output matching the
+# hostname on its own.
 if [[ "$(uname)" == "Darwin" ]]; then
 	echo "rebuilding $(gum style --italic --foreground 99 'macOS') machine..."
 	sudo darwin-rebuild switch --flake .
@@ -51,7 +52,8 @@ if [[ "$(uname)" == "Darwin" ]]; then
 else
 	echo "rebuilding $(gum style --italic --foreground 99 "$(hostname)") machine..."
 	# --impure: hosts/theseus/nixos.nix reads /etc/nixos/hardware-configuration.nix
-	# (the machine's own generated config) instead of a checked-in copy.
+	# (the machine's own generated config) instead of a checked-in copy. Harmless
+	# on the WSL host, which has no hardware config to read.
 	sudo nixos-rebuild switch --flake . --impure
 	echo "$(gum style --italic --foreground 99 'nixos') rebuilt successfully."
 fi
