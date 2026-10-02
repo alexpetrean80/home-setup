@@ -3,8 +3,6 @@
     slack
     bitwarden-desktop
     ghostty-bin
-    meetingbar
-    notion-app
     alt-tab-macos
     pinentry_mac
     nerd-fonts.jetbrains-mono
