@@ -1,6 +1,6 @@
 {pkgs, ...}: let
-  # Mirrors the ts_ls inlay hint block in dotfiles/nvim/init.lua (and the
-  # vtsls block in zed.nix), flattened into VS Code's dotted setting keys.
+  # Mirrors the ts_ls inlay hint block in dotfiles/nvim/init.lua, flattened
+  # into VS Code's dotted setting keys.
   tsInlayHints = lang: {
     "${lang}.inlayHints.parameterNames.enabled" = "all";
     "${lang}.inlayHints.parameterNames.suppressWhenArgumentMatchesName" = false;
@@ -19,8 +19,8 @@ in {
 
     # Nix-pinned extensions are linked into ~/.vscode/extensions; the dir stays
     # mutable so one-off marketplace installs (aikido) keep working next to
-    # them. settings.json itself is a store symlink, same as zed.nix: changing
-    # a setting from the UI fails — edit here and rebuild.
+    # them. settings.json itself is a store symlink: changing a setting from
+    # the UI fails — edit here and rebuild.
     profiles.default = {
       # The binary comes from nixpkgs, so the in-app updater has nothing to do.
       enableUpdateCheck = false;
@@ -30,9 +30,9 @@ in {
         vscodevim.vim
         catppuccin.catppuccin-vsc
         catppuccin.catppuccin-vsc-icons
-        # Same agent zed.nix attaches over ACP; auth still comes from ~/.claude.
+        # Auth comes from ~/.claude, same as the CLI.
         anthropic.claude-code
-        # Languages nvim gets from treesitter/LSP — the zed.nix extension list.
+        # Languages nvim gets from treesitter/LSP.
         jnoortheen.nix-ide
         hashicorp.terraform
         tim-koehler.helm-intellisense
@@ -53,8 +53,8 @@ in {
 
       userSettings =
         {
-          # Same font and catppuccin flavours as dotfiles/ghostty/config and
-          # zed.nix, following the system light/dark switch.
+          # Same font and catppuccin flavours as dotfiles/ghostty/config,
+          # following the system light/dark switch.
           "window.autoDetectColorScheme" = true;
           "workbench.preferredLightColorTheme" = "Catppuccin Latte";
           "workbench.preferredDarkColorTheme" = "Catppuccin Mocha";
@@ -112,7 +112,7 @@ in {
           "[graphql]" = prettier;
 
           # Absolute store path: a VS Code launched from Spotlight/Dock has none
-          # of the profile on PATH (same reason zed.nix pins its formatters).
+          # of the profile on PATH.
           "nix.formatterPath" = "${pkgs.alejandra}/bin/alejandra";
 
           # Same server tuning as the vim.lsp.config blocks in init.lua.
