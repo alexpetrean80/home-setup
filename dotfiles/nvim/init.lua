@@ -68,7 +68,7 @@ vim.pack.add({
     { src = "https://github.com/ray-x/go.nvim" },
     { src = "https://github.com/ray-x/guihua.lua" },
     { src = "https://github.com/qvalentin/helm-ls.nvim" },
-    { src = "https://github.com/olimorris/codecompanion.nvim" },
+    { src = "https://github.com/coder/claudecode.nvim" },
 })
 
 -- [[ SECTION: Plugin setup ]]
@@ -224,45 +224,12 @@ require("which-key").setup({
 
 require("helm-ls").setup()
 
--- CodeCompanion driving Claude Code over ACP. The adapter spawns
--- `claude-agent-acp` (nix: claude-agent-acp in home.packages), the same agent
--- binary Zed talks to in modules/homemanager/zed.nix, so auth comes from
--- ~/.claude and no API key is involved. snacks and blink.cmp are detected on
--- their own as the picker and completion providers, hence no provider keys.
-require("codecompanion").setup({
-    interactions = {
-        chat = { adapter = "claude_code" },
-        inline = { adapter = "claude_code" },
-        cmd = { adapter = "claude_code" },
-        -- `:CodeCompanionCLI` puts the plain Claude Code CLI in a terminal
-        -- split, which is what claudecode.nvim's toggle used to open.
-        cli = {
-            agent = "claude_code",
-            agents = {
-                claude_code = {
-                    cmd = "claude",
-                    args = {},
-                    description = "Claude Code CLI",
-                    provider = "terminal",
-                },
-            },
-        },
-    },
-    display = {
-        chat = {
-            window = {
-                layout = "vertical",
-                position = "right",
-                width = 0.35,
-            },
-        },
-    },
-    -- MCP servers reach the agent from here: `mcp.opts.acp_enabled` is on by
-    -- default, so anything listed is handed to claude-agent-acp at session
-    -- start and can be toggled per chat with `/mcp`.
-    mcp = {
-        servers = {},
-    },
+-- Claude Code lives in its own tmux pane, not an nvim terminal: nvim only
+-- hosts the IDE server (selection, open files, diagnostics, diffs). Run
+-- `claude --ide` (or `/ide`) from the same cwd and it finds this instance
+-- through its lock file in ~/.claude/ide.
+require("claudecode").setup({
+    terminal = { provider = "none" },
 })
 
 local dap = require("dap")
@@ -712,18 +679,11 @@ keymap("n", "<leader>tS", function()
     neotest.summary.toggle()
 end, "Summary")
 
--- Inside the chat: `/file` and `/buffer` pull in context (snacks picker),
--- `/resume` reopens an earlier session, `/acp_session_options` switches model
--- or mode, `/mcp` toggles MCP servers. Proposed edits are accepted or rejected
--- in the touched buffer itself with g1 (always accept), g2 and g3.
-keymap("n", "<leader>ac", "<cmd>CodeCompanionChat Toggle<cr>", "Toggle chat")
-keymap("n", "<leader>aa", "<cmd>CodeCompanionActions<cr>", "Action palette")
-keymap("n", "<leader>ai", "<cmd>CodeCompanion<cr>", "Inline prompt")
-keymap("v", "<leader>ai", "<cmd>CodeCompanion<cr>", "Inline prompt")
-keymap("v", "<leader>as", "<cmd>CodeCompanionChat Add<cr>", "Send selection to chat")
-keymap("n", "<leader>ax", "<cmd>CodeCompanionChat Changes<cr>", "Add git changes to chat")
-keymap("n", "<leader>ad", "<cmd>CodeCompanionCmd<cr>", "Generate a command")
-keymap("n", "<leader>aC", "<cmd>CodeCompanionCLI<cr>", "Claude Code CLI")
+-- Edits Claude proposes open here as a diff; accept or reject from that buffer.
+keymap("v", "<leader>as", "<cmd>ClaudeCodeSend<cr>", "Send selection")
+keymap("n", "<leader>ab", "<cmd>ClaudeCodeAdd %<cr>", "Add buffer")
+keymap("n", "<leader>aa", "<cmd>ClaudeCodeDiffAccept<cr>", "Accept diff")
+keymap("n", "<leader>ad", "<cmd>ClaudeCodeDiffDeny<cr>", "Reject diff")
 
 -- [[ SECTION: Finish ]]
 vim.cmd.colorscheme("catppuccin")
