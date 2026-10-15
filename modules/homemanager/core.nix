@@ -14,6 +14,17 @@
   xdg.configFile."nvim".source =
     config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Repos/home-setup/dotfiles/nvim";
 
+  # Same idea for Claude Code: /config, /model and plugin installs rewrite
+  # settings.json, so those edits land in the repo. Only the two hand-owned
+  # files — the rest of ~/.claude is sessions, history, caches and plugin
+  # state.
+  home.file = {
+    ".claude/settings.json".source =
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Repos/home-setup/dotfiles/claude/settings.json";
+    ".claude/CLAUDE.md".source =
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Repos/home-setup/dotfiles/claude/CLAUDE.md";
+  };
+
   programs = {
     starship = {
       enable = true;
