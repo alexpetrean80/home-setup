@@ -12,6 +12,28 @@
     nerd-fonts.jetbrains-mono
   ];
 
+  # Apps nixpkgs can't (or shouldn't) ship on darwin. Homebrew itself stays a
+  # manual install and off PATH; this only declares what it holds. cleanup
+  # uninstalls anything not listed here on each switch ("zap" would also wipe
+  # app data — not worth it). Casks that self-update are left to do so.
+  homebrew = {
+    enable = true;
+    onActivation = {
+      cleanup = "uninstall";
+      autoUpdate = false;
+      upgrade = false;
+    };
+    taps = ["anthropics/tap"];
+    casks = [
+      "anthropics/tap/ant"
+      "claude"
+      "docker-desktop"
+      "google-chrome"
+      "teleport-connect"
+      "zen"
+    ];
+  };
+
   # Nix is installed and managed by Determinate Nix, which owns
   # /etc/nix/nix.conf and the daemon. nix-darwin must not manage them.
   # Put nix.conf tweaks in /etc/nix/nix.custom.conf instead.
