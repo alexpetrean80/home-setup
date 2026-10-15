@@ -4,15 +4,7 @@
   pkgs,
   lib,
   ...
-}: let
-  # Newer nixpkgs than the main pin, for packages that landed after it.
-  # legacyPackages will not do: antigravity-cli is an unfree binary and needs
-  # allowUnfree on this instance too.
-  latest = import inputs.nixpkgs-latest {
-    inherit (pkgs.stdenv.hostPlatform) system;
-    config.allowUnfree = true;
-  };
-in {
+}: {
   # nvim's config is edited far too often to go through a rebuild each time,
   # and vim.pack writes nvim-pack-lock.json back into the config directory —
   # a store copy would be read-only and the lockfile would drift. Link the
@@ -164,7 +156,7 @@ in {
   # the server sources tmux.conf, continuum sees a fresh server and replays the
   # newest resurrect save. The throwaway session "0" created here is killed by
   # resurrect once it has restored the real ones (handle_session_0).
-  launchd.agents = lib.optionalAttrs pkgs.stdenv.isDarwin {
+  launchd.agents = lib.optionalAttrs pkgs.stdenv.hostPlatform.isDarwin {
     tmux = {
       enable = true;
       config = {
@@ -182,7 +174,7 @@ in {
     };
   };
 
-  systemd.user.services = lib.optionalAttrs pkgs.stdenv.isLinux {
+  systemd.user.services = lib.optionalAttrs pkgs.stdenv.hostPlatform.isLinux {
     tmux = {
       Unit.Description = "tmux server, restored from the last continuum save";
       Service = {
@@ -217,19 +209,18 @@ in {
       cmake
       gnumake
       rustup
-      nodejs_20
+      nodejs_24
       (python3.withPackages (ps: with ps; [pip debugpy]))
       go
       fnm
       postgresql
-      elixir
+      beamPackages.elixir
       htop
       fastfetch
       charm-freeze
       gum
-      # Google's terminal agent (`agy`), replaces gemini-cli. From the newer
-      # nixpkgs pin — not in the main one yet.
-      latest.antigravity-cli
+      # Google's terminal agent (`agy`), replaces gemini-cli.
+      antigravity-cli
       # optura repo tooling
       kubectl
       trivy
@@ -242,7 +233,11 @@ in {
       kustomize
       awscli2
       (azure-cli.withExtensions [azure-cli-extensions.resource-graph])
-      regclient # regctl, regsync, regbot
+      # regctl, regsync, regbot. Upstream postInstall unsets $outputBin, which
+      # leaves an empty entry in the multiple-outputs fixup hook's propagation
+      # list and aborts the build ("invalid variable name"). Nothing to
+      # propagate anyway, so say so explicitly.
+      (regclient.overrideAttrs (_: {propagatedBuildOutputs = [];}))
       # migrated off homebrew
       just
       k9s

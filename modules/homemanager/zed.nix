@@ -55,7 +55,7 @@ in {
       stylua
       isort
       black
-      nodejs_20
+      nodejs_24
       go
       gopls
       lua-language-server

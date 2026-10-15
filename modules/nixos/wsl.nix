@@ -38,12 +38,13 @@
   #   PATH, i.e. Windows PATH interop left on) and hands the URL to
   #   rundll32.exe. Explicit here — it must not ride on docker-desktop's
   #   incidental xdg-utils.
-  # - BROWSER (gh, python's webbrowser: gcloud/az/aws sso): wslview from wslu
-  #   does the same via cmd.exe. Also the xdg-open fallback if WSL detection
-  #   ever fails, and the mimeapps handler on the home-manager side.
+  # - BROWSER (gh, python's webbrowser: gcloud/az/aws sso): wsl-open does the
+  #   same via powershell.exe Start. Also the xdg-open fallback if WSL
+  #   detection ever fails, and the mimeapps handler on the home-manager side.
+  #   (Was wslview from wslu until nixpkgs dropped wslu as discontinued.)
   environment.systemPackages = with pkgs; [
-    wslu
+    wsl-open
     xdg-utils
   ];
-  environment.variables.BROWSER = "wslview";
+  environment.variables.BROWSER = "wsl-open";
 }
