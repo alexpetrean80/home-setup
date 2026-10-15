@@ -115,8 +115,10 @@
       enableVteIntegration = true;
       defaultKeymap = "viins";
       initContent = ''
-        # NixOS has no chezmoi-written .zprofile, so don't fail the shell there.
-        [ -f "$HOME/.zprofile" ] && source "$HOME/.zprofile"
+        # Machine-local env (tokens, brew paths) stays out of the store, in a
+        # file home-manager does not own (it writes .zprofile itself). Absent
+        # on fresh hosts, hence the guard.
+        [ -f "$HOME/.zprofile.local" ] && source "$HOME/.zprofile.local"
         export GOPATH="$HOME/go/"
         export PATH="$GOPATH:$HOME/.local/share/npm/bin:$HOME/.local/share/fnm:$HOME/.cargo/bin:$GOPATH/bin:$HOME/.local/bin:$PATH"
         export EDITOR="nvim"
