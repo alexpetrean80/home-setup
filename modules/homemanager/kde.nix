@@ -44,6 +44,10 @@
         size = 24;
       };
     };
+    powerdevil = {
+      AC.powerProfile = "performance";
+      battery.powerProfile = "powerSaving";
+    };
     fonts.fixedWidth = {
       family = "JetBrainsMono Nerd Font";
       pointSize = 11;

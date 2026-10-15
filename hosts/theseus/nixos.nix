@@ -25,7 +25,9 @@ in {
     hardware
     # Dell Latitude 5401: Coffee Lake-H (9th gen i5/i7) + UHD 630, NVMe, laptop.
     # nixos-hardware has no 5401 profile, so compose the generic ones: intel
-    # microcode + i915/VAAPI stack, TLP, fstrim.
+    # microcode + i915/VAAPI stack, fstrim. Its TLP stays off: Plasma brings
+    # power-profiles-daemon, and powerdevil switches profiles on AC/battery
+    # (modules/homemanager/kde.nix).
     inputs.nixos-hardware.nixosModules.common-cpu-intel
     inputs.nixos-hardware.nixosModules.common-pc-laptop
     inputs.nixos-hardware.nixosModules.common-pc-laptop-ssd
@@ -68,6 +70,24 @@ in {
 
   # Latitude firmware ships on LVFS: `fwupdmgr refresh && fwupdmgr update`.
   services.fwupd.enable = true;
+
+  # Charge to 80%, resume below 75% — spares the battery when docked all day.
+  # dell-laptop adds these knobs to BAT0 only after the battery itself shows
+  # up, which is why this waits instead of being a udev rule on BAT0's add.
+  systemd.services.battery-charge-limit = {
+    description = "Cap battery charging at 80%";
+    wantedBy = ["multi-user.target"];
+    serviceConfig.Type = "oneshot";
+    script = ''
+      bat=/sys/class/power_supply/BAT0
+      for _ in $(seq 30); do
+        [ -e "$bat/charge_control_end_threshold" ] && break
+        sleep 1
+      done
+      echo 75 > "$bat/charge_control_start_threshold"
+      echo 80 > "$bat/charge_control_end_threshold"
+    '';
+  };
 
   system.stateVersion = "26.05";
 }

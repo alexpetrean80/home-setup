@@ -14,12 +14,6 @@
     theme = "catppuccin-mocha-blue";
   };
 
-  # Plasma turns power-profiles-daemon on, and nixos-hardware's laptop profile
-  # only enables TLP while that is off — so physical.nix's TLP tuning, charge
-  # thresholds included, would silently stop applying. Keep TLP; the power
-  # profile switcher in Plasma's battery applet goes inert instead.
-  services.power-profiles-daemon.enable = false;
-
   boot.plymouth = {
     enable = true;
     theme = "catppuccin-mocha";
