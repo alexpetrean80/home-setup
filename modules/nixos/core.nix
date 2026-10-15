@@ -1,6 +1,6 @@
 # Host-agnostic NixOS base: nix daemon, locale, users, shell. Anything that
 # needs real hardware or our own kernel (wifi, audio, bluetooth, power, the
-# docker daemon) lives in physical.nix; everything desktop-shaped in sway.nix /
+# docker daemon) lives in physical.nix; everything desktop-shaped in kde.nix /
 # steam.nix. This file plus wsl.nix is the entire system half of the WSL host,
 # so it has to stay hardware-free.
 {

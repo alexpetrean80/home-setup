@@ -1,6 +1,6 @@
 # WSL half of the base: NixOS running as a WSL2 distro on a Windows host.
 # Pairs with core.nix only — no physical.nix (Windows owns the hardware) and no
-# sway.nix/steam.nix (the terminal and any GUI live on the Windows side).
+# kde.nix/steam.nix (the terminal and any GUI live on the Windows side).
 {
   inputs,
   pkgs,

@@ -5,7 +5,6 @@
 }: {
   imports = [
     ../../modules/homemanager/core.nix
-    ../../modules/homemanager/wox.nix
     ../../modules/homemanager/zed.nix
     ../../modules/homemanager/vscode.nix
   ];

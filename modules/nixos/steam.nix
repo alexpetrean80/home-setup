@@ -11,7 +11,8 @@
     # GE-Proton alongside valve's Proton — picked per-game in properties.
     extraCompatPackages = [pkgs.proton-ge-bin];
     # gamescope as a nested compositor: fixes resolution/scaling for games that
-    # fight tiling WMs. Launch option: `gamescope -W 1920 -H 1080 -- %command%`
+    # misbehave under the desktop compositor. Launch option:
+    # `gamescope -W 1920 -H 1080 -- %command%`
     gamescopeSession.enable = true;
   };
 

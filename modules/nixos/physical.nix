@@ -7,7 +7,7 @@
 
   users.users.alexp.extraGroups = [
     "networkmanager"
-    "video" # backlight via brightnessctl
+    "video" # backlight
     "input"
     "render" # /dev/dri render node (VAAPI, compute)
   ];
@@ -25,9 +25,8 @@
 
   hardware.bluetooth = {
     enable = true;
-    powerOnBoot = false; # save battery; blueman toggles it
+    powerOnBoot = false; # save battery; Plasma's bluetooth applet toggles it
   };
-  services.blueman.enable = true;
 
   # Compressed RAM swap instead of a swap partition — 16GB machine, no
   # hibernate. Drop this and add swapDevices if you want suspend-to-disk.

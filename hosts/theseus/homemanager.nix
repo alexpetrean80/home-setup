@@ -1,10 +1,7 @@
 {pkgs, ...}: {
   imports = [
     ../../modules/homemanager/core.nix
-    ../../modules/homemanager/sway.nix
-    ../../modules/homemanager/waybar.nix
-    ../../modules/homemanager/wofi.nix
-    ../../modules/homemanager/desktop.nix
+    ../../modules/homemanager/kde.nix
   ];
 
   # username/homeDirectory/stateVersion come from core.nix, which already
