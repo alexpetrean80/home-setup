@@ -47,16 +47,13 @@ fi
 # hostname on its own.
 if [[ "$(uname)" == "Darwin" ]]; then
 	echo "rebuilding $(gum style --italic --foreground 99 'macOS') machine..."
-	sudo darwin-rebuild switch --flake .
+	sudo darwin-rebuild switch --flake . || exit 1
 	echo "$(gum style --italic --foreground 99 'nix-darwin') rebuilt successfully."
 else
 	echo "rebuilding $(gum style --italic --foreground 99 "$(hostname)") machine..."
 	# --impure: hosts/theseus/nixos.nix reads /etc/nixos/hardware-configuration.nix
 	# (the machine's own generated config) instead of a checked-in copy. Harmless
 	# on the WSL host, which has no hardware config to read.
-	sudo nixos-rebuild switch --flake . --impure
+	sudo nixos-rebuild switch --flake . --impure || exit 1
 	echo "$(gum style --italic --foreground 99 'nixos') rebuilt successfully."
 fi
-
-# commit changes such that subsequent rebuilds are no-ops.
-gum confirm "Wanna commit changes?" && lazygit
