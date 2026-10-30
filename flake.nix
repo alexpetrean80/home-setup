@@ -42,11 +42,42 @@
   } @ inputs: let
     inherit (self) outputs;
 
+    overlays = [
+      # nixpkgs moved invoke to 3.x, which fabric doesn't support yet
+      # (fabric/fabric#2376), so fabric is marked broken and azure-cli — which
+      # hard-depends on it — refuses to evaluate. Hold invoke at the last 2.x
+      # until upstream catches up. Set-wide rather than just for fabric:
+      # paramiko depends on invoke too, and two invokes in azure-cli's closure
+      # trip the duplicate-package check. pythonPackagesExtensions reaches
+      # azure-cli's private python3.override set as well.
+      (final: prev: {
+        pythonPackagesExtensions =
+          prev.pythonPackagesExtensions
+          ++ [
+            (pyFinal: pyPrev: {
+              invoke = pyPrev.invoke.overridePythonAttrs {
+                version = "2.2.1";
+                src = pyFinal.fetchPypi {
+                  pname = "invoke";
+                  version = "2.2.1";
+                  hash = "sha256-UVv0m0pIkyt5sCRZA0jaIvOcSULf+ZGtH7i4uuob5wc=";
+                };
+              };
+            })
+          ];
+      })
+    ];
+
     mkDarwinHost = hostname: system:
       nix-darwin.lib.darwinSystem {
         specialArgs = {inherit inputs outputs;};
         modules = [
-          {nixpkgs.hostPlatform = system;}
+          {
+            nixpkgs = {
+              hostPlatform = system;
+              inherit overlays;
+            };
+          }
           ./hosts/${hostname}/darwin.nix
           home-manager.darwinModules.home-manager
           {
@@ -67,7 +98,12 @@
       nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs outputs;};
         modules = [
-          {nixpkgs.hostPlatform = system;}
+          {
+            nixpkgs = {
+              hostPlatform = system;
+              inherit overlays;
+            };
+          }
           ./hosts/${hostname}/nixos.nix
           home-manager.nixosModules.home-manager
           {
