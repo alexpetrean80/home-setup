@@ -140,6 +140,7 @@
       '';
       shellAliases = {
         lzg = "lazygit";
+        ad = "agent-deck";
         ls = "eza -lgh --icons";
         lt = "eza --tree --level=2 --long --icons --git";
         dc = "docker compose";
@@ -234,6 +235,8 @@
       gum
       # Google's terminal agent (`agy`), replaces gemini-cli.
       antigravity-cli
+      # not in nixpkgs
+      (callPackage ../../pkgs/agent-deck.nix {})
       # optura repo tooling
       kubectl
       trivy
