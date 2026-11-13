@@ -269,6 +269,10 @@
       stow
       # nvim binary; config lives in dotfiles/nvim
       neovim
+      # codecompanion.nvim's claude_code ACP adapter spawns `claude-agent-acp`
+      # off PATH; zed.nix pins the same package by store path.
+      claude-agent-acp
+      claude-code
       # nvim LSP servers (replaces mason)
       clang-tools # clangd
       gopls
@@ -301,6 +305,9 @@
       (pkgs.writeShellScriptBin "rebnix" (lib.readFile ../../scripts/rebuild.sh))
       (pkgs.writeShellScriptBin "is_vim" (lib.readFile ../../scripts/is_vim.sh))
     ];
+  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+             "claude-code"
+           ];
 
   programs = {
     home-manager.enable = true;
