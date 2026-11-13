@@ -305,9 +305,6 @@
       (pkgs.writeShellScriptBin "rebnix" (lib.readFile ../../scripts/rebuild.sh))
       (pkgs.writeShellScriptBin "is_vim" (lib.readFile ../../scripts/is_vim.sh))
     ];
-  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-             "claude-code"
-           ];
 
   programs = {
     home-manager.enable = true;

@@ -21,6 +21,10 @@
       "rev": "2390c6e45c4789072c293ac69de051d169668b29",
       "src": "https://github.com/coder/claudecode.nvim"
     },
+    "codecompanion.nvim": {
+      "rev": "b27a1a734fdaf73e40328091cb5929d65aaa09e9",
+      "src": "ssh://git@github.com/olimorris/codecompanion.nvim"
+    },
     "conform.nvim": {
       "rev": "016802de402556da54c36bd7359b441266b01cdd",
       "src": "https://github.com/stevearc/conform.nvim"
